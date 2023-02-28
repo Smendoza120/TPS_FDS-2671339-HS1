@@ -1,7 +1,15 @@
 -¿Que haces con los productos vencidos?
+
 -¿Como haces el pedido a los proveedores?
+
 -¿Cuanto se demoran los proveedores en traerte los productos una vez solicitados?
+
 -¿Donde guardas los productos que traen los proveedores?
+
 -¿Podrias darme una foto del recibo entregado al cliente?
+
 -¿Me dejarias ver como es el cuaderno donde anotas las ventas diarias?
+
 -¿Que informe le entregas al contador? ¿Que datos son entregados? 
+
+-¿Podrias mostrarme el informe entregado al contador?
