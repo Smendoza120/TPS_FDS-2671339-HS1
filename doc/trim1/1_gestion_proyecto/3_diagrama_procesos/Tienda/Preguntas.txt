@@ -1,15 +1,19 @@
 -¿Que haces con los productos vencidos?
-
+Se comunica con los proveedores para comentar la novedad y ellos realizan el cambio del producto.
 -¿Como haces el pedido a los proveedores?
-
+Cuando pasan los distribuidores fisicos se pide producto o tambien se puede hacer por la pagina web
 -¿Cuanto se demoran los proveedores en traerte los productos una vez solicitados?
-
+Dura un dia para que los proveedores traigan el producto.
 -¿Donde guardas los productos que traen los proveedores?
-
+Todos los productos que llegan se dejan en la bodega para luego pasarlos a la tienda.
 -¿Podrias darme una foto del recibo entregado al cliente?
-
+Precio unitario, nombre producto, embalage o cantidad
 -¿Me dejarias ver como es el cuaderno donde anotas las ventas diarias?
-
+X
 -¿Que informe le entregas al contador? ¿Que datos son entregados? 
-
+X
 -¿Podrias mostrarme el informe entregado al contador?
+X
+
+Feedback
+Hay que cambiar el diagrama de proceso del inventario, ya que los productos faltantes no se botan, se realiza el respectivo cambio.
