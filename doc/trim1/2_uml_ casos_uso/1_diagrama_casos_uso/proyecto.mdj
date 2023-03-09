@@ -36,9 +36,9 @@
 										"$ref": "AAAAAAGGt3bwRkciV+E="
 									},
 									"font": "Arial;13;0",
-									"left": 328.72998046875,
+									"left": 327.27001953125,
 									"top": 133,
-									"width": 74.708984375,
+									"width": 69.24365234375,
 									"height": 13,
 									"text": "Inicio Sesión"
 								},
@@ -51,7 +51,7 @@
 									"font": "Arial;13;1",
 									"left": 309,
 									"top": 133,
-									"width": 14.72998046875,
+									"width": 13.27001953125,
 									"height": 13,
 									"text": "uc"
 								}
@@ -15034,7 +15034,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -240,
+											"left": -208,
 											"top": 112,
 											"height": 13
 										},
@@ -15045,7 +15045,7 @@
 												"$ref": "AAAAAAGGwn0t44Dksvg="
 											},
 											"font": "Arial;13;1",
-											"left": 392,
+											"left": 408,
 											"top": 491.5,
 											"width": 81,
 											"height": 52,
@@ -15060,7 +15060,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -240,
+											"left": -208,
 											"top": 112,
 											"width": 195.05078125,
 											"height": 13,
@@ -15074,14 +15074,14 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -240,
+											"left": -208,
 											"top": 112,
 											"horizontalAlignment": 1,
 											"wordWrap": true
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 387,
+									"left": 403,
 									"top": 484.5,
 									"width": 91,
 									"height": 64,
@@ -15109,7 +15109,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -120,
+									"left": -104,
 									"top": 56,
 									"width": 10,
 									"height": 10
@@ -15125,7 +15125,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -120,
+									"left": -104,
 									"top": 56,
 									"width": 10,
 									"height": 10
@@ -15141,7 +15141,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -120,
+									"left": -104,
 									"top": 56,
 									"width": 10,
 									"height": 10
@@ -15157,7 +15157,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -120,
+									"left": -104,
 									"top": 56,
 									"width": 10,
 									"height": 10
@@ -15173,7 +15173,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -120,
+									"left": -104,
 									"top": 56,
 									"width": 10,
 									"height": 10
@@ -15181,7 +15181,7 @@
 							],
 							"font": "Arial;13;0",
 							"containerChangeable": true,
-							"left": 368,
+							"left": 384,
 							"top": 472,
 							"width": 129,
 							"height": 90,
@@ -15228,8 +15228,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 450,
-									"top": 450,
+									"left": 458,
+									"top": 449,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -15248,8 +15248,8 @@
 										"$ref": "AAAAAAGGwn11DIMtZFc="
 									},
 									"font": "Arial;13;0",
-									"left": 438,
-									"top": 451,
+									"left": 446,
+									"top": 448,
 									"width": 55.65625,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -15271,8 +15271,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 421,
-									"top": 449,
+									"left": 429,
+									"top": 450,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -15290,7 +15290,7 @@
 								"$ref": "AAAAAAGGwnoc0nSO0co="
 							},
 							"lineStyle": 1,
-							"points": "438:442;435:471",
+							"points": "444:442;445:471",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGGwn11DIMwAnU="
@@ -15545,9 +15545,9 @@
 										"$ref": "AAAAAAGGwwQJjtFzBig="
 									},
 									"font": "Arial;13;0",
-									"left": 232.72998046875,
+									"left": 231.27001953125,
 									"top": 101,
-									"width": 169.365234375,
+									"width": 154.0927734375,
 									"height": 13,
 									"text": "Solicitud Cambio Contraseña"
 								},
@@ -15560,7 +15560,7 @@
 									"font": "Arial;13;1",
 									"left": 213,
 									"top": 101,
-									"width": 14.72998046875,
+									"width": 13.27001953125,
 									"height": 13,
 									"text": "uc"
 								}
@@ -15998,9 +15998,9 @@
 											},
 											"font": "Arial;13;1",
 											"left": 303,
-											"top": 281,
+											"top": 287.5,
 											"width": 75,
-											"height": 39,
+											"height": 26,
 											"text": "CU02 - Envio de link",
 											"wordWrap": true
 										},
@@ -16034,9 +16034,9 @@
 									],
 									"font": "Arial;13;0",
 									"left": 298,
-									"top": 274,
+									"top": 280.5,
 									"width": 85,
-									"height": 51,
+									"height": 38,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGGwwS8QdHeoPs="
 									},
@@ -16824,9 +16824,9 @@
 										"$ref": "AAAAAAGGwwi0PNWPpUY="
 									},
 									"font": "Arial;13;0",
-									"left": 232.72998046875,
+									"left": 231.27001953125,
 									"top": 101,
-									"width": 106.5107421875,
+									"width": 93.75830078125,
 									"height": 13,
 									"text": "Nueva contraseña"
 								},
@@ -16839,7 +16839,7 @@
 									"font": "Arial;13;1",
 									"left": 213,
 									"top": 101,
-									"width": 14.72998046875,
+									"width": 13.27001953125,
 									"height": 13,
 									"text": "uc"
 								}
