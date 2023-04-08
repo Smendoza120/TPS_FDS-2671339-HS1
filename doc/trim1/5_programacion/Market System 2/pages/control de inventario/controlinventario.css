@@ -1,0 +1,226 @@
+:root {
+    /*COLORS*/
+    --dark_blue: #04081B;
+    --blue: #041B41;
+    --light_blue_fondo: RGBA(36,62,100,0.5);
+    --light_blue: RGBA(36,62,100,1); /*243E64*/
+    --opaque-blue: #283C54;
+    --grey_: #24242E;
+
+    /*LETTER SIZE */
+    --title_text: 3.6rem;
+    --label_text: 1.8rem; /*Tambien para botones*/
+    --input_text:1.4rem; /*Tambien para tablas*/
+    --checkbox_text:1.2rem;
+    --table_minimoun_text:1rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: 'Fira Mono', monospace;
+}
+body{
+    background: url(../../assets/fondo.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title_principal{
+    font-size: var(--title_text);
+    color: white;
+    align-self: center;
+    margin: 24px 0 24px 0;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+.form_sectionOne{
+    display: flex;
+    height: 50px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.form_sectionOne--submit{
+    width: 200px;
+    height: 40px;
+    align-self: center;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    margin-right: 20px;
+}
+
+.form_sectionOne--submitBlue{
+    background: var(--light_blue) ;
+    color: white;
+    font-size: var(--label_text);
+}
+
+.form_sectionTwo{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto ;
+    margin: 12px;
+}
+
+.form_sectionTwo--div{
+    display: flex;
+    flex-direction:column;
+    margin: 8px;
+}
+
+.form_sectionTwo--div--label{
+    color: white;
+    font-size: var(--label_text);
+}
+
+.form_sectionTwo--div--input{
+    width: 360px;
+    height: 40px;
+    align-self: center;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: var(--input_text);
+}
+
+.form_sectionTwo--div--inputShort{
+    width: 180px;
+    height: 40px;
+}
+
+.form_submit{
+    width: 200px;
+    height: 40px;
+    align-self: center;
+    font-size: var(--label_text);
+    color: white;
+    background-color: var(--light_blue);
+    border: none;
+    border-radius: 15px;
+    margin-left: 8px;
+}
+
+.overflow{
+    width: 1160px;
+    height: 340px;
+    overflow: auto;
+}
+
+.overflow_table{
+    width: 1150px;
+    margin-top: 20px;
+}
+
+.overflow_table--PrincipalrRow{
+    background: white;
+    height: 40px;
+}
+
+.overflow_table--rows--title{
+    font-size: var(--input_text);
+}
+
+.overflow_table--rows{
+    background:var(--opaque-blue);
+    height: 40px;
+}
+
+.overflow_table--rows:nth-child(2n+1){
+    background:var(--light_blue);
+}
+
+.overflow_table--rows--data{
+    color: white;
+    font-size: var(--input_text);
+    text-align: center;
+}
+
+.overflow_table--rows--data--img{
+    width: 26px;
+    height: 26px;
+}
+
+@media(max-width: 1192px){
+    .form_sectionTwo{
+        grid-template-columns: auto auto auto;
+    }
+
+    .form_sectionTwo--divAdjust5{
+        grid-column-start: 2;
+        grid-column-end: 4;
+    }
+
+    .form_sectionTwo--div--label{
+        align-self: center;
+    }
+
+    .overflow{
+        width: 760px;
+        height: 340px;
+    }
+    
+    .overflow_table{  /* Si le quito esto qudara con scroll lateral*/
+        width: 750px;
+    }
+}
+
+@media(max-width: 760px){
+    .title_principal{
+        margin: 24px auto 44px 0px;
+        width: 225px;
+    }
+
+    .form{
+        margin-top: 50px;
+        align-self: center;
+    }
+
+    .form_iconSearch{
+        position: relative;
+        top: 48px;
+        right: 150px;
+    }
+
+    .form_sectionOne{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form_sectionOne--submit{
+        width: 360px;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 8px 0 0px 2px ;
+    }
+
+    .form_sectionTwo{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form_sectionTwo--div--input{
+        width: 360px;
+    }
+    
+    .form_submit{
+        width: 200px;
+    }
+
+    .overflow{
+        width: 360px;
+    }  
+}
+

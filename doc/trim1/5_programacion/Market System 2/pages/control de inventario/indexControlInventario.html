@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de inventario</title>
+    <link rel="stylesheet" href="./controlinventario.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../../assets/icono_inventario.png" />
+</head>
+<body>
+    <header class="title">
+        <h1 class="title_principal">Control De Inventario</h1>
+    </header>
+    <form action="./" class="form">
+        <section class="form_sectionOne">
+            <img class="form_iconSearch" src="../../assets/Icono de buscar.png" alt="lupa">
+            <input type="search" name="buscar" id="buscar" class="form_sectionOne--submit">
+            <input type="submit" value="Filtrar" class="form_sectionOne--submit form_sectionOne--submitBlue">
+            <input type="submit" value="Generar Reporte" class="form_sectionOne--submit form_sectionOne--submitBlue ">
+        </section>
+       
+        <section class="form_sectionTwo">
+            <div class="form_sectionTwo--div  form_sectionTwo--divAdjust1">
+                <label for="producto" class="form_sectionTwo--div--label">Producto</label>
+                <input type="text" name="producto" id="producto" class="form_sectionTwo--div--input">
+        
+            </div>
+         
+            <div class="form_sectionTwo--div form_sectionTwo--divAdjust2">
+                <label for="cantidad" class="form_sectionTwo--div--label"> Cantidad</label>
+                <input type="number" name="cantidad" id="cantidad" class="form_sectionTwo--div--input form_sectionTwo--div--inputShort">
+            </div>
+            
+            <div class="form_sectionTwo--div form_sectionTwo--divAdjust3">
+                <label for="precio_unitario" class="form_sectionTwo--div--label">Precio Unitario</label>
+                <input type="number" name="precio_unitario" id="precio_unitario" class="form_sectionTwo--div--input form_sectionTwo--div--inputShort">
+            </div>
+            
+            <div class="form_sectionTwo--div form_sectionTwo--divAdjust4">
+                <label for="almacenamiento" class="form_sectionTwo--div--label">Almacenamiento</label>
+                <input type="text" name="almacenamiento" id="almacenamiento" class="form_sectionTwo--div--input form_sectionTwo--div--inputShort">
+            </div>
+            
+            <div class="form_sectionTwo--div form_sectionTwo--divAdjust5">
+                <label for="fecha_vencimiento" class="form_sectionTwo--div--label">Fecha Vencimiento</label>
+                <input type="date" name="fecha_vencimiento" id="fecha_vencimiento" class="form_sectionTwo--div--input form_sectionTwo--div--inputShort">
+            </div>
+        </section>
+        
+        <input type="submit" value="Agregar" class="form_submit">
+    </form>
+
+    <div class="overflow">
+        <table class="overflow_table">
+            <tr class="overflow_table--PrincipalrRow">
+                <th class="overflow_table--rows--title">Fecha ingreso</th>
+                <th class="overflow_table--rows--title">Fecha Vencimiento</th>
+                <th class="overflow_table--rows--title">Producto</th>
+                <th class="overflow_table--rows--title">Cantidad</th>
+                <th class="overflow_table--rows--title">Precio Unitario</th>
+                <th class="overflow_table--rows--title">Alamacenamiento</th>
+                <th class="overflow_table--rows--title">Editar</th>
+            </tr>
+            <tr class="overflow_table--rows">
+                <td class="overflow_table--rows--data">09/mar/23</td>
+                <td class="overflow_table--rows--data">09/dic/23</td>
+                <td class="overflow_table--rows--data">Doritos</td>
+                <td class="overflow_table--rows--data">50</td>
+                <td class="overflow_table--rows--data">$2.500</td>
+                <td class="overflow_table--rows--data">Almacén</td>
+                <td class="overflow_table--rows--data"><img class="overflow_table--rows--data--img" src="../../assets/icono_edicionproducto.svg" alt="edicion_oroducto"></td>
+            </tr>
+            <tr class="overflow_table--rows">
+                <td class="overflow_table--rows--data">09/mar/23</td>
+                <td class="overflow_table--rows--data">09/dic/23</td>
+                <td class="overflow_table--rows--data">Doritos</td>
+                <td class="overflow_table--rows--data">50</td>
+                <td class="overflow_table--rows--data">$2.500</td>
+                <td class="overflow_table--rows--data">Almacén</td>
+                <td class="overflow_table--rows--data"><img class="overflow_table--rows--data--img" src="../../assets/icono_edicionproducto.svg" alt="edicion_oroducto"></td>
+            </tr>
+            <tr class="overflow_table--rows">
+                <td class="overflow_table--rows--data">09/mar/23</td>
+                <td class="overflow_table--rows--data">09/dic/23</td>
+                <td class="overflow_table--rows--data">arroz con papas y queso y de todo un poco</td>
+                <td class="overflow_table--rows--data">50</td>
+                <td class="overflow_table--rows--data">$2.500</td>
+                <td class="overflow_table--rows--data">Almacén</td>
+                <td class="overflow_table--rows--data"><img class="overflow_table--rows--data--img" src="../../assets/icono_edicionproducto.svg" alt="edicion_oroducto"></td>
+            </tr>
+            <tr class="overflow_table--rows">
+                <td class="overflow_table--rows--data">09/mar/23</td>
+                <td class="overflow_table--rows--data">09/dic/23</td>
+                <td class="overflow_table--rows--data">Doritos</td>
+                <td class="overflow_table--rows--data">50</td>
+                <td class="overflow_table--rows--data">$2.500</td>
+                <td class="overflow_table--rows--data">Almacén</td>
+                <td class="overflow_table--rows--data"><img class="overflow_table--rows--data--img" src="../../assets/icono_edicionproducto.svg" alt="edicion_oroducto"></td>
+            </tr>
+            <tr class="overflow_table--rows">
+                <td class="overflow_table--rows--data">09/mar/23</td>
+                <td class="overflow_table--rows--data">09/dic/23</td>
+                <td class="overflow_table--rows--data">arroz</td>
+                <td class="overflow_table--rows--data">50</td>
+                <td class="overflow_table--rows--data">$2.500</td>
+                <td class="overflow_table--rows--data">Almacén</td>
+                <td class="overflow_table--rows--data"><img class="overflow_table--rows--data--img" src="../../assets/icono_edicionproducto.svg" alt="edicion_oroducto"></td>
+            </tr>
+            <tr class="overflow_table--rows">
+                <td class="overflow_table--rows--data">09/mar/23</td>
+                <td class="overflow_table--rows--data">09/dic/23</td>
+                <td class="overflow_table--rows--data">Doritos</td>
+                <td class="overflow_table--rows--data">50</td>
+                <td class="overflow_table--rows--data">$2.500</td>
+                <td class="overflow_table--rows--data">Almacén</td>
+                <td class="overflow_table--rows--data"><img class="overflow_table--rows--data--img" src="../../assets/icono_edicionproducto.svg" alt="edicion_oroducto"></td>
+            </tr>
+        </table>
+    </div>
+    
+
+</body>
+</html>
