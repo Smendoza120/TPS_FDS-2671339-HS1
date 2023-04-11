@@ -6,12 +6,13 @@
     --light_blue: RGBA(36,62,100,1); /*243E64*/
     --opaque-blue: #283C54;
     --grey_: #24242E;
+    --white: #fff;
 
     /*LETTER SIZE */
     --title_text: 3.6rem;
     --label_text: 1.8rem; /*Tambien para botones*/
-    --input_text:1.4rem; /*Tambien para tablas y para mensajes texto*/
-    --checkbox_text:1.2rem; 
+    --input_text:1.4rem; /*Tambien para tablas*/
+    --checkbox_text:1.2rem;
     --table_minimoun_text:1rem;
 }
 
@@ -45,17 +46,18 @@ body{
 .submit{
     width: 200px;
     height: 40px;
-    border: none;
-    border-radius: 15px;
+    border: 1px solid var(--blue);
+    border-radius: 5px;
     background: var(--light_blue) ;
     color: white;
     font-size: var(--label_text);
+    transition: .3s linear;
 }
 
-.Mensaje{
-    color: white;
-    font-size: var(--input_text) ;
-    margin-top: 24px;
+.submit:hover{
+    cursor: pointer;
+    color: var(--blue);
+    background: var(--white);
 }
 
 .overflow{
