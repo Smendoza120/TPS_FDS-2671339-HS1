@@ -1,0 +1,148 @@
+:root {
+  /*COLORS*/
+  --dark_blue: #04081B;
+  --blue: #041B41;
+  --light_blue_fondo: rgba(36, 62, 100, 0.5);
+  --light_blue: rgba(36, 62, 100, 1);
+  /*243E64*/
+  --opaque-blue: #283C54;
+  --grey_: #24242E;
+  --white: #fff;
+
+  /*LETTER SIZE */
+  --title_text: 3.6rem;
+  --recomendations: 1.5rem;
+  --label_text: 1.8rem;
+  /*Tambien para botones*/
+  --input_text: 1.4rem;
+  /*Tambien para tablas*/
+  --checkbox_text: 1.2rem;
+  --table_minimoun_text: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'Fira Mono', monospace;
+}
+
+body {
+  background: url(../../assets/fondo.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: var(--white);
+}
+
+.facturasV__container{
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin: 3rem 0;
+}
+
+.facturasV__title{
+  font-size: var(--title_text);
+  color: white;
+  align-self: center;
+  margin: 24px 0 20px 0;
+  text-align: center;
+}
+
+.facturasV__button{
+  border: 1px solid var(--blue);
+  padding: 7px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: .3s linear;
+  font-size: var(--input_text);
+}
+
+.facturasV__button:hover{
+  color: var(--white);
+  background: var(--blue);
+}
+
+.facturasV__text{
+  text-align: center;
+  font-size: var(--input_text);
+  margin: 20px 0 20px 0;
+}
+
+.facturasV__table--container{
+  width: 90%;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.facturasV__row--title{
+  background: var(--white);
+  color: var(--opaque-blue);
+  font-size: var(--input_text);
+  font-weight: 700;
+  padding: 10px;
+}
+
+.facturasV__row--title:first-child{
+  border-radius: 8px 0px 0px 0px;
+}
+
+.facturasV__row--title:last-child{
+  border-radius: 0px 8px 0px 0px;
+}
+
+.facturasV__row--data{
+  text-align: center;
+  padding: 10px;
+  background-color: var(--blue);
+  font-size: var(--input_text);
+}
+
+.facturasV__total{
+  width: 90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.facturasV__text--container{
+  padding: 7px 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: var(--input_text);
+
+  border: 1px solid var(--blue);
+  color: var(--white);
+  background: var(--blue);
+}
+
+@media(max-width: 600px) {
+  body{
+    background-position: top top;
+  }
+  .facturasV__title{
+    padding: 0 5px;
+  }
+  .facturasV__total{
+    justify-content: center;
+  }
+}

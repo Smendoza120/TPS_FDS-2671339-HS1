@@ -6,6 +6,7 @@
     --light_blue: RGBA(36,62,100,1); /*243E64*/
     --opaque-blue: #283C54;
     --grey_: #24242E;
+    --white: #fff;
 
     /*LETTER SIZE */
     --title_text: 3.6rem;
@@ -45,11 +46,18 @@ body{
 .submit{
     width: 200px;
     height: 40px;
-    border: none;
-    border-radius: 15px;
+    border: 1px solid var(--blue);
+    border-radius: 5px;
     background: var(--light_blue) ;
-    color: white;
+    color: var(--white);
     font-size: var(--label_text);
+    cursor: pointer;
+    transition: .3s linear;
+}
+
+.submit:hover{
+    background: var(--white);
+    color: var(--blue);
 }
 
 .submit:hover {
@@ -59,7 +67,7 @@ body{
 }
 
 .Mensaje{
-    color: white;
+    color: var(--white);
     font-size: var(--input_text) ;
     margin-top: 24px;
 }
@@ -76,7 +84,7 @@ body{
 }
 
 .overflow_table--PrincipalrRow{
-    background: white;
+    background: var(--white);
     height: 40px;
 }
 
@@ -99,7 +107,7 @@ body{
 }
 
 .overflow_table--rows--data{
-    color: white;
+    color: var(--white);
     font-size: var(--input_text);
     text-align: center;
 }
