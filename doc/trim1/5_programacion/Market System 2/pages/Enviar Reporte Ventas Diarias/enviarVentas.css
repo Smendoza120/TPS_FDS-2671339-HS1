@@ -33,8 +33,7 @@ body{
     background-size: cover;
     background-position: center center;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    place-items: center;
     flex-direction: column;
 }
 
@@ -42,7 +41,7 @@ body{
     font-size: var(--title_text);
     color: white;
     align-self: center;
-    margin-bottom: 34px;
+    margin:34px 0 34px;
 }
 
 .form_edicion{
@@ -54,11 +53,10 @@ body{
     border-radius: 10px;
 }
 
-
 .form_edicion--label{
     color: white;
     font-size: var(--label_text);
-    margin: 12px 0 0 22px ;
+    margin: 24px 0 0 22px ;
 }
 
 .form_edicion--input{
@@ -66,44 +64,32 @@ body{
     height: 40px;
     align-self: center;
     border-radius: 10px;
-    background-image: url(../../assets/icono_edicion.svg);
-    background-repeat: no-repeat;
     background-size: 30px;
     background-position: right ;
     padding: 10px;
     font-size: var(--input_text);
 }
 
-.form_edicion--checkBox{
-    width: 459px;
-    height: 100px;
+.form_edicion--itemsEnviar{
+    margin: 44px 0 24px 0;
     display: grid;
-    grid-template-columns: auto auto;
-    align-self: center;
-    margin: 4px 0 4px 0;
-    justify-content: space-evenly;
+    grid-template-columns: 80px 80px 80px 80px;
+    grid-template-rows: 50px ;
+    gap: 15px;
+    place-content: center;
 }
 
-.form_edicion--checkBox--div{
-    display: flex;
-    align-items: center;
+.form_edicion--itemsEnviar--items{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-.form_edicion--checkBox--div--label{
-    color: white;
-    font-size: var(--checkbox_text);
-}
-
-.form_edicion--checkBox--div--input{
-    height: 20px;
-    width: 20px;
-    margin-right: 10px;
-    border-radius: 10px;
-}
-
-.form_edicion--checkBox--div--input:hover {
+.form_edicion--itemsEnviar--items:hover{
     cursor: pointer;
-    transform: scale(1.5) ;
+    width: 120%;
+    height: 120%;
+    object-fit: contain;
 }
 
 .form_edicion--button{
@@ -115,6 +101,7 @@ body{
     background-color: var(--light_blue);
     border: none;
     border-radius: 15px;
+    margin-top: 14px;
 }
 
 .form_edicion--button:hover {
@@ -127,36 +114,8 @@ body{
     box-shadow: -5px 5px 5px -2px rgba(0, 0, 0, 0.75);
 }
 
-
-@media(max-width: 445px){  
+@media (max-width:375px){
     .form_edicion{
-        background:none ;
-    }
-    .form_edicion--label{
-        margin: 8px 0 8px 40px ;
-    }
-    
-    .form_edicion--input{
-        width: 320px;
-        height: 40px;
-    }
-    
-    .form_edicion--checkBox{
-        margin: 4px 0 4px 0;   
-        justify-content: center;
-    }
-
-    .form_edicion--checkBox--div--input{
-        margin-left: 10px;
-    }
-
-
-    .form_edicion--button{
-        width: 200px;
-        height: 40px;
+        background:none;
     }
 }
-
-
-
-

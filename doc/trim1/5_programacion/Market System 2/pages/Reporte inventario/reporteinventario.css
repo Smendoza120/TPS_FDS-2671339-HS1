@@ -52,6 +52,12 @@ body{
     font-size: var(--label_text);
 }
 
+.submit:hover {
+    cursor: pointer;
+    background: white;
+    color: black;
+}
+
 .overflow{
     width: 1160px;
     height: 440px;
