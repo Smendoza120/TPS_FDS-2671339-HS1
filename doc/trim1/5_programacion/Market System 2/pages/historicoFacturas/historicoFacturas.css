@@ -60,6 +60,12 @@ body{
     color: var(--blue);
 }
 
+.submit:hover {
+    cursor: pointer;
+    background: white;
+    color: black;
+}
+
 .Mensaje{
     color: var(--white);
     font-size: var(--input_text) ;
@@ -93,6 +99,11 @@ body{
 
 .overflow_table--rows:nth-child(2n+1){
     background:var(--light_blue);
+}
+
+.overflow_table--rows:hover {
+    cursor: pointer;
+    background: none;
 }
 
 .overflow_table--rows--data{

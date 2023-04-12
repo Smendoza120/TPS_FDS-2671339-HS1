@@ -60,6 +60,12 @@ body{
     background: var(--white);
 }
 
+.submit:hover {
+    cursor: pointer;
+    background: white;
+    color: black;
+}
+
 .overflow{
     width: 1160px;
     height: 440px;

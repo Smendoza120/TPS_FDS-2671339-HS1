@@ -113,7 +113,6 @@ html {
     border-radius: 0.5rem;
     background-color: var(--brigth_blue);
     font-weight: bold;
-
     transition: .3s linear;
 }
 
