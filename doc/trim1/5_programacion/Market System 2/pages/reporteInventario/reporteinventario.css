@@ -38,7 +38,7 @@ body{
 
 .title_principal{
     font-size: var(--title_text);
-    color: white;
+    color: var(--white);
     align-self: center;
     margin: 24px 0 24px 0;
 }
@@ -49,9 +49,14 @@ body{
     border: 1px solid var(--blue);
     border-radius: 5px;
     background: var(--light_blue) ;
-    color: white;
+    color: var(--white);
     font-size: var(--label_text);
     transition: .3s linear;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .submit:hover{
@@ -62,7 +67,7 @@ body{
 
 .submit:hover {
     cursor: pointer;
-    background: white;
+    background: var(--white);
     color: black;
 }
 
@@ -78,7 +83,7 @@ body{
 }
 
 .overflow_table--PrincipalrRow{
-    background: white;
+    background: var(--white);
     height: 40px;
 }
 
@@ -96,7 +101,7 @@ body{
 }
 
 .overflow_table--rows--data{
-    color: white;
+    color: var(--white);
     font-size: var(--input_text);
     text-align: center;
 }

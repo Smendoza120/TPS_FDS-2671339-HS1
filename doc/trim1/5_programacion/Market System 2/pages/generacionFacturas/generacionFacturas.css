@@ -62,7 +62,7 @@ body {
 }
 
 .generacionF__filter{
-  width: 40%;
+  width: 50%;
   margin-bottom: 20px;
 
   display: flex;
@@ -105,22 +105,29 @@ body {
   font-weight: 500;
   transition: .3s linear;
   font-size: var(--input_text);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .generacionF__button:first-child{
   color: var(--white);
-  background: var(--blue);
+  background: var(--light_blue);
   padding: 7px 30px;
 }
 
 .generacionF__button:first-child:hover{
-  color: var(--blue);
+  color: var(--light_blue);
+  background: var(--white);
+}
+
+.generacionF__button:nth-child(2){
+  color: var(--light_blue);
   background: var(--white);
 }
 
 .generacionF__button:nth-child(2):hover{
   color: var(--white);
-  background: var(--blue);
+  background: var(--light_blue);
 }
 
 .generacionF__text{

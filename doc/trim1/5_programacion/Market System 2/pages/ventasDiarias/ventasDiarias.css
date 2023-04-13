@@ -60,12 +60,12 @@ body {
   margin: 24px 0 20px 0;
 }
 
-.ventasD__required{
+.ventasD__required {
   margin-bottom: 25px;
   font-size: var(--recomendations);
 }
 
-.ventasD__form{
+.ventasD__form {
   width: 100%;
   padding: 10px 50px;
 
@@ -76,7 +76,7 @@ body {
   gap: 20px;
 }
 
-.ventasD__section{
+.ventasD__section {
   width: 100%;
 
   display: flex;
@@ -84,18 +84,18 @@ body {
   justify-content: space-between;
 }
 
-.ventasD__form-container{
+.ventasD__form-container {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   gap: 2px;
 }
 
-.ventasD__label{
+.ventasD__label {
   font-size: var(--label_text);
 }
 
-.ventasD__input{
+.ventasD__input {
   font-size: var(--input_text);
   border-radius: 5px;
   border: none;
@@ -106,12 +106,12 @@ body {
   transition: .3s linear;
 }
 
-.ventasD__input:focus{
+.ventasD__input:focus {
   outline: 3px solid var(--opaque-blue);
   opacity: 1;
 }
 
-.ventasD__button{
+.ventasD__button {
   border: none;
   padding: 7px 10px;
   margin: 0 10px;
@@ -122,28 +122,31 @@ body {
   font-size: var(--input_text);
 }
 
-.ventasD__button:first-child{
+.ventasD__button:first-child {
   border: 1px solid var(--blue);
   color: var(--blue);
 }
 
-.ventasD__button:first-child:hover{
+.ventasD__button:first-child:hover {
   color: var(--white);
   background: var(--blue);
 }
 
-.ventasD__button:last-child{
+.ventasD__button-container .ventasD__button:last-child {
   border: 1px solid var(--blue);
   color: var(--white);
   background: var(--blue);
+  text-decoration: none;
+  text-align: center;
+  font-family: 'Fira Mono', monospace;
 }
 
-.ventasD__button:last-child:hover{
+.ventasD__button:last-child:hover {
   color: var(--blue);
   background: var(--white);
 }
 
-.ventasD__table-container{
+.ventasD__table-container {
   width: 90%;
   margin-top: 20px;
 
@@ -155,7 +158,7 @@ body {
   overflow: auto;
 }
 
-.ventasD__rows--title{
+.ventasD__rows--title {
   background: var(--white);
   color: var(--opaque-blue);
   font-size: var(--input_text);
@@ -163,28 +166,33 @@ body {
   padding: 10px;
 }
 
-.ventasD__rows--title:first-child{
+.ventasD__rows--title:first-child {
   border-radius: 8px 0px 0px 0px;
 }
 
-.ventasD__rows--title:last-child{
+.ventasD__rows--title:last-child {
   border-radius: 0px 8px 0px 0px;
 }
 
-.ventasD__rows--data{
+.ventasD__rows--data {
   text-align: center;
   padding: 5px;
   background-color: var(--blue);
   font-size: var(--input_text);
 }
 
-.ventasD__icon{
+.ventasD__icon {
   width: 30px;
   margin: 3px 0;
   cursor: pointer;
+  transition: .3s linear;
 }
 
-.ventasD__total{
+.ventasD__icon:hover{
+  transform: scale(1.1);
+}
+
+.ventasD__total {
   width: 91%;
   margin: 10px 0 0 0;
   font-size: var(--input_text);
@@ -195,7 +203,7 @@ body {
   gap: 2px;
 }
 
-.ventasD__text-container{
+.ventasD__text-container {
   padding: 7px 10px;
   border-radius: 5px;
   font-weight: 500;
@@ -204,39 +212,66 @@ body {
   border: 1px solid var(--blue);
   color: var(--white);
   background: var(--blue);
-
 }
 
-@media(max-width: 1024px){
-  .ventasD__section{
+.ventasD__total .ventasD__button-reporte:hover {
+  color: var(--white);
+  background: var(--blue);
+}
+
+@media(max-width: 1024px) {
+  .ventasD__section {
     width: 89%;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px 40px;
   }
-  .ventasD__total{
+
+  .ventasD__total {
     justify-content: center;
   }
 }
 
-@media(max-width: 320px){
-  .ventasD__container{
+@media(max-width: 600px) {
+  .ventasD__container {
     margin: 1rem;
   }
-  .ventasD__section{
+
+  .ventasD__section {
+    width: 100vw;
+  }
+
+  .ventasD__form-container {
+    width: 80%;
+  }
+
+  .ventasD__input {
     width: 100%;
   }
-  .ventasD__button-container{
+
+  .ventasD__button-container {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
     gap: 10px;
+
+    width: 80vw;
   }
-  .ventasD__total{
+
+  .ventasD__button-container .ventasD__button {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .ventasD__total {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 20px;
+  }
+
+  .ventasD__total .ventasD__button-reporte {
+    width: 60%;
   }
 }

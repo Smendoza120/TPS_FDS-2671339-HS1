@@ -63,7 +63,7 @@ body{
     width: 360px;
     height: 40px;
     align-self: center;
-    border-radius: 10px;
+    border-radius: 5px;
     background-size: 30px;
     background-position: right ;
     padding: 10px;
@@ -83,12 +83,12 @@ body{
     width: 100%;
     height: 100%;
     object-fit: contain;
+    transition: .3s linear;
 }
 
 .form_edicion--itemsEnviar--items:hover{
     cursor: pointer;
-    width: 120%;
-    height: 120%;
+    transform: scale(1.1);
     object-fit: contain;
 }
 
@@ -100,8 +100,9 @@ body{
     color: white;
     background-color: var(--light_blue);
     border: none;
-    border-radius: 15px;
+    border-radius: 5px;
     margin-top: 14px;
+    transition: .3s linear;
 }
 
 .form_edicion--button:hover {
@@ -117,5 +118,10 @@ body{
 @media (max-width:375px){
     .form_edicion{
         background:none;
+        width: 100%;
+    }
+
+    .form_edicion--label{
+        margin: 8px 0 0 8px;
     }
 }

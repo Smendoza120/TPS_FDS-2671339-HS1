@@ -121,6 +121,13 @@ html {
   box-shadow: -5px 5px 5px -2px rgba(0, 0, 0, 0.75);
 }
 
+.submit{
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .text {
   color: var(--black);
   font-size: var(--x-small);

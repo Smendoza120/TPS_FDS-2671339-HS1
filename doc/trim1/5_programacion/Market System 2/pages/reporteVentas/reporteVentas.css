@@ -61,7 +61,7 @@ body {
 }
 
 .reporteV__filter {
-  width: 40%;
+  width: 65%;
   margin-bottom: 20px;
 
   display: flex;
@@ -97,7 +97,7 @@ body {
 }
 
 .reporteV__button {
-  border: 1px solid var(--blue);
+  border: 1px solid var(--light_blue);
   padding: 7px 10px;
   cursor: pointer;
   border-radius: 5px;
@@ -108,18 +108,27 @@ body {
 
 .reporteV__button:first-child {
   color: var(--white);
-  background: var(--blue);
+  background: var(--light_blue);
   padding: 0px 30px;
 }
 
 .reporteV__button:first-child:hover {
-  color: var(--blue);
+  color: var(--light_blue);
   background: var(--white);
+}
+
+.reporteV__button:last-child{
+  color: var(--light_blue);
+  background: var(--white);
+  text-decoration: none;
+  font-family: 'Fira Mono', monospace;
+  font-weight: 700;
+  text-align: center;
 }
 
 .reporteV__button:last-child:hover {
   color: var(--white);
-  background: var(--blue);
+  background: var(--light_blue);
 }
 
 .reporteV__table--container {
@@ -179,6 +188,10 @@ body {
   body{
     background-position: top top;
   }
+  .reporteV__container{
+    height: 100%;
+  }
+
   .reporteV__filter {
     width: 100%;
     display: flex;
@@ -190,7 +203,7 @@ body {
   .reporteV__button--container {
     flex-direction: column;
     gap: 15px;
-    width: 48%;
+    width: 56%;
   }
 
   .reporteV__button:first-child {

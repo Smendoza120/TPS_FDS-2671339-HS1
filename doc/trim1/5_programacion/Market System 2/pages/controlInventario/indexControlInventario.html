@@ -19,10 +19,16 @@
   </header>
   <form action="./" class="form">
     <section class="form_sectionOne">
-      <img class="form_iconSearch" src="../../assets/Icono de buscar.png" alt="lupa">
-      <input type="search" name="buscar" id="buscar" class="form_sectionOne--submit">
-      <input type="submit" value="Filtrar" class="form_sectionOne--submit form_sectionOne--submitBlue">
-      <input type="submit" value="Generar Reporte" class="form_sectionOne--submit form_sectionOne--submitBlue ">
+      <div class="form__search--container">
+        <img class="form_iconSearch" src="../../assets/Icono de buscar.png" alt="lupa">
+        <input type="search" name="buscar" id="buscar" class="form_sectionOne--submit">
+      </div>
+
+      <div class="form__buttons--container">
+        <input type="submit" value="Filtrar" class="form_sectionOne--submit form_sectionOne--submitBlue">
+        <!-- <input type="submit" value="Generar Reporte" class="form_sectionOne--submit form_sectionOne--submitBlue "> -->
+        <a class="form_sectionOne--submit form_sectionOne--submitBlue boton" href="../reporteInventario/indexReporteInventario.html">Generar Reporte</a>
+      </div>
     </section>
 
     <section class="form_sectionTwo">
