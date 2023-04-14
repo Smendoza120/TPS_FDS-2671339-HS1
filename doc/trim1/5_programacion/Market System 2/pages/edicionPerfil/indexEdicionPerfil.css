@@ -45,6 +45,7 @@ body {
   color: var(--white);
   align-self: center;
   margin-bottom: 34px;
+  text-align: center;
 }
 
 .form_edicion {
@@ -53,7 +54,9 @@ body {
   height: 460px;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
 }
 
 
@@ -61,18 +64,44 @@ body {
   color: var(--white);
   font-size: var(--label_text);
   margin: 12px 0 0 22px;
+  width: 90%;
+}
+
+.form__edicion--container {
+  width: 90%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form_edicion--icon {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  width: 35px;
+  transition: .3s linear;
+}
+
+.form_edicion--icon-eye {
+  position: absolute;
+  top: 6px;
+  right: 50px;
+  width: 35px;
+}
+
+.form_edicion--icon:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .form_edicion--input {
   width: 360px;
   height: 40px;
   align-self: center;
-  border-radius: 10px;
+  border-radius: 5px;
   border: none;
-  background-image: url(../../assets/icono_edicion.svg);
-  background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: right;
+
   padding: 10px;
   font-size: var(--input_text);
 }
@@ -102,6 +131,7 @@ body {
   width: 20px;
   margin-right: 10px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .form_edicion--button {
@@ -116,20 +146,43 @@ body {
   transition: .3s linear;
 }
 
-.form_edicion--button:hover{
+.form_edicion--button:hover {
   color: var(--blue);
   background-color: var(--white);
   cursor: pointer;
 }
 
 @media(max-width: 445px) {
+  .form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .form_edicion {
     background: none;
+    width: 98%;
+    margin: 0;
+    padding: 0 0 10px 0;
   }
 
   .form_edicion--label {
-    margin: 8px 0 8px 40px;
+    margin: 10px 2px 2px 0;
   }
+
+  .form_edicion--icon {
+    width: 30px;
+    top: 5px;
+  }
+
+  .form_edicion--icon-eye {
+    top: 5px;
+    right: 45px;
+    width: 30px;
+  }
+
+
 
   .form_edicion--input {
     width: 320px;
@@ -137,14 +190,23 @@ body {
   }
 
   .form_edicion--checkBox {
-    margin: 4px 0 4px 0;
+    width: 100%;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 10px 0;
+  }
+
+  .form_edicion--checkBox--div {
+    width: 80%;
   }
 
   .form_edicion--checkBox--div--input {
     margin-left: 10px;
   }
-
 
   .form_edicion--button {
     width: 200px;

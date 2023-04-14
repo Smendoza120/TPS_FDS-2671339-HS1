@@ -2,64 +2,72 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREACION DE USUARIOS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../pages/Creacion de Usuarios/CREACION_DE_USUARIOS.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CREACION DE USUARIOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../pages/Creacion de Usuarios/CREACION_DE_USUARIOS.css">
+  <link rel="shortcut icon" href="../../assets/icono_usuarios.png" type="image/x-icon">
 </head>
+
 <body>
-  <header>
-    <h1 class="title_text">CREACION DE USUARIOS</h1>
-      <div class="container_data">
-       <form action="">
-        <section class="dates">
-           <div>
-            <label class="container_cards-user">USUARIO</label>
-            <input type="text">
+  <section class="usuarios__container">
+    <h1 class="usuarios__title">Creacion de usuarios</h1>
+
+    <section class="usuarios__form--container">
+
+      <form class="usuarios__form" action="">
+        <div class="usuarios__user-container">
+          <div class="usuarios__input--container">
+            <label class="usuarios__label" for="usuario">Usuario</label>
+            <input class="usuarios__input" type="text" name="" id="usuario">
           </div>
-          <div>
-            <label class="container_cards-text-login">CONTRASEÑA</label>
-            <input type="text">
+    
+          <div class="usuarios__input--container">
+            <label class="usuarios__label" for="contraseña">Contraseña</label>
+            <input class="usuarios__input" type="text" name="" id="contraseña">
           </div>
-          <div>
-            <label class="container_cards-text-name">NOMBRE</label>
-            <input type="text">
+        </div>
+        
+        <div class="usuarios__input--container">
+          <label class="usuarios__label" for="correo">Correo</label>
+          <input class="usuarios__input" type="text" name="" id="correo">
+        </div>
+  
+        <div class="usuarios__input--container">
+          <label class="usuarios__label" for="cargo">Cargo</label>
+          <input class="usuarios__input" type="text" name="" id="cargo">
+        </div>
+
+        <div class="usuarios__checkbox--container">
+          <div class="usuarios__checkbox">
+            <input class="usuarios__input--checkbox" type="checkbox" name="" id="ventasDiarias">
+            <label class="usuarios__label--checkbox" for="ventasDiarias">Ventas Diarias</label>
           </div>
-          <div>
-            <label class="container_cards-text-post">CARGO</label>
-            <input type="text">
+  
+          <div class="usuarios__checkbox">
+            <input class="usuarios__input--checkbox" type="checkbox" name="" id="historicoFactura">
+            <label class="usuarios__label--checkbox" for="historicoFactura">Historico Facturación</label>
           </div>
-        </section>
-          <div>
-            <label class="email_cards">CORREO</label>
-            <input type="text">
+  
+          <div class="usuarios__checkbox">
+            <input class="usuarios__input--checkbox" type="checkbox" name="" id="controlInventarios">
+            <label class="usuarios__label--checkbox" for="controlInventarios">Control Inventarios</label>
           </div>
-          <div>
-        <section class="checkbox_card"> 
-          <div>
-            <input type="checkbox" name="creacion_usuarios" id="CREACION_DE_USUARIOS">
-            <Label for="CREACION_DE_USUARIOS">CREACION DE CUENTAS</Label>
+  
+          <div class="usuarios__checkbox">
+            <input class="usuarios__input--checkbox" type="checkbox" name="" id="creacionCuentas">
+            <label class="usuarios__label--checkbox" for="creacionCuentas">Creación Cuentas</label>
           </div>
-          <div>
-            <input type="checkbox" name="ventas_diarias" id="VENTAS_DIARIAS">
-            <label for="VENTAS_DIARIAS">VENTAS DIARIAS</label>
-          </div>
-          <div>
-            <input type="checkbox" name="control_inventarios" id="CONTROL_INVENTARIOS">
-            <label for="CONTROL_INVENTARIOS">CONTROL DE INVENTRIOS</label>
-          </div>
-          <div>
-            <input type="checkbox" name="historico_faturas" id="HISTORICOS_FACTURAS">
-            <label for="HISTORICOS_FACTURAS">HISTORICO FACTURAS</label>
-          </div>
-        </section>
-            <button type="submit" button class="button_usuario<">CREAR USUARIO</button>
-       </form>
-    </header>
+        </div>
+
+        <input class="usuarios__button" type="button" value="Crear Usuario">
+      </form>
+    </section>
+  </section>
 </body>
 
 </html>
