@@ -1,115 +1,232 @@
 :root {
-    /*COLORS*/
-    --white: #ffffff;
-    /*ejemplo utilizar variable var(--white);*/
-    --black: #000000;
-    --Dark_blue: #243238;
-    --Medium_blue: #2d394b;
-    --brigth_blue: #04B2D9;
-  
-    /*Segunda opcion*/
-    --grey: rgba(249, 249, 249, 0.5);
-    --strong_grey: rgb(217, 217, 217, 0.2);
-    --opaque_blue: #5e83ba;
-    --brigth_blue: #04B2D9;
-  
-    /*LETTER SIZE */
-    /*para buscar en google fonts: Fira Mono*/
-    --x-large: 2.2rem;
-    /*ejemplo de uso var(--x-large);*/
-    --large: 2rem;
-    --medium: 1.8rem;
-    --small: 1.6rem;
-    --x-small: 1.4rem;
+  /*COLORS*/
+  --white: #ffffff;
+  /*ejemplo utilizar variable var(--white);*/
+  --black: #000000;
+  --Dark_blue: #243238;
+  --light_blue_fondo: RGBA(36, 62, 100, 0.5);
+  --light_blue: RGBA(36, 62, 100, 1);
+  --Medium_blue: #2d394b;
+  --brigth_blue: #04B2D9;
+  --white: #fff;
+
+  /*Segunda opcion*/
+  --grey: rgba(249, 249, 249, 0.5);
+  --strong_grey: rgb(217, 217, 217, 0.2);
+  --opaque_blue: #5e83ba;
+  --brigth_blue: #04B2D9;
+  --white: #fff;
+
+  /*LETTER SIZE */
+  /*para buscar en google fonts: Fira Mono*/
+  --label_text: 1.8rem;
+  --title_text: 3.6rem;
+  --x-large: 2.2rem;
+  /*ejemplo de uso var(--x-large);*/
+  --large: 2rem;
+  --medium: 1.8rem;
+  --small: 1.6rem;
+  --x-small: 1.4rem;
+  --checkbox_text: 1.2rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
+}
+
+html {
+  font-size: 62.5%;
+  /*esto para que 1 rem sea 10 pixeles*/
+  font-family: 'Fira Mono', monospace;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  place-content: center;
+  background: url(../../assets/fondo.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.usuarios__container {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.usuarios__title {
+  font-size: var(--title_text);
+  color: var(--white);
+  align-self: center;
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.usuarios__form--container {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usuarios__form {
+  background: var(--light_blue_fondo);
+  width: 410px;
+  height: 460px;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.usuarios__user-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.usuarios__user-container .usuarios__input--container{
+  width: 90%;
+}
+
+.usuarios__input--container {
+  width: 96%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+}
+
+.usuarios__user-container .usuarios__input--container .usuarios__input {
+  width: 190px;
+}
+
+.usuarios__label {
+  color: var(--white);
+  font-size: var(--label_text);
+  width: 90%;
+  margin-top: 10px;
+}
+
+.usuarios__input {
+  width: 100%;
+  height: 40px;
+  align-self: center;
+  border-radius: 5px;
+  border: none;
+  font-size: 5rem;
+
+  padding: 10px;
+  font-size: var(--input_text);
+}
+
+.usuarios__checkbox--container {
+  width: 95%;
+  margin: 20px 10px;
+
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.usuarios__checkbox:nth-child(1) {
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.usuarios__checkbox:nth-child(2) {
+  grid-area: 3 / 1 / 4 / 5;
+
+}
+
+.usuarios__checkbox:nth-child(3) {
+  grid-area: 1 / 5 / 2 / 8;
+}
+
+.usuarios__checkbox:nth-child(4) {
+  grid-area: 3 / 5 / 4 / 8;
+}
+
+.usuarios__label--checkbox {
+  color: var(--white);
+  font-size: var(--checkbox_text);
+}
+
+.usuarios__button{
+  width: 200px;
+  height: 40px;
+  align-self: center;
+  font-size: var(--label_text);
+  color: var(--light_blue);
+  background-color: var(--white);
+  border: 1px solid var(--light_blue);
+  border-radius: 5px;
+  transition: .3s linear;
+}
+
+.usuarios__button:hover{
+  color: var(--white);
+  background-color: var(--light_blue);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .usuarios__user-container{
+    flex-direction: column;
   }
 
-* {box-sizing: border-box;
-    margin:0%;
-    padding: 0%;
+  .usuarios__user-container .usuarios__input--container{
+    width: 96%;
+  }
+
+  .usuarios__user-container .usuarios__input--container .usuarios__input{
+    width: 100%;
+  }
 }
 
-html{
-    font-size: 62.5%;
-    /*esto para que 1 rem sea 10 pixeles*/
-    font-family: 'Fira Mono', monospace;
-}
-body{
-    width: 100%;
-    height: 100vh;
+@media (max-width: 375px){
+
+  .usuarios__form{
+    background: none;
+  }
+
+  .usuarios__form--container{
+    width: 90%;
+    background: #00000000;
+  }
+
+  .usuarios__checkbox--container{
     display: flex;
-    place-content:center;
-    background: url(../../assets/fondo.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-}
-.title_text{
-color: white;
-margin: 30px;
-}
-.container_data{
-    background-color: var(--grey);
-    display: flex;
-    flex-direction: column;
-    width: 40rem;
-    height: 45rem;
-    justify-content: space-around;
-    border-radius: 1.5rem;
     align-items: center;
-    position: relative;
-}
-.dates{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    background-position: center center;
-    place-content:center;
-    padding: 10px;
-}
-.container_cards-user{
-    color: #FFFFFF;
-}
-.container_cards-text-login{
-    color: #FFFFFF;
-}
-.container_cards-text-name{
-    color: #FFFFFF;
-}
-.container_cards-text-post{
-    color: #FFFFFF;
-}
-.container_cards-text-mail{
-    color: #FFFFFF;
-}
-.button_usuario{
-    width: 200px;
-    height: 40px;
-    align-self: center;
-    color:#04B2D9;
-    background-color: var(--light_blue);
-    border: none;
-    border-radius: 5px;
-    margin-top: 14px;
-    transition: .3s linear;
-}
-.container_checkbox{
-    margin-block: 1px;
-    grid-template-columns:auto
-}
-.checkbox_card{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 8px;
-    grid-row-gap: 8px;
-    background-position: center center;
-    place-content:center;
-    color: #FFFFFF;
-    padding: 20px;
-}
-.email_cards{
-    background-position: center center;
-    color: #FFFFFF;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .usuarios__checkbox{
+    width: 70%;
+  }
+
+  .usuarios__label--checkbox{
+    font-size: 1.5rem;
+  }
+
+  .usuarios__button{
+    padding: 7px 10px;
+    width: 96%;
+  }
 }
