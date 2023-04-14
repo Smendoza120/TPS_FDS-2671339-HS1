@@ -1,0 +1,58 @@
+:root {
+  /*COLORS*/
+  --dark_blue: #04081b;
+  --blue: #041b41;
+  --light_blue_fondo: RGBA(36, 62, 100, 0.5);
+  --light_blue: RGBA(36, 62, 100, 1); /*243E64*/
+  --opaque-blue: #283c54;
+  --grey_: #24242e;
+
+  /*LETTER SIZE */
+  --title_text: 4.6rem;
+  --label_text: 2.8rem; /*Tambien para botones*/
+  --input_text: 1.4rem; /*Tambien para tablas*/
+  --checkbox_text: 1.2rem;
+  --table_minimoun_text: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
+}
+html {
+  font-size: 62.5%;
+  font-family: "Fira Mono", monospace;
+}
+body {
+  background: url(../../assets/fondo.jpg);
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+.title_text {
+  font-size: calc(center);
+  color: #ffffff;
+  align-content: center;
+  margin-top: 25px;
+}
+table {
+  width: 1150px;
+  margin-top: 40px;
+}
+th {
+  background-color: var(--opaque-blue);
+  font-size: var(--black);
+}
+td {
+  background-color: var(--light_blue);
+  font-size: var(--black);
+  border-bottom: solid 1px;
+}
+.table_edicion {
+  justify-content: center;
+}

@@ -1,0 +1,71 @@
+:root {
+  /*COLORS*/
+  --dark_blue: #04081b;
+  --blue: #041b41;
+  --light_blue_fondo: RGBA(36, 62, 100, 0.5);
+  --light_blue: RGBA(36, 62, 100, 1); /*243E64*/
+  --opaque-blue: #283c54;
+  --grey_: #24242e;
+
+  /*LETTER SIZE */
+  --title_text: 3.6rem;
+  --label_text: 1.8rem; /*Tambien para botones*/
+  --input_text: 1.4rem; /*Tambien para tablas*/
+  --checkbox_text: 1.2rem;
+  --table_minimoun_text: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
+}
+
+html {
+  font-size: 62.5%;
+  /*esto para que 1 rem sea 10 pixeles*/
+  font-family: "Fira Mono", monospace;
+}
+
+body {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url(../../assets/fondo.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.contenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+.container__cards {
+  margin: 0 20px 0 20px;
+  display: flex;
+  width: 500px;
+  height: 500px;
+  background-color: #243e64;
+  margin-bottom: 5rem;
+  border: none;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.container__cards-logo {
+  background-color: var(--light_blue);
+  width: 65%;
+  height: 65%;
+  background-position: center;
+}
+.container__cards-text {
+  color: aliceblue;
+  font-size: 3rem;
+  background-position: center;
+  text-align: center;
+}
