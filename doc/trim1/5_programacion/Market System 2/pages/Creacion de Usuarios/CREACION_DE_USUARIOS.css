@@ -22,7 +22,7 @@
     --small: 1.6rem;
     --x-small: 1.4rem;
   }
-  
+
 * {box-sizing: border-box;
     margin:0%;
     padding: 0%;
@@ -45,20 +45,31 @@ body{
 }
 .title_text{
 color: white;
+margin: 30px;
 }
 .container_data{
     background-color: var(--grey);
     display: flex;
     flex-direction: column;
-    width: 45rem;
-    height: 50rem;
+    width: 40rem;
+    height: 45rem;
     justify-content: space-around;
     border-radius: 1.5rem;
     align-items: center;
     position: relative;
 }
-.container_cards{
-    color: white;
+.dates{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    background-position: center center;
+    place-content:center;
+    padding: 10px;
+}
+.container_cards-user{
+    color: #FFFFFF;
 }
 .container_cards-text-login{
     color: #FFFFFF;
@@ -72,18 +83,33 @@ color: white;
 .container_cards-text-mail{
     color: #FFFFFF;
 }
-.button_create-user{
-    font-size: var(--small);
-    margin-bottom: 2rem;
+.button_usuario{
+    width: 200px;
+    height: 40px;
+    align-self: center;
+    color:#04B2D9;
+    background-color: var(--light_blue);
     border: none;
-    border-radius: 0.8rem;
-    height: 3rem;
-    background-color: #283C54;
-    font-weight: bold;
-    color: #FFFFFF;
+    border-radius: 5px;
+    margin-top: 14px;
     transition: .3s linear;
 }
 .container_checkbox{
     margin-block: 1px;
     grid-template-columns:auto
+}
+.checkbox_card{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    background-position: center center;
+    place-content:center;
+    color: #FFFFFF;
+    padding: 20px;
+}
+.email_cards{
+    background-position: center center;
+    color: #FFFFFF;
 }
