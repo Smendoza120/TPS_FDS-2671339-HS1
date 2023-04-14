@@ -25,59 +25,62 @@ html{
 }
 body{
     width: 100%;
-    display: flex;
-    justify-content: center;
+    height: 100vh;
     background: url(../../assets/fondo.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center center;
-    display: inline-block;
-    align-items: center center;
-    flex-direction:column;                             
+    background-position: center center;         
+    display: flex;        
+    justify-content: center;     
 }
-.contenedor{
+.container{
+    width: 80%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    align-items: center center;
-    justify-content: center center;
-    width: 100%;
-    height: 100vh;
-    margin-top: auto;
-}
-.container__cards_user{
-    margin-left: 50rem;
-    width: 20%;
-    height: 20vh;
-    margin-bottom: 10rem;
-    border: 1px black solid; 
-    font-size: var(--input_text);
-    color: #ffff
-}
-.container__cards{
-    margin-right: 10%;
-    display:inline-block;
-    width: 200px;
-    height: 200px;
-    background-color: #243E64;
-    margin-bottom: 4rem;
-    border: 1rem black solid;
-}
-.container__cards-logo{
-    background-color: var(--light_blue);
-    width: 60%;    
-}
-.container__cards-text{ 
-    font-size: var(--label_text);
-    color: white;
-}
-.title_text{
-    font-size: var(--title_text);
-    color: white;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(2,250px);
+    gap: 12px;
     align-self: center;
-    margin: 24px 0 20px 0;
-    text-align: center;
+    text-decoration: none;
+}
+.container_card{
+    background: var(--light_blue_fondo);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 15px;
+    text-decoration: none;
+}
+.container_cardGrande{
+    grid-area: 1 / 1 / 3 / 3;
+}
+.container_card--titulo{
+    color: white;
+    font-size: var(--label_text);
+}
+.container_card--img{
+    object-fit: contain;
+    width: 60%;
+    height: 60%;
 }
 
+@media(max-width: 806px) {
+    .container{
+        width: 80%;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: repeat(4,100px);
+        gap: 12px;
+        align-self: center;
+    }
+    .container_cardGrande{
+        grid-area: 1 / 1 / 3 / 3;
+    }
+    .container_card--img{
+        object-fit: contain;
+        width: 60%;
+        height: 60%;
+    }
+}
