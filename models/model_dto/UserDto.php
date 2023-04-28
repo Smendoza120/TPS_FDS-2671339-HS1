@@ -6,6 +6,7 @@
     private $lastNameUser;
     private $emailUser;
     private $passUser;
+
     public function __construct(){
       $a = func_get_args();
       $i = func_num_args();
