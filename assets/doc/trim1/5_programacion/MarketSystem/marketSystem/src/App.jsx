@@ -1,10 +1,12 @@
-import { GeneracionFacturas } from "./pages/generacion_facturas/GeneracionFacturas";
+import { InvoiceGeneration } from "./pages/invoice_generation/InvoiceGeneration";
+// import { SalesReport } from "./pages/sales_report/SalesReport";
 
 export function App() {
 
   return (
     <section className="app">
-      <GeneracionFacturas />
+      <InvoiceGeneration />
+      {/* <SalesReport /> */}
     </section>
   );
 }

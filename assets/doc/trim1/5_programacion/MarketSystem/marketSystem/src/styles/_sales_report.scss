@@ -1,0 +1,92 @@
+//?Imports
+@import "./config";
+@import "./mixins";
+
+//?Components Style
+.total {
+  &__container {
+    width: 140px;
+    height: 35px;
+    border: 1px solid $background;
+    color: $background;
+    font-size: $text_small;
+    font-weight: 700;
+    background: $white;
+    border-radius: 5px;
+    @include horizontalPosition;
+    gap: 5px;
+  }
+}
+
+//?Page Style
+.sales {
+  &__filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  &__filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  &__table-container {
+    width: 80%;
+    color: $white;
+    text-align: center;
+    margin-bottom: 15px;
+    overflow: auto;
+  }
+  &__table {
+    width: 100%;
+    &-row {
+      height: 50px;
+      font-size: $text;
+      &-title{
+        padding: 10px 25px;
+        background: $white;
+        color: $black;
+      }
+      &-title:first-child{
+        border-radius: 8px 0 0 0;
+      }
+      &-title:last-child{
+        border-radius: 0 8px 0 0;
+      }
+      &-data {
+        padding: 10px 25px;
+        background: $Medium_blue;
+      }
+    }    
+  }
+  &__container {
+    width: 80%;
+    @include finalHorizontalPosition;
+  }
+  @media (max-width: 768px) {
+    &__table-container{
+      width: 90%;
+    }
+  }
+  @media (max-width: 500px) {
+    &__filter-container,
+    &__filter{
+      @include verticalPosition;
+    }
+    &__container {
+      width: 98%;
+      @include horizontalPosition;
+    }
+  }
+  @media (max-width: 425px){
+    &__filter-container{
+      width: 80%;
+    }
+    &__filter{
+      width: 100%;
+    }
+  }
+}

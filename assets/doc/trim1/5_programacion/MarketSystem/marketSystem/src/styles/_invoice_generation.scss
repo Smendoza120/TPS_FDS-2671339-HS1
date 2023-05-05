@@ -1,15 +1,17 @@
 @import "../styles/config";
 
 //Components Style
+//Title
 .title {
   color: $white;
   font-size: $large;
   font-weight: 700;
   text-align: center;
 }
-
+//Filter with responsive design
 .filter {
   position: relative;
+  width: 100%;
   &__image {
     position: absolute;
     width: 30px;
@@ -18,8 +20,14 @@
   }
   &__input {
     border: none;
-    padding: 8px;
+    padding: 9px 0px 9px 30px;
     border-radius: 5px;
+    
+  }
+  @media (max-width: 425px){
+    &__input{
+      width: 90%;
+    }
   }
 }
 
@@ -38,9 +46,12 @@
     color: $background;
     background: $white;
   }
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 }
 
-//page stayle
+//Page Style
 .invoices {
   &__container {
     display: flex;
@@ -54,32 +65,39 @@
     justify-content: center;
     gap: 10px;
   }
-  &__intruction {
+  &__instruction {
     color: $white;
     font-size: $x-small;
     margin-bottom: 20px;
+    text-align: center;
+  }
+  &__table-container {
+    width: 80%;
+    color: $white;
+    text-align: center;
+    margin-bottom: 15px;
+    overflow: auto;
   }
   &__table {
     width: 100%;
-    &-container {
-      width: 80%;
-      color: $white;
-      text-align: center;
-      margin-bottom: 15px;
-      overflow: auto;
-    }
-
-    &-title {
+    &-row {
       height: 50px;
-      background: $white;
-      color: $black;
       font-size: $text;
-      border-radius: 5px;
-    }
-    &-data {
-      height: 50px;
-      background: $Medium_blue;
-      border-radius: 5px;
+      &-title{
+        padding: 10px 25px;
+        background: $white;
+        color: $black;
+      }
+      &-title:first-child{
+        border-radius: 8px 0 0 0;
+      }
+      &-title:last-child{
+        border-radius: 0 8px 0 0;
+      }
+      &-data{
+        padding: 10px 25px;
+        background: $Medium_blue;
+      }
     }
   }
   &__button {
@@ -89,13 +107,36 @@
     justify-content: flex-end;
   }
   @media (max-width: 768px) {
-    &__table {
-      &-container {
-        width: 90%;
-      }
+    &__table-container{
+      width: 90%;
     }
     &__button {
       width: 89%;
+    }
+  }
+  @media (max-width: 500px) {
+    &__container {
+      flex-direction: column;
+    }
+    &__instruction {
+      font-size: $text;
+      padding: 0 10px;
+    }
+    &__filter {
+      flex-direction: column;
+    }
+    &__table {
+      &-container {
+        width: 95%;
+      }
+    }
+  }
+  @media (max-width: 425px){
+    &__container{
+      width: 80%;
+    }
+    &__filter{
+      width: 100%;
     }
   }
 }

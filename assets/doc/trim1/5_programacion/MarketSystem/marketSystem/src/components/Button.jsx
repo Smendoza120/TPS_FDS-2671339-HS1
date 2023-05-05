@@ -4,7 +4,7 @@
 export function Button({children}){
   return(
     <>
-      <button className="btn-general">{children}</button>
+      <button className="btn-general" >{children}</button>
     </>
   )
 }
