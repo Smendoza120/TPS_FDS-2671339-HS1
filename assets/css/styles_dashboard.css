@@ -1,0 +1,36 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;    
+}
+.borde{
+    border: 1px solid #ccc;
+}
+nav{
+    display: flex;
+    flex-flow: row wrap;
+}
+.logo{
+    flex: 0 0 20%;
+    padding: 5px;
+}
+.navega{
+    flex: 0 0 65%;
+    padding: 5px;
+}
+.ingreso{
+    flex: 0 0 15%;
+    padding: 5px;
+}
+main{
+    display: flex;
+    flex-flow: row wrap;
+}
+main aside{
+    flex: 0 0 20%;
+    padding: 5px;
+}
+main section{
+    flex: 0 0 80%;
+    padding: 5px;
+}

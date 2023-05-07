@@ -42,6 +42,14 @@ export function SalesReport() {
             unitPrice={"$500"}
             total={"$1.000"}
           />
+
+          <InvoicesSales
+            date={"09/mar/23"}
+            product={"Chocolatina Burbuja"}
+            quantity={2}
+            unitPrice={"$500"}
+            total={"$1.000"}
+          />
         </table>
       </section>
 

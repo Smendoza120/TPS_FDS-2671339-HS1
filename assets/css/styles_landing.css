@@ -1,54 +1,5 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;    
 }
-
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin: auto;
-}
-
-.borde {
-  border: 1px solid #ccc;
-}
-
-nav {
-  height: 50px;
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.logo {
-  flex: 0 0 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.navega {
-  padding: 5px;
-
-  flex: 0 0 65%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ingreso {
-  flex: 0 0 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-header {
-  height: 300px;
-}
-footer {
-  height: 50px;
-
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-}
-

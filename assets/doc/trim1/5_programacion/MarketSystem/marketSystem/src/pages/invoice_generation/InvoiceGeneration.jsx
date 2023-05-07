@@ -14,6 +14,7 @@ export function InvoiceGeneration() {
         <div className="invoices__filter">
           <Filter />
           <Button>Filtrar</Button>
+          <Button>Comprar</Button>
         </div>
         <Button>Historico de Facturas</Button>
       </div>
