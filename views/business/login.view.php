@@ -1,15 +1,17 @@
             <section>
-                <form action="?c=Login&a=login" method="post">
+                <form action="" method="post">
                     <div class="form-header">
-                        <h2>Iniciar Sesión</h2>
+                        <h3>Inicio de Sesión</h3>
                     </div>
                     <div class="form-body">
-                        <label for="user">Usuario</label>
-                        <input type="text" id="user" name="user" placeholder="Escriba usuario">
-                    </div>
-                    <div class="form-body">
-                        <label for="pass">Contraseña</label>
-                        <input type="password" id="pass" name="pass" placeholder="Escriba usuario">
+                        <div class="form-control">
+                            <label for="user">Usuario</label>
+                            <input type="text" id="user" name="user">
+                        </div>
+                        <div class="form-control">
+                            <label for="pass">Contraseña</label>
+                            <input type="password" id="pass" name="pass">
+                        </div>
                     </div>
                     <div class="form-footer">
                         <input type="submit" value="Enviar">

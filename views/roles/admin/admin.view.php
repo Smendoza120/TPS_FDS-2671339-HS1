@@ -1,3 +1,3 @@
             <section class="borde">
-                <h1>Soy el Dashboard</h1>                
+                <h3>Bienvenidos al Dashboard del Administrador</h3>
             </section>

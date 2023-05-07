@@ -1,3 +1,4 @@
-            <section>
-                <h1>Soy la Vista Principal</h1>
-            </section>
+            <header class="borde">Imagen Empresa</header>
+            <section class="borde">Portafolio</section>
+            <section class="borde">Nosotros</section>
+            <section class="borde">Contáctenos</section>

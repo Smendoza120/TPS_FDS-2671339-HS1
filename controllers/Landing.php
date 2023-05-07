@@ -6,5 +6,5 @@
             require_once "views/roles/business/index.view.php";
             require_once "views/roles/business/footer.view.php";
         }
-    }
+    }    
 ?>

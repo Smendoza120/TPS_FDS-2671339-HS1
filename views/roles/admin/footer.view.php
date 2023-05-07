@@ -1,5 +1,5 @@
         </main>
-        <footer class="borde">Pie de Página</footer>
+        <footer class="borde">Información de los autores</footer>
     </div>    
     <script src="assets/js/scripts_dashboard.js"></script>
 </body>
