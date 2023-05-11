@@ -54,7 +54,10 @@ export function SalesReport() {
       </section>
 
       <div className="sales__container">
-        <Total />
+
+        <Total>
+          total prueba
+        </Total>
       </div>
     </>
   );

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edicion de perfil</title>
+  <link rel="stylesheet" href="./indexEdicionPerfil.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="../../assets/icono_listadousuarios.png" />
+</head>
+
+<body>
+  <header class="title">
+    <h1 class="title_principal">Edición de Perfil</h1>
+  </header>
+  <section class="form">
+    <form action="/" class="form_edicion">
+      <label for="nombre" class="form_edicion--label">Nombre</label>
+
+      <div class="form__edicion--container">
+        <a href=""></a>
+        <img class="form_edicion--icon" src="../../assets/icono_edicion.svg" alt="Editar">
+        <input name="nombre" id="nombre" class="form_edicion--input" type="text">
+      </div>
+
+      <label for="usuario" class="form_edicion--label">Usuario</label>
+
+      <div class="form__edicion--container">
+        <img class="form_edicion--icon" src="../../assets/icono_edicion.svg" alt="Editar">
+        <input name="usuario" id="usuario" class="form_edicion--input" type="text">
+      </div>
+
+      <label for="password" class="form_edicion--label">Contraseña</label>
+
+      <div class="form__edicion--container">
+        <img class="form_edicion--icon-eye" src="../../assets/icono_ojo.svg" alt="Ver contraseña">
+        <img class="form_edicion--icon" src="../../assets/icono_edicion.svg" alt="Editar">
+        <input name="password" id="password" class="form_edicion--input" type="password">
+      </div>
+
+      <label for="cargo" class="form_edicion--label">Cargo</label>
+
+      <div class="form__edicion--container">
+        <img class="form_edicion--icon" src="../../assets/icono_edicion.svg" alt="Editar">
+        <input name="cargo" id="cargo" class="form_edicion--input" type="text">
+      </div>
+
+      <div class="form_edicion--checkBox">
+
+        <div class="form_edicion--checkBox--div">
+          <input name="ventas" id="ventas" class="form_edicion--checkBox--div--input" type="checkbox">
+          <label for="ventas" class="form_edicion--checkBox--div--label">Ventas Diarias</label>
+        </div>
+
+        <div class="form_edicion--checkBox--div">
+          <input name="facturacion" id="facturacion" class="form_edicion--checkBox--div--input" type="checkbox">
+          <label for="facturacion" class="form_edicion--checkBox--div--label">Facturación</label>
+        </div>
+
+        <div class="form_edicion--checkBox--div">
+          <input name="inventarios" id="inventarios" class="form_edicion--checkBox--div--input" type="checkbox">
+          <label for="inventarios" class="form_edicion--checkBox--div--label">Control Inventarios</label>
+        </div>
+
+        <div class="form_edicion--checkBox--div">
+          <input name="cuentas" id="cuentas" class="form_edicion--checkBox--div--input" type="checkbox">
+          <label for="cuentas" class="form_edicion--checkBox--div--label">Creación Cuentas</label>
+        </div>
+
+      </div>
+
+      <input type="submit" value="Realizar cambios" class="form_edicion--button submit"></input>
+    </form>
+  </section>
+</body>
+
+</html>
