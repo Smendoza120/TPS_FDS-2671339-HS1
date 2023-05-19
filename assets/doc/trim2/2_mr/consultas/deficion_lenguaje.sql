@@ -39,11 +39,11 @@ SHOW DATABASES;
 
 -- -----------------------------------------------------
 -- 02 - Usar bases de datos
-USE usuarios;
+USE marketsystem;
 -- -----------------------------------------------------
 
 -- 03 - Eliminar base de datos
-DROP DATABASE usuarios;
+DROP DATABASE marketsystem;
 -- -----------------------------------------------------
 
 -- 04 - Mostrar tablas
@@ -51,7 +51,8 @@ SHOW TABLES;
 -- -----------------------------------------------------
 
 -- 05 - Mostrar columnas  
-SHOW COLUMNS FROM usuarios;
+SHOW COLUMNS FROM usuarios; 
+SHOW COLUMNS FROM inventario; -- Esta tabla es de inventarios
 -- OR
 DESCRIBE usuarios;
 -- -----------------------------------------------------
