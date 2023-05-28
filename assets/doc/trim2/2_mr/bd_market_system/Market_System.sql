@@ -8,30 +8,11 @@ CREATE DATABASE marketsystem;
 USE marketsystem;
 
 #Creacion de tablas
-CREATE TABLE rol(
-  id_rol INT NOT NULL AUTO_INCREMENT PRIMARY KEY
-);
-
 CREATE TABLE usuario(
   id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
   telefono VARCHAR(12) NOT NULL,
   correo VARCHAR(50) NOT NULL UNIQUE
-);
-
-CREATE TABLE usuario_rol(
-  id_rol INT NULL,
-  id_usuario INT NULL,
-  CONSTRAINT fk_ROL_usuario_rol
-    FOREIGN KEY (id_rol)
-    REFERENCES rol (id_rol)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT fk_USUARIO_usuario_rol
-    FOREIGN KEY (id_usuario)
-    REFERENCES usuario (id_usuario)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
 );
 
 CREATE TABLE propietario(
@@ -45,33 +26,31 @@ CREATE TABLE propietario(
     ON UPDATE CASCADE
 );
 
-CREATE TABLE trabajador(
-  id_trabajador INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  permisos BOOLEAN NOT NULL,
-  cargo VARCHAR(50),
-  id_propietario INT NULL,
-  CONSTRAINT fk_PROPIETARIO_trabajador
-    FOREIGN KEY(id_propietario)
-    REFERENCES propietario (id_propietario)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
 CREATE TABLE permisos(
   id_permisos INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   permiso_ventas BOOLEAN NOT NULL,
   permisos_usuarios BOOLEAN NOT NULL,
   permisos_inventario BOOLEAN NOT NULL,
   permisos_factura BOOLEAN NOT NULL,
-  id_trabajador INT NULL,
-  CONSTRAINT fk_TRABAJADOR_permisos
-    FOREIGN KEY (id_trabajador)
-    REFERENCES trabajador (id_trabajador)
+  id_propietario INT NULL,
+  CONSTRAINT fk_PROPIETARIO_permisos
+    FOREIGN KEY (id_propietario)
+    REFERENCES propietario (id_propietario)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
-
+CREATE TABLE trabajador(
+  id_trabajador INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  permisos BOOLEAN NOT NULL,
+  cargo VARCHAR(50),
+  id_permisos INT NULL,
+  CONSTRAINT fk_PERMISOS_trabajador
+    FOREIGN KEY (id_permisos)
+    REFERENCES permisos (id_permisos)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
 
 CREATE TABLE cliente(
   id_cliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -63,14 +63,8 @@
 
 -- -----------------------------------------------------
 -- 1.1 Crear o Registrar
-INSERT INTO roles VALUES 
-  (null, 'admin'),
-  (null, 'person'),
-  (null, 'customer'),
-  (null, 'seller');
-
-INSERT INTO usuarios (id, usuario, nombre, apellido, correo) VALUES (
-  1, 'admin-1', 'harold', 'sanchez', 'sanchezharold13@gmail.com'
+INSERT INTO rol (
+  
 );
 -- -----------------------------------------------------
 

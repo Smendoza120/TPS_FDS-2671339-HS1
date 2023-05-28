@@ -1,3 +1,4 @@
+drop database market_system_oscar_3;
 CREATE SCHEMA  Market_system_oscar_3 DEFAULT CHARACTER SET utf8 ;
 USE Market_system_oscar_3 ;
 
@@ -21,33 +22,34 @@ CREATE TABLE  propietario (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE  trabjador (
-  idtrabjador INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  permisos TINYINT NULL,
-  cargo VARCHAR(50) NOT NULL,
-  idpropietario INT NOT NULL,
-  INDEX fk_trabjador_propietario1_idx (idpropietario ASC),
-  CONSTRAINT fk_trabjador_propietario1
-    FOREIGN KEY (idpropietario)
-    REFERENCES propietario (idpropietario)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
 CREATE TABLE  permisos (
   idpermisos INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   permiso_ventas TINYINT NULL,
   permisos_usuarios TINYINT NULL,
   permiso_inventarios TINYINT NULL,
   permiso_factura TINYINT NULL,
-  idtrabjador INT NOT NULL,
-  INDEX fk_permisos_trabjador1_idx (idtrabjador ASC),
-  CONSTRAINT fk_permisos_trabjador1
-    FOREIGN KEY (idtrabjador)
-    REFERENCES trabjador (idtrabjador)
+  idpropietario INT NOT NULL,
+  INDEX fk_trabjador_propietario1_idx (idpropietario ASC),
+  CONSTRAINT fk_trabjador_propietario1
+    FOREIGN KEY (idpropietario)
+    REFERENCES propietario (idpropietario)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
+)
 ENGINE = InnoDB;
+
+CREATE TABLE  trabajador (
+  idtrabjador INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  permisos TINYINT NULL,
+  cargo VARCHAR(50) NOT NULL,
+  idpermisos INT NULL,
+  INDEX fk_trabajador_permisos_idx (idpermisos ASC),
+  CONSTRAINT fk_permisos_peridpermisos1
+    FOREIGN KEY (idpermisos)
+    REFERENCES permisos (idpermisos)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)ENGINE = InnoDB;
 
 CREATE TABLE  cliente (
   idcliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
