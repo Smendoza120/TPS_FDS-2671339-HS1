@@ -28,6 +28,18 @@ nav{
    align-items: center;
    padding: 5px;
 }
+main{
+   display: flex;
+   flex-flow: row nowrap;   
+}
+aside{
+   flex: 20%;
+   display: flex;
+   flex-flow: column nowrap;
+}
+section{
+   flex: 80%;
+}
 .ingreso{
    flex: 0 0 15%;
    display: flex;

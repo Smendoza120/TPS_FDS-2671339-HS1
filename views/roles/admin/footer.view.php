@@ -1,3 +1,4 @@
+            </section>
         </main>
         <footer class="borde">Información de los autores</footer>
     </div>    

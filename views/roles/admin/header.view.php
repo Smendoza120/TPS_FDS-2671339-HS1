@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../assets/css/styles_dashboard.css">
+    <link rel="stylesheet" href="assets/css/styles_dashboard.css">
 </head>
 <body>
     <div class="container">
@@ -19,3 +19,9 @@
             </div> 
         </nav>
         <main>
+            <aside class="borde">
+                <h1>USUARIOS</h1>
+                <a href="?c=Users&a=createUser">Crear Usuario</a>
+                <a href="">Consultar Usuarios</a>
+            </aside>
+            <section class="borde">
