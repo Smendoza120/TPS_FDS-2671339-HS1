@@ -1,6 +1,11 @@
+-- Delete database
+DROP DATABASE market_system_bbdd;
+
+-- Create database
 CREATE SCHEMA  market_system_bbdd DEFAULT CHARACTER SET utf8 ;
 USE market_system_bbdd ;
 
+-- Create tables
 CREATE TABLE  users (
   idusers INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   names VARCHAR(100) NOT NULL,
@@ -115,4 +120,3 @@ CREATE TABLE  sales (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-#DROP DATABASE market_system_bbdd;
