@@ -20,7 +20,7 @@
             <input type="email" name="userEmail" id="userEmail" label='ejemplo@ejeplo.com'>
 
             <label for="userPassword">Contraseña</label>
-            <input type="password" id="userPassword" name="userPassword" label='********'>
+            <input type="password" id="userPassword" name="userPassword" label='*******'>
 
             <label for="userStatus">Status</label>
             <input type="text" name="userStatus" id="userStatus">
