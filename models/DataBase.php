@@ -3,7 +3,7 @@
         public static function connection(){            
             $hostname = "localhost";
             $port = "3306";
-            $database = "dbejemplouser";
+            $database = "dbejemploUser";
             $username = "root";
             $password = "";
 			$pdo = new PDO("mysql:host=$hostname;port=$port;dbname=$database;charset=utf8",$username,$password);
