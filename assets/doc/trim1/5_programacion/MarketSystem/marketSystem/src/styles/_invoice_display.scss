@@ -1,0 +1,52 @@
+.invoice {
+  &__instruction {
+    color: $white;
+    font-size: $x-small;
+    text-align: center;
+  }
+
+  &__table {
+    width: 100%;
+    text-align: center;
+    &-container {
+      width: 80%;
+      color: $white;
+      text-align: center;
+      margin-bottom: 15px;
+      overflow: auto;
+    }
+    &-row {
+      height: 50px;
+      font-size: $text;
+      &-title {
+        padding: 10px 25px;
+        background: $white;
+        color: $black;
+      }
+      &-title:first-child {
+        border-radius: 8px 0 0 0;
+      }
+      &-title:last-child {
+        border-radius: 0 8px 0 0;
+      }
+      &-data {
+        padding: 10px 25px;
+        background: $Medium_blue;
+      }
+    }
+  }
+  &__price{
+    width: 79%;
+    @include finalHorizontalPosition;
+  }
+  @media (max-width: 425px){
+    &__table-container{
+      width: 95%;
+    }
+    &__price{
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+  }
+}

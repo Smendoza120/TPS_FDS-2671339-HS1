@@ -1,32 +1,42 @@
-@import './styles/config';
-@import './styles/sales_report';
-@import './styles/invoice_generation';
+@import "./styles/config";
+@import "./styles/sales_report";
+@import "./styles/invoice_generation";
+@import "./styles/invoice_display";
+@import "./styles/daily_sales";
 
-body{
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   font-family: $fonts;
   font-size: $size;
-  background-image: url('./images/fondo.jpg');
+  background-image: url("./images/fondo.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: 98vh;
-  @media (max-width: 500px){
+  height: 100%;
+  @media (max-width: 500px) {
     height: 100vh;
   }
 }
 
 .app {
   width: 100%;
-  height: 95vh;
+  // height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 500px) {
+    font-family: $fonts;
+    font-size: $size;
+    background-image: url("./images/fondo.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
