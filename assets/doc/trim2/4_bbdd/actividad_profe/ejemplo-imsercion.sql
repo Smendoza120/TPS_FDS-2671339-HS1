@@ -1,8 +1,10 @@
 -- Insercion de datos
-INSERT INTO USER VALUES
-(null, 'pepito perez', 'pepito@perez.com', sha1('12345')),
-(null, 'Marinita Garcia', 'marinita@garcia.com', sha1('12345')),
-(null, 'Harold Sanchez', 'harold@sanchez.com', sha1('12345'));
+INSERT INTO roles VALUES
+(null, 'admin');
+
+
+INSERT INTO users Values 
+(1, 'admin-001', 'pepito', 'perez', 'pepito@perez.com', sha1('1234'), 1); 
 
 -- Busqueda global
 SELECT * FROM user;
