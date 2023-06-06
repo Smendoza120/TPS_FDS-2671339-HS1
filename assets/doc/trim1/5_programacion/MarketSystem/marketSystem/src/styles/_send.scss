@@ -1,0 +1,56 @@
+.send{
+  &__form{
+    width: 100%;
+    @include verticalPosition;
+    gap: 10px;
+    &-container{
+      color: $white;
+      width: 90%;
+      @include verticalPosition;
+    }
+    &-send{
+      border: 2px solid $background;
+      width: 25%;
+      padding: 15px 10px;
+      border-radius: 10px;
+      background: $second-background;
+    }
+    &-data{
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 270px;
+    }
+    &-label{
+      font-size: 0.9rem;
+    }
+    &-input {
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+    }
+    &-icons{
+      width: 100%;
+      margin: 10px 0;
+      @include horizontalPosition;
+      gap: 30px;
+      &-icon{
+        font-size: 2.5rem;
+        transition: .3s linear;
+        &:hover{
+          cursor: pointer;
+          transform: scale(1.1);
+        }
+        &-whatsapp{
+          font-size: 2rem;
+        }
+        &-print{
+          font-size: 2.3rem;
+        }
+      }
+    }
+    &-button{
+      @include verticalPosition;
+    }
+  }
+}

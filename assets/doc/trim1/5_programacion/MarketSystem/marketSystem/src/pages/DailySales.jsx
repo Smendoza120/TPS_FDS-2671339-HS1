@@ -1,7 +1,7 @@
-import { Title } from "../../components/Title";
-import { Button } from "../../components/Button";
-import { DailyProducts } from "../../components/DailyProducts";
-import { Total } from "../../components/Total";
+import { Title } from "../components/Title";
+import { Button } from "../components/Button";
+import { DailyProducts } from "../components/DailyProducts";
+import { Total } from "../components/Total";
 import { FcRules } from "react-icons/fc";
 
 export function DailySales() {

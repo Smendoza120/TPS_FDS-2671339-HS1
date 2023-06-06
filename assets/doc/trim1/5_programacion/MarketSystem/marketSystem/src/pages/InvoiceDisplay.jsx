@@ -1,7 +1,7 @@
-import { Title } from "../../components/Title";
-import { Button } from "../../components/Button";
-import { InvoiceData } from "../../components/InvoiceData";
-import { Total } from "../../components/Total";
+import { Title } from "../components/Title";
+import { Button } from "../components/Button";
+import { InvoiceData } from "../components/InvoiceData";
+import { Total } from "../components/Total";
 
 export function InvoiceDisplay() {
   return (

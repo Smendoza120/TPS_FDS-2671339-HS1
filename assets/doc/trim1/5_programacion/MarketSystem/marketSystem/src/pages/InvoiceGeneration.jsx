@@ -1,9 +1,9 @@
 //Importacion de archivos
-import "../../main.scss";
-import { Title } from "../../components/Title";
-import { Button } from "../../components/Button";
-import { InvoicesProducts } from "../../components/InvoicesProducts";
-import { Filter } from "../../components/Filter";
+import "../main.scss";
+import { Title } from "../components/Title";
+import { Button } from "../components/Button";
+import { InvoicesProducts } from "../components/InvoicesProducts";
+import { Filter } from "../components/Filter";
 
 export function InvoiceGeneration() {
   return (

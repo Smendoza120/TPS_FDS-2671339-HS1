@@ -1,13 +1,11 @@
-.invoice {
-  &__instruction {
-    color: $white;
-    font-size: $x-small;
-    text-align: center;
+.inventory-report{
+  &__button{
+    margin-bottom: 20px;
   }
-  &__table {
+  &__table{
     width: 100%;
     text-align: center;
-    &-container {
+    &-container{
       width: 80%;
       color: $white;
       text-align: center;
@@ -34,18 +32,12 @@
       }
     }
   }
-  &__price{
-    width: 79%;
-    @include finalHorizontalPosition;
-  }
-  @media (max-width: 425px){
-    &__table-container{
-      width: 95%;
+  @media (max-width: 844px){
+    &__table{
+      &-container{
+        width: 95%;
+      }
     }
-    &__price{
-      width: 100%;
-      text-align: center;
-      justify-content: center;
-    }
+    
   }
 }
