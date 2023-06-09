@@ -1,6 +1,8 @@
 <?php
+//! Se crea una clase User
 class User
-{
+{   
+    //! Se crean las variables encapsuladas
     // 1ra Parte: Modelo de acuerdo a la POO
     private $dbh;
     private $rolCode = null;
@@ -11,17 +13,33 @@ class User
     private $userEmail;
     private $userPass;
     private $userStatus;
+    //! Se realiza el constructor, como el lenguaje es php hay que hacer un pequeño constructor con mas 
+    //! modificaciones
     public function __construct()
     {
+        //! Tomamos el dbh de este constructor y se instancia la clase DataBase y se llama el metodo connection
         $this->dbh = DataBase::connection();
+        //! Se crea una variable a la cual tiene un metodo de php el cual obtiene un arreglo que contiene todos  
+        //! los argumentos pasados al construnctor, esta funcion retorna un arreglo con los argumentos pasados
         $a = func_get_args();
+        //! Esta linea almacena una funcion la cual se encarga de obtener el numero total de argumentos pasados
+        //! al constructor, esta funcion retorna un numero entero de argumentos pasados al constructor
         $i = func_num_args();
+        //! Realizamos una condifcional el cual se le pasa como argumentos una funcion la cual se encarga de 
+        //! validas si existe un metodo, el parametro que se le pasa a esta funcion valida si hay un metodo en
+        //! la clase actual y esta se almacena en una variable f, este constructor tiene una concatenacion con la
+        //! cantidad de metodos que tiene el constructor 
         if (method_exists($this, $f = '__construct' . $i)) {
+            //! A esta funcion se le pasan 2 argumentos, el primero es un arreglo que contiene el metodo actual y 
+            //! y el nombre del metodo a llamar y como segundo argumento se le pasa los argumentos del constructor
             call_user_func_array(array($this, $f), $a);
         }
     }
+    //! Creamos un constructor con 2 parametros, los cuales son el correo del usuario y la contraseña del usuario
+    //! En el nombre de nuestro constructor le agregamos un numero para saber la cantidad de parametros que tendra
     public function __construct2($userEmail, $userPass)
-    {
+    {   
+        //! Aqui se instancian las clases para poder crear el constructor
         $this->userEmail = $userEmail;
         $this->userPass = $userPass;
     }
@@ -36,8 +54,11 @@ class User
     //     $this->userPass = $userPass;
     //     $this->userStatus = $userStatus;
     // }
+    //! Este es otro constructor, en el nombre se le agregan el numero de argumentos que tendremos para tener una
+    //! visual mas grande.
     public function __construct7($rolName, $userCode, $userName, $userEmail, $userPass, $rolCode, $userLastName, $userStatus)
     {
+        //! Se instancian las variables del constructor para que pueda funcionar de manera eficiente.
         $this->rolName = $rolName;
         $this->userCode = $userCode;
         $this->userName = $userName;
@@ -47,6 +68,9 @@ class User
         $this->userLastName = $userLastName;
         $this->userStatus = $userStatus;
     }
+
+    //! Esta seccion tenemos los metodos get y set, los get nos sirven para consultar y los set para enviar 
+    //! información.
     # Código Usuario
     public function setRolCode($rolCode)
     {
@@ -123,8 +147,11 @@ class User
     // 2da Parte: Modelo Negocio (Acceso a Datos -> DB)
 
     # CU01 - Iniciar Sesión
+    //! Aqui tenemos los metodos, este es el metodo login , el cual nos servira para iniciar sesion
     public function login()
     {
+        //! Tenemos una query de SQL y esta la almacenamos en una variable, esta query se encarga de hacer una
+        //! consulta de la tabla users y esta buscando el correo y la contraseña en la base de datos.
         $sql = 'SELECT * FROM USERS                    
                     WHERE user_email = :userEmail AND user_pass = :userPass';
         $stmt = $this->dbh->prepare($sql);
