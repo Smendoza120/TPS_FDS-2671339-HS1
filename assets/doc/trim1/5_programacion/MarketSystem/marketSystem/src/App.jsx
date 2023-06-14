@@ -2,7 +2,7 @@
 // import { InterfazUsers } from "./pages/IntefazUsers";
 // import { UserCreation } from "./pages/UserCreation";
 // import { UserList } from "./pages/UserList";
-import { ProfileEditing } from "./pages/ProfileEditing";
+// import { ProfileEditing } from "./pages/ProfileEditing";
 // import { InventoryControl } from "./pages/InventoryControl";
 // import { InventoryReport } from "./pages/InventoryReport";
 // import { SendInventoryReport } from "./pages/SendInventoryReport";
@@ -12,7 +12,8 @@ import { ProfileEditing } from "./pages/ProfileEditing";
 // import { InvoiceGeneration } from "./pages/InvoiceGeneration";
 // import { InvoiceHistory } from "./pages/InvoiceHistory";
 // import { InvoiceDisplay } from './pages/InvoiceDisplay';
-// import { SendingInvoice } from "./pages/SendingInvoice";
+import { SendingInvoice } from "./pages/SendingInvoice";
+
 
 
 export function App() {
@@ -22,7 +23,7 @@ export function App() {
       {/* <InterfazUsers /> */}
       {/* <UserCreation /> */}
       {/* <UserList /> */}
-      <ProfileEditing />
+      {/* <ProfileEditing /> */}
       {/* <InventoryControl /> */}
       {/* <InventoryReport /> */}
       {/* <SendInventoryReport /> */}
@@ -32,7 +33,8 @@ export function App() {
       {/* <InvoiceGeneration /> */}
       {/* <InvoiceHistory /> */}
       {/* <InvoiceDisplay /> */}
-      {/* <SendingInvoice /> */}
+      <SendingInvoice />
+      
     </section>
   );
 }

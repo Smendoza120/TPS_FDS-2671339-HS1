@@ -4,7 +4,7 @@ import { InventoryData } from "../components/InventoryData";
 
 export function InventoryReport(){
   return(
-    <>
+    <section className="inventory-report">
       <Title>Reporte de inventario</Title>
       <div className="inventory-report__button">
         <Button>Enviar reporte</Button>
@@ -32,6 +32,6 @@ export function InventoryReport(){
           </tbody>
         </table>
       </section>
-    </>
+    </section>
   )
 }

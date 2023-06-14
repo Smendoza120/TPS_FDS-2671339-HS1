@@ -5,7 +5,7 @@ import { Total } from "../components/Total";
 
 export function InvoiceDisplay() {
   return (
-    <>
+    <section className="invoice">
       <Title>Visualización de factura</Title>
       <div>
         <Button>Generar Factura</Button>
@@ -58,6 +58,6 @@ export function InvoiceDisplay() {
       <div className="invoice__price">
         <Total>total prueba</Total>
       </div>
-    </>
+    </section>
   );
 }

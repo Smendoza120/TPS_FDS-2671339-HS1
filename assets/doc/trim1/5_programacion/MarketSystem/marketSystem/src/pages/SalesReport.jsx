@@ -6,13 +6,12 @@ import { Total } from "../components/Total";
 
 export function SalesReport() {
   return (
-    <>
+    <section className="sales">
       <Title>Reporte Ventas </Title>
 
       <div className="sales__filter-container">
         <div className="sales__filter">
           <Filter />
-          <Button>Filtrar</Button>
         </div>
         <Button>Generar Reporte</Button>
       </div>
@@ -58,6 +57,6 @@ export function SalesReport() {
           total prueba
         </Total>
       </div>
-    </>
+    </section>
   );
 }

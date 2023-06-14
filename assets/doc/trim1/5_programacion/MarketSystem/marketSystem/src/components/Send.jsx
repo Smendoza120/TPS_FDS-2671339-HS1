@@ -8,7 +8,7 @@ import { BiMailSend } from "react-icons/bi";
 // eslint-disable-next-line react/prop-types
 export function Send({ title }) {
   return (
-    <>
+    <section className="send">
       <Title>{title}</Title>
       <section className="send__form-container">
         <div className="send__form-send">
@@ -41,6 +41,6 @@ export function Send({ title }) {
           </form>
         </div>
       </section>
-    </>
+    </section>
   );
 }

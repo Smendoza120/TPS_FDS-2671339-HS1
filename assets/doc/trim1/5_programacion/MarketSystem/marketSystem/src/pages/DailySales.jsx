@@ -6,7 +6,7 @@ import { FcRules } from "react-icons/fc";
 
 export function DailySales() {
   return (
-    <>
+    <section className="daily">
       <Title>Ventas Diarias</Title>
       <p className="daily__info">Debe llenar los campos requeridos (*)</p>
 
@@ -96,8 +96,10 @@ export function DailySales() {
 
       <div className="daily__total-container">
         <Total />
-        <Button>Generar Reporte</Button>
+        <div>
+          <Button>Generar Reporte</Button>
+        </div>
       </div>
-    </>
+    </section>
   );
 }

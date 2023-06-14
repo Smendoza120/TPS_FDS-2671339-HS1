@@ -4,7 +4,7 @@ import { Title } from "../components/Title";
 
 export function InvoiceHistory() {
   return (
-    <>
+    <section className="invoice-history">
       <Title>Historico de Facturas</Title>
       <div>
         <Button>Generar Factura</Button>
@@ -33,6 +33,6 @@ export function InvoiceHistory() {
           </thead>
         </table>
       </section>
-    </>
+    </section>
   );
 }

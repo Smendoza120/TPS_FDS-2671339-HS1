@@ -5,14 +5,13 @@ import { InventoryProducts } from "../components/InventoryProducts";
 
 export function InventoryControl() {
   return (
-    <>
+    <section className="inventory">
       <Title>Control de inventario</Title>
 
       <div className="inventory__filter">
-        <div>
+        <div className="inventory__filter-container">
           <Filter />
         </div>
-        <Button>Filtrar</Button>
         <Button>Generar Reporte</Button>
       </div>
 
@@ -74,6 +73,6 @@ export function InventoryControl() {
           </tbody>
         </table>
       </section>
-    </>
+    </section>
   );
 }
