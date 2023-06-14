@@ -1,4 +1,9 @@
 .profile {
+  &__content{
+    width: 100%;
+    height: 99vh;
+    @include verticalPosition;
+  }
   &__form {
     width: 100%;
     @include verticalPosition;
@@ -100,7 +105,6 @@
   @media (max-width: 1024px){
     &__form{
       &-box{
-        border: 1px solid red;
         width: 30%;
       }
     }
@@ -108,7 +112,6 @@
   @media (max-width: 844px){
     &__form{
       &-box{
-        border: 1px solid red;
         width: 40%;
       }
     }

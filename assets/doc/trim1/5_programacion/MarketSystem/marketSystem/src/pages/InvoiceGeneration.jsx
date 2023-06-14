@@ -7,13 +7,13 @@ import { Filter } from "../components/Filter";
 
 export function InvoiceGeneration() {
   return (
-    <>
+    <section className="invoices">
       <Title>Generación de facturas</Title>
 
       <div className="invoices__container">
         <div className="invoices__filter">
           <Filter />
-          <Button>Filtrar</Button>
+          {/* <Button>Filtrar</Button> */}
           <Button>Comprar</Button>
         </div>
         <Button>Historico de Facturas</Button>
@@ -51,6 +51,6 @@ export function InvoiceGeneration() {
       <div className="invoices__button">
         <Button>Visualizar Factura</Button>
       </div>
-    </>
+    </section>
   );
 }

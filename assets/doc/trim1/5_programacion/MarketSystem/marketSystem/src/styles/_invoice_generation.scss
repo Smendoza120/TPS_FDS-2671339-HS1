@@ -10,8 +10,14 @@
 }
 //Filter with responsive design
 .filter {
-  position: relative;
-  width: 100%;
+  &__container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
   &__image {
     position: absolute;
     width: 30px;
@@ -22,10 +28,15 @@
     border: none;
     padding: 9px 0px 9px 30px;
     border-radius: 5px;
-    
   }
-  @media (max-width: 425px){
-    &__input{
+  @media (max-width: 425px) {
+    &__container{
+      flex-direction: column;
+    }
+    &__inputs{
+      width: 100%;
+    }
+    &__input {
       width: 90%;
     }
   }
@@ -53,6 +64,12 @@
 
 //Page Style
 .invoices {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   &__container {
     display: flex;
     align-items: center;
@@ -83,18 +100,18 @@
     &-row {
       height: 50px;
       font-size: $text;
-      &-title{
+      &-title {
         padding: 10px 25px;
         background: $white;
         color: $black;
       }
-      &-title:first-child{
+      &-title:first-child {
         border-radius: 8px 0 0 0;
       }
-      &-title:last-child{
+      &-title:last-child {
         border-radius: 0 8px 0 0;
       }
-      &-data{
+      &-data {
         padding: 10px 25px;
         background: $Medium_blue;
       }
@@ -107,7 +124,7 @@
     justify-content: flex-end;
   }
   @media (max-width: 768px) {
-    &__table-container{
+    &__table-container {
       width: 90%;
     }
     &__button {
@@ -131,11 +148,11 @@
       }
     }
   }
-  @media (max-width: 425px){
-    &__container{
+  @media (max-width: 425px) {
+    &__container {
       width: 80%;
     }
-    &__filter{
+    &__filter {
       width: 100%;
     }
   }

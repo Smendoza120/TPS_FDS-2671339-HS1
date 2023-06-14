@@ -1,29 +1,38 @@
-// import { InvoiceGeneration } from "./pages/InvoiceGeneration";
-// import { SalesReport } from "./pages/SalesReport";
-// import { InvoiceDisplay } from './pages/InvoiceDisplay';
-// import { DailySales } from "./pages/DailySales";
+// import { PrincipalInterfaz } from "./pages/PrincipalInterfaz";
+// import { InterfazUsers } from "./pages/IntefazUsers";
+// import { UserCreation } from "./pages/UserCreation";
+// import { UserList } from "./pages/UserList";
+import { ProfileEditing } from "./pages/ProfileEditing";
 // import { InventoryControl } from "./pages/InventoryControl";
 // import { InventoryReport } from "./pages/InventoryReport";
-// import { ProfileEditing } from "./pages/ProfileEditing";
+// import { SendInventoryReport } from "./pages/SendInventoryReport";
+// import { DailySales } from "./pages/DailySales";
+// import { SalesReport } from "./pages/SalesReport";
+// import { SendDailySalesReport } from './pages/SendDailySalesReport';
+// import { InvoiceGeneration } from "./pages/InvoiceGeneration";
 // import { InvoiceHistory } from "./pages/InvoiceHistory";
-import { SendingInvoice } from "./pages/SendingInvoice";
+// import { InvoiceDisplay } from './pages/InvoiceDisplay';
+// import { SendingInvoice } from "./pages/SendingInvoice";
 
 
 export function App() {
   return (
     <section className="app">
-      {/* 
-        <InvoiceGeneration />
-        <SalesReport />
-        <InvoiceDisplay />
-        <DailySales /> 
-      */}
+      {/* <PrincipalInterfaz /> */}
+      {/* <InterfazUsers /> */}
+      {/* <UserCreation /> */}
+      {/* <UserList /> */}
+      <ProfileEditing />
       {/* <InventoryControl /> */}
       {/* <InventoryReport /> */}
-      {/* <ProfileEditing /> */}
+      {/* <SendInventoryReport /> */}
+      {/* <DailySales />  */}
+      {/* <SalesReport /> */}
+      {/* <SendDailySalesReport /> */}
+      {/* <InvoiceGeneration /> */}
       {/* <InvoiceHistory /> */}
-      <SendingInvoice />
-
+      {/* <InvoiceDisplay /> */}
+      {/* <SendingInvoice /> */}
     </section>
   );
 }
