@@ -1,3 +1,4 @@
+#drop database market_system_bbdd;
 CREATE SCHEMA  market_system_bbdd DEFAULT CHARACTER SET utf8 ;
 USE market_system_bbdd ;
 
@@ -127,11 +128,9 @@ VALUES ("Oscar Aguirre","Oscarpro123@esto.com",3223142717),
 SELECT * FROM users;
 
 INSERT INTO owner (passwords,idusers)
-VALUES (123456,5),
-(789123,4),
-(456789,3),
-(123789,2),
-(456123,1);
+VALUES ("123asd",5),
+("asdasd15454",2),
+("asdasdasd",3);
 
 SELECT * FROM owner;
 
@@ -142,8 +141,12 @@ SELECT users.names, users.mail, users.phone, owner.passwords from users inner jo
 
 INSERT INTO customer (idusers)
 VALUES (1),
-(2);
+(4);
 SELECT * FROM customer;
+
+SELECT users.names,users.mail,users.phone from users inner join customer on users.idusers = customer.idusers;
+#SELECT owner.passwords from owner inner join customer on owner.idowner = customer.idcustomer;   PREGUNTAR POR ESTO
+
 
 INSERT INTO bill (creation_date)
 VALUES ("2023-05-29"),
