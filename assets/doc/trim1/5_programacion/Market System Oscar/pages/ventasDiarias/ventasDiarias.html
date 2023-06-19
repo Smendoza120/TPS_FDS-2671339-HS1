@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./ventasDiarias.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="shortcut icon" href="../../assets/icono_ventasdiarias.png" type="image/x-icon">
+  <title>Ventas Diarias</title>
+</head>
+
+<body>
+  <section class="ventasD__container">
+    <h1 class="ventasD__title">Ventas Diarias</h1>
+    <p class="ventasD__required">Debe llenar los campos requeridos (*)</p>
+
+    <form action="" class="ventasD__form">
+      <div class="ventasD__section">
+        <div class="ventasD__form-container">
+          <label for="producto" class="ventasD__label">* Producto</label>
+          <input type="text" id="producto" class="ventasD__input" required>
+        </div>
+
+        <div class="ventasD__form-container">
+          <label for="cantidad" class="ventasD__label">* Cantidad</label>
+          <input class="ventasD__input" type="text" id="cantidad" inputmode="numeric" required>
+        </div>
+
+        <div class="ventasD__form-container">
+          <label for="precioU" class="ventasD__label">* Precio Unitario</label>
+          <input class="ventasD__input" type="text" id="precioU" inputmode="numeric" required>
+        </div>
+
+        <div class="ventasD__form-container">
+          <label for="nombre" class="ventasD__label">Nombre</label>
+          <input class="ventasD__input" type="text" id="nombre">
+        </div>
+      </div>
+
+      <div class="ventasD__button-container">
+        <input class="ventasD__button-agregar ventasD__button" type="button" value="Agregar a lista">
+
+        <!-- <input class="ventasD__button-reporte ventasD__button" type="button" value="Reporte de ventas"> -->
+        <a href="../reporteVentas/reporteVentas.html" class="ventasD__button-reporte ventasD__button">Reporte de ventas</a>
+      </div>
+    </form>
+
+
+
+    <section class="ventasD__table-container">
+      <table class="ventasD__table">
+        <tr class="ventasD__row">
+          <th class="ventasD__rows--title">Fecha</th>
+          <th class="ventasD__rows--title">Producto</th>
+          <th class="ventasD__rows--title">Cantidad</th>
+          <th class="ventasD__rows--title">Precio Unitario</th>
+          <th class="ventasD__rows--title">Total</th>
+          <th class="ventasD__rows--title">Modificación</th>
+        </tr>
+
+        <tr class="ventasD__row">
+          <td class="ventasD__rows--data">09/mar/23</td>
+          <td class="ventasD__rows--data">Doritos</td>
+          <td class="ventasD__rows--data">2</td>
+          <td class="ventasD__rows--data">$2.500</td>
+          <td class="ventasD__rows--data">$5.000</td>
+          <td class="ventasD__rows--data">
+            <img class="ventasD__icon" src="../../assets/IconoModificacionVentas.svg" alt="Edicion Producto">
+          </td>
+        </tr>
+
+        <tr class="ventasD__row">
+          <td class="ventasD__rows--data">09/mar/23</td>
+          <td class="ventasD__rows--data">Chocolatina Burbuja</td>
+          <td class="ventasD__rows--data">2</td>
+          <td class="ventasD__rows--data">$500</td>
+          <td class="ventasD__rows--data">$1.000</td>
+          <td class="ventasD__rows--data">
+            <img class="ventasD__icon" src="../../assets/IconoModificacionVentas.svg" alt="Edicion Producto">
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <div class="ventasD__total">
+      <div class="ventasD__text-container"><p class="ventasD__text">Precio total: $7.000</p></div>
+      
+      <!-- Revisar boton -->
+      <input class="ventasD__button-reporte ventasD__button" type="button" value="Generar reporte">
+    </div>
+
+  </section>
+</body>
+
+</html>

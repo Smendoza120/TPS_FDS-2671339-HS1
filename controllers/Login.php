@@ -1,6 +1,7 @@
 <?php
 
 require_once "models/model_dto/UserDto.php";
+
 class Login
 {
   public function __construct()
@@ -31,8 +32,6 @@ class Login
       echo "<br>contraseña: " . $userDto->getPassUser();
       require_once "views/roles/business/footer.view.php";
     }
-
-
   }
 }
 ?>
