@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #drop database market_system_bbdd;
 CREATE SCHEMA  market_system_bbdd DEFAULT CHARACTER SET utf8 ;
 USE market_system_bbdd ;
@@ -10,12 +11,31 @@ CREATE TABLE  users (
   names VARCHAR(100) NOT NULL,
   mail VARCHAR(100) NOT NULL,
   phone VARCHAR (20) NOT NULL
+=======
+-- Delete database
+DROP DATABASE market_system_bbdd;
+
+-- Create database
+CREATE SCHEMA  market_system_bbdd DEFAULT CHARACTER SET utf8 ;
+USE market_system_bbdd ;
+
+-- Create tables
+CREATE TABLE  users (
+  idusers INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  names VARCHAR(100) NOT NULL,
+  mail VARCHAR(100) NOT NULL,
+  phone INT NOT NULL
+>>>>>>> 9cd4b040b156f5d9fb575a040cae718e263949dc
   )
 ENGINE = InnoDB;
 
 CREATE TABLE  owner (
   idowner INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+<<<<<<< HEAD
   password VARCHAR(50) NOT NULL,
+=======
+  passwords VARCHAR(50) NOT NULL,
+>>>>>>> 9cd4b040b156f5d9fb575a040cae718e263949dc
   idusers INT NOT NULL,
   INDEX fk_owner_users1_idx (idusers ASC),
   CONSTRAINT fk_owner_users1
@@ -25,12 +45,15 @@ CREATE TABLE  owner (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+<<<<<<< HEAD
 CREATE TABLE  employee (
   idemployee INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   position VARCHAR(50) NOT NULL
   )
 ENGINE = InnoDB;
 
+=======
+>>>>>>> 9cd4b040b156f5d9fb575a040cae718e263949dc
 CREATE TABLE  permissions (
   idpermissions INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   permission_sales TINYINT NULL,
@@ -38,12 +61,16 @@ CREATE TABLE  permissions (
   permission_inventories TINYINT NULL,
   permission_bill TINYINT NULL,
   idowner INT NOT NULL,
+<<<<<<< HEAD
   idemployee INT NOT NULL,
+=======
+>>>>>>> 9cd4b040b156f5d9fb575a040cae718e263949dc
   INDEX fk_employee_owner1_idx (idowner ASC),
   CONSTRAINT fk_employee_owner1
     FOREIGN KEY (idowner)
     REFERENCES owner (idowner)
     ON DELETE CASCADE
+<<<<<<< HEAD
     ON UPDATE CASCADE,
   INDEX fk_owner_employee_idx (idemployee ASC),
   CONSTRAINT fk_owner_employee
@@ -54,6 +81,23 @@ CREATE TABLE  permissions (
 ENGINE = InnoDB;
 
 
+=======
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE  employee (
+  idemployee INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  permissions TINYINT NULL,
+  position VARCHAR(50) NOT NULL,
+  idpermissions INT NOT NULL,
+  INDEX fk_permissions_employee1_idx (idpermissions ASC),
+  CONSTRAINT fk_permissions_permissions1
+    FOREIGN KEY (idpermissions)
+    REFERENCES permissions (idpermissions)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+>>>>>>> 9cd4b040b156f5d9fb575a040cae718e263949dc
 
 CREATE TABLE  customer (
   idcustomer INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -121,6 +165,7 @@ CREATE TABLE  sales (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+<<<<<<< HEAD
 
 
 
@@ -190,3 +235,5 @@ VALUES (15,"Oscar Aguirre","Arroz",2,2,2,2),
 (1,"Oscar Aguirre","Aceite",3,3,3,3);
 select * from sales;
 #DROP DATABASE market_system_bbdd;
+=======
+>>>>>>> 9cd4b040b156f5d9fb575a040cae718e263949dc
