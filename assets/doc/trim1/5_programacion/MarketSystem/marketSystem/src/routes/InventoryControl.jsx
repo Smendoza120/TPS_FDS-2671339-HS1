@@ -3,7 +3,10 @@ import { Filter } from "../components/Filter";
 import { Button } from "../components/Button";
 import { InventoryProducts } from "../components/InventoryProducts";
 
-export function InventoryControl() {
+import { Link } from "react-router-dom";
+
+// eslint-disable-next-line react/prop-types
+export function InventoryControl({ path }) {
   return (
     <section className="inventory">
       <Title>Control de inventario</Title>
@@ -12,35 +15,68 @@ export function InventoryControl() {
         <div className="inventory__filter-container">
           <Filter />
         </div>
-        <Button>Generar Reporte</Button>
+        <Link to={path}>
+          <Button>Generar Reporte</Button>
+        </Link>
       </div>
 
       <section className="inventory__form-container">
         <form action="" className="inventory__form">
           <div className="inventory__form-data">
             <div className="inventory__form-inputs">
-              <label className="inventory__form-label" htmlFor="">*Producto</label>
-              <input className="inventory__form-input" type="text" placeholder="Doritos" />
+              <label className="inventory__form-label" htmlFor="">
+                *Producto
+              </label>
+              <input
+                className="inventory__form-input"
+                type="text"
+                placeholder="Doritos"
+              />
             </div>
 
             <div className="inventory__form-inputs">
-              <label className="inventory__form-label" htmlFor="">*Cantidad</label>
-              <input className="inventory__form-input" type="text" placeholder="2" />
+              <label className="inventory__form-label" htmlFor="">
+                *Cantidad
+              </label>
+              <input
+                className="inventory__form-input"
+                type="text"
+                placeholder="2"
+              />
             </div>
 
             <div className="inventory__form-inputs">
-              <label className="inventory__form-label" htmlFor="">*Precio Unitario</label>
-              <input className="inventory__form-input" type="text" placeholder="$500" />
+              <label className="inventory__form-label" htmlFor="">
+                *Precio Unitario
+              </label>
+              <input
+                className="inventory__form-input"
+                type="text"
+                placeholder="$500"
+              />
             </div>
 
             <div className="inventory__form-inputs">
-              <label className="inventory__form-label" htmlFor="">*Almacenamiento</label>
-              <input className="inventory__form-input" type="text" placeholder="Bodega" />
+              <label className="inventory__form-label" htmlFor="">
+                *Almacenamiento
+              </label>
+              <input
+                className="inventory__form-input"
+                type="text"
+                placeholder="Bodega"
+              />
             </div>
 
             <div className="inventory__form-inputs">
-              <label className="inventory__form-label" htmlFor="">Fecha Vencimiento</label>
-              <input className="inventory__form-input" type="date" name="" id="" />
+              <label className="inventory__form-label" htmlFor="">
+                Fecha Vencimiento
+              </label>
+              <input
+                className="inventory__form-input"
+                type="date"
+                name=""
+                id=""
+              />
             </div>
           </div>
 
@@ -63,12 +99,12 @@ export function InventoryControl() {
           </thead>
           <tbody>
             <InventoryProducts
-              entryDate={'09/mar/23'}
-              expirationDate={'09/dic/23'}
-              product={'Doritos'}
-              quantity={'2'}
-              unitPrice={'$2.500'}
-              storage={'Almacen'}
+              entryDate={"09/mar/23"}
+              expirationDate={"09/dic/23"}
+              product={"Doritos"}
+              quantity={"2"}
+              unitPrice={"$2.500"}
+              storage={"Almacen"}
             />
           </tbody>
         </table>

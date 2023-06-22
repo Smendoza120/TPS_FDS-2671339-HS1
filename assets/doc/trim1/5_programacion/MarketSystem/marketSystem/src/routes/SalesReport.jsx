@@ -4,7 +4,10 @@ import { InvoicesSales } from "../components/InvoicesSales";
 import { Title } from "../components/Title";
 import { Total } from "../components/Total";
 
-export function SalesReport() {
+import { Link } from "react-router-dom";
+
+// eslint-disable-next-line react/prop-types
+export function SalesReport({ generateReport }) {
   return (
     <section className="sales">
       <Title>Reporte Ventas </Title>
@@ -13,7 +16,9 @@ export function SalesReport() {
         <div className="sales__filter">
           <Filter />
         </div>
-        <Button>Generar Reporte</Button>
+        <Link to={generateReport}>
+          <Button>Generar Reporte</Button>
+        </Link>
       </div>
 
       <section className="sales__table-container">
@@ -53,9 +58,7 @@ export function SalesReport() {
       </section>
 
       <div className="sales__container">
-        <Total>
-          total prueba
-        </Total>
+        <Total>total prueba</Total>
       </div>
     </section>
   );

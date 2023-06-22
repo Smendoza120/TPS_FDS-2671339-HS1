@@ -2,12 +2,17 @@ import { Button } from "../components/Button";
 import { InvoiceHistoryData } from "../components/InvoiceHistoryData";
 import { Title } from "../components/Title";
 
-export function InvoiceHistory() {
+import { Link } from "react-router-dom";
+
+// eslint-disable-next-line react/prop-types
+export function InvoiceHistory({ send }) {
   return (
     <section className="invoice-history">
       <Title>Historico de Facturas</Title>
       <div>
-        <Button>Generar Factura</Button>
+        <Link to={send}>
+          <Button>Generar Factura</Button>
+        </Link>
       </div>
       <p className="invoice-history__text">*Seleccionar Facutura</p>
 

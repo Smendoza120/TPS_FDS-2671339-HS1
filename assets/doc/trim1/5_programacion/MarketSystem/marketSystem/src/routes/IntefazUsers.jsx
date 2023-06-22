@@ -8,25 +8,25 @@ export function InterfazUsers({ userCreation, userList }) {
   return (
     <section className="users__container">
       <div className="users__content">
-        <h3 className="users__title">Creacion de usuarios</h3>
-        <div className="users__icons">
-          <Link to={userCreation}>
+        <Link className="users__links" to={userCreation}>
+          <h3 className="users__title">Creacion de usuarios</h3>
+          <div className="users__icons">
             <img className="users__icon" src={addProfile} alt="añadir perfil" />
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
 
       <div className="users__content">
-        <h3 className="users__title">Listado y edicion de usuarios</h3>
-        <div className="users__icons">
-          <Link to={userList}>
+        <Link className="users__links" to={userList}>
+          <h3 className="users__title">Listado y edicion de usuarios</h3>
+          <div className="users__icons">
             <img
               className="users__icon"
               src={editProfile}
               alt="editar perfil"
             />
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
     </section>
   );

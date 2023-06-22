@@ -4,7 +4,10 @@ import { DailyProducts } from "../components/DailyProducts";
 import { Total } from "../components/Total";
 import { FcRules } from "react-icons/fc";
 
-export function DailySales() {
+import { Link } from "react-router-dom";
+
+// eslint-disable-next-line react/prop-types
+export function DailySales({generateReport, reportSales }) {
   return (
     <section className="daily">
       <Title>Ventas Diarias</Title>
@@ -28,7 +31,11 @@ export function DailySales() {
               <label className="daily__form-label" htmlFor="">
                 *Cantidad
               </label>
-              <input className="daily__form-input" type="text" placeholder="2" />
+              <input
+                className="daily__form-input"
+                type="text"
+                placeholder="2"
+              />
             </div>
 
             <div className="daily__form-item">
@@ -56,7 +63,9 @@ export function DailySales() {
 
           <div className="daily__form-buttons">
             <Button>Agregar a la lista</Button>
-            <Button>Reporte de ventas</Button>
+            <Link to={reportSales}>
+              <Button>Reporte de ventas</Button>
+            </Link>
           </div>
         </form>
       </section>
@@ -97,7 +106,9 @@ export function DailySales() {
       <div className="daily__total-container">
         <Total />
         <div>
-          <Button>Generar Reporte</Button>
+          <Link to={generateReport}>
+            <Button>Generar Reporte</Button>
+          </Link>
         </div>
       </div>
     </section>

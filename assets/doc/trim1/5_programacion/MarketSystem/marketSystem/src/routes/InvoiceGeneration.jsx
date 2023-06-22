@@ -5,7 +5,10 @@ import { Button } from "../components/Button";
 import { InvoicesProducts } from "../components/InvoicesProducts";
 import { Filter } from "../components/Filter";
 
-export function InvoiceGeneration() {
+import { Link } from "react-router-dom";
+
+// eslint-disable-next-line react/prop-types
+export function InvoiceGeneration({ history, display }) {
   return (
     <section className="invoices">
       <Title>Generación de facturas</Title>
@@ -13,10 +16,11 @@ export function InvoiceGeneration() {
       <div className="invoices__container">
         <div className="invoices__filter">
           <Filter />
-          {/* <Button>Filtrar</Button> */}
           <Button>Comprar</Button>
         </div>
-        <Button>Historico de Facturas</Button>
+        <Link to={history}>
+          <Button>Historico de Facturas</Button>
+        </Link>
       </div>
 
       <p className="invoices__instruction">
@@ -49,7 +53,9 @@ export function InvoiceGeneration() {
       </section>
 
       <div className="invoices__button">
-        <Button>Visualizar Factura</Button>
+        <Link to={display}>
+          <Button>Visualizar Factura</Button>
+        </Link>
       </div>
     </section>
   );
