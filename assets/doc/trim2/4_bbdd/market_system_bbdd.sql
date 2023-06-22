@@ -13,19 +13,10 @@ CREATE TABLE  users (
 )
 ENGINE = InnoDB;
 
--- Create tables
-CREATE TABLE  users (
-  idusers INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  names VARCHAR(100) NOT NULL,
-  mail VARCHAR(100) NOT NULL,
-  phone INT NOT NULL
-  )
-ENGINE = InnoDB;
 
 CREATE TABLE  owner (
   idowner INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   password VARCHAR(50) NOT NULL,
-  passwords VARCHAR(50) NOT NULL,
   idusers INT NOT NULL,
   INDEX fk_owner_users1_idx (idusers ASC),
   CONSTRAINT fk_owner_users1
@@ -63,18 +54,6 @@ CREATE TABLE  permissions (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE  employee (
-  idemployee INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  permissions TINYINT NULL,
-  position VARCHAR(50) NOT NULL,
-  idpermissions INT NOT NULL,
-  INDEX fk_permissions_employee1_idx (idpermissions ASC),
-  CONSTRAINT fk_permissions_permissions1
-    FOREIGN KEY (idpermissions)
-    REFERENCES permissions (idpermissions)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
 
 CREATE TABLE  customer (
   idcustomer INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
