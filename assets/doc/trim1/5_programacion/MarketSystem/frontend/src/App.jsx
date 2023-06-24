@@ -1,33 +1,40 @@
 //Paginas
+//Login
+import { Login } from "./pages/login/Login";
+
 //Pagina principal
-import { PrincipalInterfaz } from "./routes/PrincipalInterfaz";
+import { PrincipalInterfaz } from "./pages/home/PrincipalInterfaz";
 
 //Paginas de usuarios
-import { InterfazUsers } from "./routes/IntefazUsers";
-import { UserCreation } from './routes/UserCreation';
-import { UserList } from "./routes/UserList";
-import { ProfileEditing } from "./routes/ProfileEditing";
+import { InterfazUsers } from "./pages/users/interfazUsers/IntefazUsers";
+import { UserCreation } from './pages/users/userCreation/UserCreation';
+import { UserList } from "./pages/users/userList/UserList";
+import { ProfileEditing } from "./pages/users/profileEditing/ProfileEditing";
 
 //Paginas de control de inventario
-import { InventoryControl } from "./routes/InventoryControl";
-import { InventoryReport } from "./routes/InventoryReport";
-import { SendInventoryReport } from "./routes/SendInventoryReport";
+import { InventoryControl } from "./pages/inventory/inventoryControl/InventoryControl";
+import { InventoryReport } from "./pages/inventory/inventoryReport/InventoryReport";
+import { SendInventoryReport } from "./pages/inventory/sendInventoryReport/SendInventoryReport";
 
 //Paginas de facturas
-import { InvoiceGeneration } from "./routes/InvoiceGeneration";
-import { InvoiceHistory } from "./routes/InvoiceHistory";
-import { InvoiceDisplay } from "./routes/InvoiceDisplay";
+import { InvoiceGeneration } from "./pages/invoice/invoiceGeneration/InvoiceGeneration";
+import { InvoiceHistory } from "./pages/invoice/invoiceHistory/InvoiceHistory";
+import { InvoiceDisplay } from "./pages/invoice/invoiceDisplay/InvoiceDisplay";
 
 //Pagina de ventas diarias
-import { DailySales } from "./routes/DailySales";
-import { SalesReport } from "./routes/SalesReport";
-import { SendDailySalesReport } from "./routes/SendDailySalesReport";
+import { DailySales } from "./pages/daily-sales/dailySales/DailySales";
+import { SalesReport } from "./pages/daily-sales/salesReport/SalesReport";
+import { SendDailySalesReport } from "./pages/daily-sales/sendDailySalesReport/SendDailySalesReport";
 
 //Enrutador
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { SendingInvoice } from "./routes/SendingInvoice";
+import { SendingInvoice } from "./pages/invoice/sendingInvoice/SendingInvoice";
 
 const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login />
+  },
   {
     path: "/",
     element: (

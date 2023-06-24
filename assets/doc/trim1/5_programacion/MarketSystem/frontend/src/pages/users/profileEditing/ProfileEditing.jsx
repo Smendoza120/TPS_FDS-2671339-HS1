@@ -1,7 +1,7 @@
 //AiFillEye -> icono para cuando queramos mostrar la contraseña
 import { AiFillEdit, AiFillEyeInvisible } from "react-icons/ai";
-import { Title } from "../components/Title";
-import { Button } from "../components/Button";
+import { Title } from "../../../components/Title";
+import { Button } from "../../../components/Button";
 
 export function ProfileEditing() {
   return (

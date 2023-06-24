@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import addProfile from "../images/icono_usuarios.png";
-import editProfile from "../images/icono_listadousuarios.png";
+import addProfile from "../../../assets/images/icono_usuarios.png";
+import editProfile from "../../../assets/images/icono_listadousuarios.png";
 
 // eslint-disable-next-line react/prop-types
 export function InterfazUsers({ userCreation, userList }) {

@@ -1,6 +1,6 @@
-import { Title } from "../components/Title";
-import { Filter } from "../components/Filter";
-import { UserData } from "../components/UserData";
+import { Title } from "../../../components/Title";
+import { Filter } from "../../../components/Filter";
+import { UserData } from "../../../components/UserData";
 
 // eslint-disable-next-line react/prop-types
 export function UserList({ userEdit }) {

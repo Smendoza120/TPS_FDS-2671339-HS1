@@ -1,4 +1,4 @@
-import { Send } from "../components/Send";
+import { Send } from "../../../components/Send";
 
 export function SendInventoryReport(){
   return(

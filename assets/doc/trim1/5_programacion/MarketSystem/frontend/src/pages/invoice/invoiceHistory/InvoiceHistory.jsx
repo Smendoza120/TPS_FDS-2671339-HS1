@@ -1,6 +1,6 @@
-import { Button } from "../components/Button";
-import { InvoiceHistoryData } from "../components/InvoiceHistoryData";
-import { Title } from "../components/Title";
+import { Button } from "../../../components/Button";
+import { InvoiceHistoryData } from "../../../components/InvoiceHistoryData";
+import { Title } from "../../../components/Title";
 
 import { Link } from "react-router-dom";
 

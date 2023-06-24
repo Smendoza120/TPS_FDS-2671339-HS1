@@ -1,7 +1,7 @@
-import { Title } from "../components/Title";
-import { Filter } from "../components/Filter";
-import { Button } from "../components/Button";
-import { InventoryProducts } from "../components/InventoryProducts";
+import { Title } from "../../../components/Title";
+import { Filter } from "../../../components/Filter";
+import { Button } from "../../../components/Button";
+import { InventoryProducts } from "../../../components/InventoryProducts";
 
 import { Link } from "react-router-dom";
 

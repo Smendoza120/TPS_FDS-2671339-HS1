@@ -1,8 +1,8 @@
-import { Button } from "../components/Button";
-import { Filter } from "../components/Filter";
-import { InvoicesSales } from "../components/InvoicesSales";
-import { Title } from "../components/Title";
-import { Total } from "../components/Total";
+import { Button } from "../../../components/Button";
+import { Filter } from "../../../components/Filter";
+import { InvoicesSales } from "../../../components/InvoicesSales";
+import { Title } from "../../../components/Title";
+import { Total } from "../../../components/Total";
 
 import { Link } from "react-router-dom";
 

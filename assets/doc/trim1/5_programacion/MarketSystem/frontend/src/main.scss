@@ -1,20 +1,38 @@
+@import "./styles/mixins";
 @import "./styles/config";
-@import "./styles/sales_report";
-@import "./styles/invoice_generation";
-@import "./styles/invoice_display";
-@import "./styles/daily_sales";
-@import './styles//inventory_control';
-@import './styles/inventory_report';
-@import './styles/profile_editing';
-@import './styles/invoice_history';
-@import './styles/send';
-@import './styles//principal_interfaz';
-@import './styles/interfaz_users';
-@import './styles/user_creation';
-@import './styles/user_list';
-@import './styles//filter';
-@import './styles//title';
-@import './styles/total';
+
+//Login
+@import "../src/pages/login/login";
+
+//PrincipalInterfaz
+// @import "../src/pages/principalInterface/principal_interface";
+@import "../src/pages/home/principal_interfaz";
+
+//Users
+@import "../src/pages/users/userList/user_list";
+@import "../src/pages/users/userCreation/user_creation";
+@import "../src/pages/users/interfazUsers/interfaz_users";
+@import "../src/pages/users/profileEditing/profile_editing";
+
+//Inventory
+@import "../src/pages/inventory/inventoryControl/inventory_control";
+@import "../src/pages/inventory/inventoryReport/inventory_report";
+
+//Invoice
+@import "../src/pages/invoice/invoiceDisplay/invoice_display";
+@import "../src/pages/invoice/invoiceGeneration/invoice_generation";
+@import "../src//pages/invoice/invoiceHistory/invoice_history";
+
+
+//Daily Sales
+@import "../src/pages/daily-sales/dailySales/daily_sales";
+@import "../src/pages/daily-sales/salesReport/sales_report";
+
+//Components
+@import "./styles/send";
+@import "./styles/filter";
+@import "./styles/title";
+@import "./styles/total";
 
 body {
   margin: 0;
@@ -25,7 +43,7 @@ body {
 body {
   font-family: $fonts;
   font-size: $size;
-  background-image: url("./images/fondo.jpg");
+  background-image: url("./assets/images/fondo.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -46,7 +64,7 @@ body {
   @media (max-width: 500px) {
     font-family: $fonts;
     font-size: $size;
-    background-image: url("./images/fondo.jpg");
+    background-image: url("./assets/images/fondo.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;

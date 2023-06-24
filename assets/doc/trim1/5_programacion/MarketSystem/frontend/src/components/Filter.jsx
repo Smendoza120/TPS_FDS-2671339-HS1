@@ -1,4 +1,4 @@
-import search from "../images/Icono de buscar.png";
+import search from "../assets/images/Icono-de-buscar.png";
 import { Button } from "./Button";
 
 export function Filter() {

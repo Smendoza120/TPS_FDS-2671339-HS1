@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-import user from "../images/icono_usuarios.png";
-import inventory from "../images/icono_inventario.png";
-import invoice from "../images/icono_factura.png";
-import dailySales from "../images/icono_ventasdiarias.png";
-import close from "../images/icono_cerrar.png";
+import user from "../../assets/images/icono_usuarios.png";
+import inventory from "../../assets/images/icono_inventario.png";
+import invoice from "../../assets/images/icono_factura.png";
+import dailySales from "../../assets/images/icono_ventasdiarias.png";
+import close from "../../assets/images/icono_cerrar.png";
 
 // eslint-disable-next-line react/prop-types
 export function PrincipalInterfaz({pathUser, pathInventory, pathBill, pathDailySales, pathExit,}) {
