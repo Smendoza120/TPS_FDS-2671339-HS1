@@ -15,10 +15,8 @@ const dbOption = {
 const connection = mysql.createConnection(dbOption);
 
 connection.connect((err) => {
-  if (err){
-    console.log('Error de base de datos');
-    // throw err;
-  } 
+  if (err) throw err;
+  
   console.log("Conexion establecida");
 });
 

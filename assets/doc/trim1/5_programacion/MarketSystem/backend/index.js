@@ -4,6 +4,6 @@ const port = process.env.PORT;
 
 // const port = ;
 
-app.listen(port || 4200, () => {
+app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`)
 })

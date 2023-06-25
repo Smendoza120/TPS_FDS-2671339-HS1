@@ -1,9 +1,9 @@
-#drop database market_system_bbdd;
+drop database market_system_bbdd;
 CREATE SCHEMA  market_system_bbdd DEFAULT CHARACTER SET utf8 ;
 USE market_system_bbdd ;
 
 CREATE TABLE  users (
-  idusers INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  id_users INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   INDEX names_users_idx (names ASC),
   INDEX mail_users2_idx (mail ASC),
   INDEX phone_users_idx (phone ASC),
@@ -15,69 +15,69 @@ ENGINE = InnoDB;
 
 
 CREATE TABLE  owner (
-  idowner INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_owner INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   password VARCHAR(50) NOT NULL,
-  idusers INT NOT NULL,
-  INDEX fk_owner_users1_idx (idusers ASC),
+  id_users INT NOT NULL,
+  INDEX fk_owner_users1_idx (id_users ASC),
   CONSTRAINT fk_owner_users1
-    FOREIGN KEY (idusers)
-    REFERENCES users (idusers)
+    FOREIGN KEY (id_users)
+    REFERENCES users (id_users)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE TABLE  employee (
-  idemployee INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_employee INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   position VARCHAR(50) NOT NULL
   )
 ENGINE = InnoDB;
 
 CREATE TABLE  permissions (
-  idpermissions INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_permissions INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   permission_sales TINYINT NULL,
   permissions_users TINYINT NULL,
   permission_inventories TINYINT NULL,
   permission_bill TINYINT NULL,
-  idowner INT NOT NULL,
-  idemployee INT NOT NULL,
-  INDEX fk_employee_owner1_idx (idowner ASC),
+  id_owner INT NOT NULL,
+  id_employee INT NOT NULL,
+  INDEX fk_employee_owner1_idx (id_owner ASC),
   CONSTRAINT fk_employee_owner1
-    FOREIGN KEY (idowner)
-    REFERENCES owner (idowner)
+    FOREIGN KEY (id_owner)
+    REFERENCES owner (id_owner)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  INDEX fk_owner_employee_idx (idemployee ASC),
+  INDEX fk_owner_employee_idx (id_employee ASC),
   CONSTRAINT fk_owner_employee
-    FOREIGN KEY (idemployee)
-    REFERENCES employee (idemployee)
+    FOREIGN KEY (id_employee)
+    REFERENCES employee (id_employee)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 CREATE TABLE  customer (
-  idcustomer INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  idusers INT NOT NULL,
-  INDEX fk_customer_users1_idx (idusers ASC),
+  id_customer INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_users INT NOT NULL,
+  INDEX fk_customer_users1_idx (id_users ASC),
   CONSTRAINT fk_customer_users1
-    FOREIGN KEY (idusers)
-    REFERENCES users (idusers)
+    FOREIGN KEY (id_users)
+    REFERENCES users (id_users)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE TABLE  bill (
-  idbill INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_bill INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   creation_date DATE NOT NULL)
 ENGINE = InnoDB;
 
 CREATE TABLE  daily_report (
-  iddaily_report INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_daily_report INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   report_date DATE NOT NULL)
 ENGINE = InnoDB;
 
 CREATE TABLE  inventory (
-  idinventory INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_inventory INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   storage VARCHAR(45) NOT NULL,
   date_purchase DATE NOT NULL,
   unit_price FLOAT NOT NULL,
@@ -87,36 +87,36 @@ CREATE TABLE  inventory (
 ENGINE = InnoDB;
 
 CREATE TABLE  sales (
-  idsales INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_sales INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   quantity_sold INT NOT NULL,
   names_customer VARCHAR(100) NULL,
   product_sold VARCHAR(100) NOT NULL,
-  idcustomer INT NOT NULL,
-  idbill INT NOT NULL,
-  iddaily_report INT NOT NULL,
-  idinventory INT NOT NULL,
-  INDEX fk_sales_customer1_idx (idcustomer ASC),
-  INDEX fk_sales_bill1_idx (idbill ASC),
-  INDEX fk_sales_daily_report1_idx (iddaily_report ASC),
-  INDEX fk_sales_inventory1_idx (idinventory ASC),
+  id_customer INT NOT NULL,
+  id_bill INT NOT NULL,
+  id_daily_report INT NOT NULL,
+  id_inventory INT NOT NULL,
+  INDEX fk_sales_customer1_idx (id_customer ASC),
+  INDEX fk_sales_bill1_idx (id_bill ASC),
+  INDEX fk_sales_daily_report1_idx (id_daily_report ASC),
+  INDEX fk_sales_inventory1_idx (id_inventory ASC),
   CONSTRAINT fk_sales_customer1
-    FOREIGN KEY (idcustomer)
-    REFERENCES customer (idcustomer)
+    FOREIGN KEY (id_customer)
+    REFERENCES customer (id_customer)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_sales_bill1
-    FOREIGN KEY (idbill)
-    REFERENCES bill (idbill)
+    FOREIGN KEY (id_bill)
+    REFERENCES bill (id_bill)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_sales_daily_report1
-    FOREIGN KEY (iddaily_report)
-    REFERENCES daily_report (iddaily_report)
+    FOREIGN KEY (id_daily_report)
+    REFERENCES daily_report (id_daily_report)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_sales_inventory1
-    FOREIGN KEY (idinventory)
-    REFERENCES inventory (idinventory)
+    FOREIGN KEY (id_inventory)
+    REFERENCES inventory (id_inventory)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -131,7 +131,7 @@ ENGINE = InnoDB;
 -- ("Luisa ","luis@esto.com",3223141717);
 -- SELECT * FROM users;
 
--- INSERT INTO owner (passwords,idusers)
+-- INSERT INTO owner (passwords,id_users)
 -- VALUES (123456,5),
 -- (789123,4),
 -- (456789,3),
@@ -140,11 +140,11 @@ ENGINE = InnoDB;
 -- SELECT * FROM owner;
 
 -- #consulta realizada por metodo left join primero se pone la tabla de donde vamos a traer los datos
--- #SELECT users.names, users.mail, users.phone, owner.passwords from users left join owner on users.idusers = owner.idusers;
--- SELECT users.names, users.mail, users.phone, owner.passwords from users inner join owner on users.idusers = owner.idusers;
+-- #SELECT users.names, users.mail, users.phone, owner.passwords from users left join owner on users.id_users = owner.id_users;
+-- SELECT users.names, users.mail, users.phone, owner.passwords from users inner join owner on users.id_users = owner.id_users;
 
 
--- INSERT INTO customer (idusers)
+-- INSERT INTO customer (id_users)
 -- VALUES (1),
 -- (2);
 -- SELECT * FROM customer;
@@ -168,8 +168,8 @@ ENGINE = InnoDB;
 --   ("2023-09-01"),
 --   ("2023-10-01");
 -- # ESTO ES PARA BUSCAR:  SELECT * FROM daily_report WHERE report_date = "2023-06-01";
--- #ESTO ES PARA ACTUALIZAR UPDATE daily_report SET report_date = "2075-05-29" WHERE iddaily_report = 5;
--- #ESTO ES PARA BORRAR DELETE from daily_report WHERE iddaily_report = 1;
+-- #ESTO ES PARA ACTUALIZAR UPDATE daily_report SET report_date = "2075-05-29" WHERE id_daily_report = 5;
+-- #ESTO ES PARA BORRAR DELETE from daily_report WHERE id_daily_report = 1;
 -- #select * from daily_report;
 
 
@@ -181,7 +181,7 @@ ENGINE = InnoDB;
 -- ("almacen","2023-05-29",7.00,"2030-05-29","bom bom bum",25);
 -- #select * from inventory;
 
--- INSERT INTO sales (quantity_sold,names_customer,product_sold,idcustomer,idbill,iddaily_report,idinventory)
+-- INSERT INTO sales (quantity_sold,names_customer,product_sold,id_customer,id_bill,id_daily_report,id_inventory)
 -- VALUES (15,"Oscar Aguirre","Arroz",2,2,2,2),
 -- (1,"Oscar Aguirre","Aceite",3,3,3,3);
 -- select * from sales;
