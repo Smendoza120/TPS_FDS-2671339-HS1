@@ -4,12 +4,12 @@ USE market_system_bbdd ;
 
 CREATE TABLE  users (
   id_users INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  INDEX names_users_idx (names ASC),
-  INDEX mail_users2_idx (mail ASC),
-  INDEX phone_users_idx (phone ASC),
   names VARCHAR(100) NOT NULL,
   mail VARCHAR(100) NOT NULL,
-  phone VARCHAR (20) NOT NULL
+  phone VARCHAR (20) NOT NULL,
+  INDEX names_users_idx (names ASC),
+  INDEX mail_users2_idx (mail ASC),
+  INDEX phone_users_idx (phone ASC)
 )
 ENGINE = InnoDB;
 
@@ -34,10 +34,10 @@ ENGINE = InnoDB;
 
 CREATE TABLE  permissions (
   id_permissions INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  permission_sales TINYINT NULL,
-  permissions_users TINYINT NULL,
-  permission_inventories TINYINT NULL,
-  permission_bill TINYINT NULL,
+  permission_sales TINYINT NOT NULL,
+  permission_users TINYINT NOT NULL,
+  permission_inventories TINYINT NOT NULL,
+  permission_bill TINYINT NOT NULL,
   id_owner INT NOT NULL,
   id_employee INT NOT NULL,
   INDEX fk_employee_owner1_idx (id_owner ASC),
