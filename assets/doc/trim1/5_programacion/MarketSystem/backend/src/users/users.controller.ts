@@ -27,7 +27,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  readUser(@Param('id', ParseIntPipe) id: number): Promise<Users> {
+  readUser(@Body() @Param('id', ParseIntPipe) id: number): Promise<Users> {
     return this.usersService.getUser(id);
   }
 

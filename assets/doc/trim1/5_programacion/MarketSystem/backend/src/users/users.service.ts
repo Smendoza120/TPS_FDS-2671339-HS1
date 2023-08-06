@@ -18,11 +18,11 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  getUser(id: number | any) {
-    return this.userRepository.findOne({ where: id });
+  getUser(id: number) {
+    return this.userRepository.findOne({ where: { id_users: id } });
   }
 
-  deleteUser(id: string | any) {
-    return this.userRepository.delete(id);
+  deleteUser(id: number) {
+    return this.userRepository.delete({ id_users: id});
   }
 }
