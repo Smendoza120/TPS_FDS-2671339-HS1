@@ -1,9 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+} from 'typeorm';
+import { Owner } from 'src/owner/owner.entity';
 
 @Entity({ name: 'user' })
 export class Users {
   @PrimaryGeneratedColumn()
-  id_users: number;
+  id_user: number;
 
   @Column({
     length: 255,
@@ -22,4 +28,9 @@ export class Users {
     type: 'varchar',
   })
   phone: string;
+
+  @OneToOne(() => Owner, { cascade: true })
+  // @JoinColumn()
+  owner: Owner;
+  // userFound: Owner;
 }

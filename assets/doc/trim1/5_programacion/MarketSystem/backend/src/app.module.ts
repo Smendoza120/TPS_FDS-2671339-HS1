@@ -8,6 +8,10 @@ import { UsersController } from './users/users.controller';
 import { Users } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+import { OwnerModule } from './owner/owner.module';
+import { OwnerService } from './owner/owner.service';
+import { Owner } from './owner/owner.entity';
+import { OwnerController } from './owner/owner.controller';
 
 @Module({
   imports: [
@@ -18,12 +22,14 @@ import { UsersService } from './users/users.service';
       username: 'root',
       password: '',
       database: 'market_system',
-      entities: [Users],
+      entities: [Users, Owner],
       synchronize: true,
+      autoLoadEntities: true
     }),
     UsersModule,
+    OwnerModule,
   ],
-  controllers: [AppController, CatsController, UsersController],
-  providers: [AppService, CatsService, UsersService],
+  controllers: [AppController, CatsController, UsersController, OwnerController],
+  providers: [AppService, CatsService, UsersService, OwnerService],
 })
 export class AppModule {}
