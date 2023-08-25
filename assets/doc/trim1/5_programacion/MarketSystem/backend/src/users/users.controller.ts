@@ -13,13 +13,13 @@ import {
 } from '@nestjs/common';
 import { Users } from './users.entity';
 
-@Controller('user')
+@Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
   createUser(@Body() createUser: CreateUser) {
-    this.usersService.createUser(createUser);
+    return this.usersService.createUser(createUser);
   }
 
   @Get()

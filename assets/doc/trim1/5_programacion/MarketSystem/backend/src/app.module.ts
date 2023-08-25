@@ -24,12 +24,17 @@ import { OwnerController } from './owner/owner.controller';
       database: 'market_system',
       entities: [Users, Owner],
       synchronize: true,
-      autoLoadEntities: true
+      autoLoadEntities: true,
     }),
     UsersModule,
     OwnerModule,
   ],
-  controllers: [AppController, CatsController, UsersController, OwnerController],
+  controllers: [
+    AppController,
+    CatsController,
+    UsersController,
+    OwnerController,
+  ],
   providers: [AppService, CatsService, UsersService, OwnerService],
 })
 export class AppModule {}

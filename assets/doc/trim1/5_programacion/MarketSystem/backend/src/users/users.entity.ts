@@ -1,36 +1,23 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-} from 'typeorm';
-import { Owner } from 'src/owner/owner.entity';
+/* eslint-disable prettier/prettier */
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { Owner } from "src/owner/owner.entity";
 
-@Entity({ name: 'user' })
+@Entity({ name: "users" })
 export class Users {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("increment")
   id_user: number;
 
-  @Column({
-    length: 255,
-    type: 'varchar',
-  })
+  @Column()
   names: string;
 
-  @Column({
-    length: 255,
-    type: 'varchar',
-  })
+  @Column()
   mail: string;
 
-  @Column({
-    length: 15,
-    type: 'varchar',
-  })
+  @Column()
   phone: string;
 
-  @OneToOne(() => Owner, { cascade: true })
   // @JoinColumn()
+  @OneToOne(() => Users)
   owner: Owner;
   // userFound: Owner;
 }
