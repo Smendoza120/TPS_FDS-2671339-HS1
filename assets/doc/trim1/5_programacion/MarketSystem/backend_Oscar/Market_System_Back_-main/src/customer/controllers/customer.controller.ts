@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CustomerService } from '../services/customer.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
@@ -38,8 +39,9 @@ export class CustomerController {
     return this.customerService.update(+id, updateCustomerDto);
   }
 
+  //Creo que los Id son number chinche 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customerService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.customerService.remove(id);
   }
 }

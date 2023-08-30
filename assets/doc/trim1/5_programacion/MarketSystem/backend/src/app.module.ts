@@ -12,6 +12,9 @@ import { OwnerModule } from './owner/owner.module';
 import { OwnerService } from './owner/owner.service';
 import { Owner } from './owner/owner.entity';
 import { OwnerController } from './owner/owner.controller';
+import { CustomerController } from './customer/customer.controller';
+import { CustomerService } from './customer/customer.service';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -28,13 +31,15 @@ import { OwnerController } from './owner/owner.controller';
     }),
     UsersModule,
     OwnerModule,
+    CustomerModule,
   ],
   controllers: [
     AppController,
     CatsController,
     UsersController,
     OwnerController,
+    CustomerController,
   ],
-  providers: [AppService, CatsService, UsersService, OwnerService],
+  providers: [AppService, CatsService, UsersService, OwnerService, CustomerService],
 })
 export class AppModule {}

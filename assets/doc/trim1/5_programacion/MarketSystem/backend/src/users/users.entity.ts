@@ -1,6 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  OneToMany,
+} from "typeorm";
 import { Owner } from "src/owner/owner.entity";
+import { Customer } from "src/customer/customer.entity";
+// import {} from 'src/'
 
 @Entity({ name: "users" })
 export class Users {
@@ -16,8 +24,9 @@ export class Users {
   @Column()
   phone: string;
 
-  // @JoinColumn()
   @OneToOne(() => Users)
   owner: Owner;
-  // userFound: Owner;
+
+  @OneToMany(() => Customer, (customer) => customer.id_customer)
+  customer: Customer;
 }
