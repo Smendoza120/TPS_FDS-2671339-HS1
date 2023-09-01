@@ -1,45 +1,63 @@
+import * as joi from 'joi';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { HttpModule, HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatsController } from './cats/cats.controller';
-import { CatsService } from './cats/cats.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersController } from './users/users.controller';
-import { Users } from './users/users.entity';
 import { UsersModule } from './users/users.module';
-import { UsersService } from './users/users.service';
+import { SalesModule } from './sales/sales.module';
+import { InventoriesModule } from './inventories/inventories.module';
+import { BillsModule } from './bills/bills.module';
+import { DatabaseModule } from './database/database.module';
+
+import { enviroments } from './enviroments';
 import { OwnerModule } from './owner/owner.module';
-import { OwnerService } from './owner/owner.service';
-import { Owner } from './owner/owner.entity';
-import { OwnerController } from './owner/owner.controller';
-import { CustomerController } from './customer/customer.controller';
-import { CustomerService } from './customer/customer.service';
+import { PermissionsModule } from './permissions/permissions.module';
+import { EmployeeModule } from './employee/employee.module';
 import { CustomerModule } from './customer/customer.module';
+import { AuthModule } from './auth/auth.module';
+import config from './config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'market_system',
-      entities: [Users, Owner],
-      synchronize: true,
-      autoLoadEntities: true,
+    ConfigModule.forRoot({
+      envFilePath: enviroments[process.env.NODE_ENV] || '.env',
+      load: [config],
+      isGlobal: true,
+      validationSchema: joi.object({
+        API_KEY: joi.string().required(),
+        DATABASE_NAME: joi.string().required(),
+        DATABASE_PORT: joi.number().required(),
+      }),
     }),
     UsersModule,
+    SalesModule,
+    InventoriesModule,
+    BillsModule,
+    HttpModule,
+    DatabaseModule,
     OwnerModule,
+    PermissionsModule,
+    EmployeeModule,
     CustomerModule,
+    AuthModule,
   ],
-  controllers: [
-    AppController,
-    CatsController,
-    UsersController,
-    OwnerController,
-    CustomerController,
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: 'TASKS',
+      useFactory: async (http: HttpService) => {
+        const request = http.get(
+          'https://jsonplaceholder.typicode.com/posts/1',
+        );
+        const tasks = await lastValueFrom(request);
+        return tasks.data;
+      },
+      inject: [HttpService],
+    },
   ],
-  providers: [AppService, CatsService, UsersService, OwnerService, CustomerService],
 })
 export class AppModule {}
