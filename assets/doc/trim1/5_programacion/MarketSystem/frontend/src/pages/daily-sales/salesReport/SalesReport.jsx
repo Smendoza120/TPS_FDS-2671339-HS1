@@ -5,11 +5,13 @@ import { Title } from "../../../components/Title";
 import { Total } from "../../../components/Total";
 
 import { Link } from "react-router-dom";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function SalesReport({ generateReport }) {
+export function SalesReport({ generateReport, back }) {
   return (
     <section className="sales">
+      <BackButton back={back} />
       <Title>Reporte Ventas </Title>
 
       <div className="sales__filter-container">

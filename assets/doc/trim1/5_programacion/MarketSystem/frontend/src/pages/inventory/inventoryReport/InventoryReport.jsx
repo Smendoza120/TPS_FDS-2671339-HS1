@@ -3,11 +3,14 @@ import { Button } from "../../../components/Button";
 import { InventoryData } from "../../../components/InventoryData";
 
 import { Link } from "react-router-dom";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function InventoryReport({ path }) {
+export function InventoryReport({ path, back }) {
   return (
     <section className="inventory-report">
+      <BackButton back={back} />
+
       <Title>Reporte de inventario</Title>
       <div className="inventory-report__button">
         <Link to={path}>

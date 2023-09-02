@@ -38,6 +38,10 @@
       padding: 10px;
     }
     &-check {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 5px;
       &-container {
         width: 94%;
         display: grid;
@@ -47,7 +51,7 @@
         grid-row-gap: 5px;
       }
       &-label{
-        font-size: .51rem;
+        font-size: .6rem;
       }
     }
     &-check:nth-child(1){

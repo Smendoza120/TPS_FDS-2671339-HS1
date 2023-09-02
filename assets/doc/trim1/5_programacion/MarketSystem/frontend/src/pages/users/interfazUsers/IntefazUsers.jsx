@@ -2,12 +2,15 @@ import { Link } from "react-router-dom";
 
 import addProfile from "../../../assets/images/icono_usuarios.png";
 import editProfile from "../../../assets/images/icono_listadousuarios.png";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function InterfazUsers({ userCreation, userList }) {
+export function InterfazUsers({ userCreation, userList, back }) {
   return (
     <section className="users__container">
-      <div className="users__content">
+      <BackButton back={back}/>
+
+      <div className="users__content" >
         <Link className="users__links" to={userCreation}>
           <h3 className="users__title">Creacion de usuarios</h3>
           <div className="users__icons">

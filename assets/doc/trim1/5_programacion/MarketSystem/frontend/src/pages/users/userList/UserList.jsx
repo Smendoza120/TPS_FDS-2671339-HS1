@@ -1,11 +1,13 @@
 import { Title } from "../../../components/Title";
 import { Filter } from "../../../components/Filter";
 import { UserData } from "../../../components/UserData";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function UserList({ userEdit }) {
+export function UserList({ userEdit, back }) {
   return (
     <section className="userlist__container">
+      <BackButton back={back} />
       <Title>Listado de usuarios</Title>
 
       <div className="userlist__filter">

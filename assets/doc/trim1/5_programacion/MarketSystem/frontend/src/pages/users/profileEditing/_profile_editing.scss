@@ -43,21 +43,11 @@
       position: relative;
     }
     &-icon {
-      position: absolute;
-      right: 4px;
-      bottom: 5px;
-      color: $dark_blue;
-      font-size: 1.4rem;
-      transition: 0.3s linear;
-      &:hover {
-        transform: scale(1.1);
-        cursor: pointer;
-      }
       &-pass {
         font-size: 1.4rem;
         color: $dark_blue;
         position: absolute;
-        right: 33px;
+        right: 4px;
         bottom: 5px;
         transition: 0.3s linear;
         &:hover {

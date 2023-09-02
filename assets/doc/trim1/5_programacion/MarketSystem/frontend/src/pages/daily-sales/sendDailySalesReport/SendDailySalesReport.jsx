@@ -1,7 +1,11 @@
 import { Send } from "../../../components/Send";
+import { BackButton } from "../../../components/BackButton";
 
-export function SendDailySalesReport(){
-  return(
-    <Send title={'Enviar reporte de ventas diarias'}/>
-  )
+export function SendDailySalesReport({ back }) {
+  return (
+    <>
+      <BackButton back={back} />
+      <Send title={"Enviar reporte de ventas diarias"} />
+    </>
+  );
 }

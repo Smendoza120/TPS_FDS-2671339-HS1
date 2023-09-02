@@ -2,13 +2,16 @@ import { Title } from "../../../components/Title";
 import { Filter } from "../../../components/Filter";
 import { Button } from "../../../components/Button";
 import { InventoryProducts } from "../../../components/InventoryProducts";
+import { BackButton } from "../../../components/BackButton";
 
 import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-export function InventoryControl({ path }) {
+export function InventoryControl({ path, back }) {
   return (
     <section className="inventory">
+      <BackButton back={back} />
+
       <Title>Control de inventario</Title>
 
       <div className="inventory__filter">

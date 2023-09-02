@@ -6,11 +6,14 @@ import { InvoicesProducts } from "../../../components/InvoicesProducts";
 import { Filter } from "../../../components/Filter";
 
 import { Link } from "react-router-dom";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function InvoiceGeneration({ history, display }) {
+export function InvoiceGeneration({ history, display, back }) {
   return (
     <section className="invoices">
+      <BackButton back={back} />
+
       <Title>Generación de facturas</Title>
 
       <div className="invoices__container">

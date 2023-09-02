@@ -3,11 +3,13 @@ import { InvoiceHistoryData } from "../../../components/InvoiceHistoryData";
 import { Title } from "../../../components/Title";
 
 import { Link } from "react-router-dom";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function InvoiceHistory({ send }) {
+export function InvoiceHistory({ send, back }) {
   return (
     <section className="invoice-history">
+      <BackButton back={back} />
       <Title>Historico de Facturas</Title>
       <div>
         <Link to={send}>

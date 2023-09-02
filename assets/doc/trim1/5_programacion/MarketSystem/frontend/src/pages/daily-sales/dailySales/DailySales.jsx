@@ -5,11 +5,13 @@ import { Total } from "../../../components/Total";
 import { FcRules } from "react-icons/fc";
 
 import { Link } from "react-router-dom";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function DailySales({ reportSales }) {
+export function DailySales({ reportSales, back }) {
   return (
     <section className="daily">
+      <BackButton back={back} />
       <Title>Ventas Diarias</Title>
       <p className="daily__info">Debe llenar los campos requeridos (*)</p>
 

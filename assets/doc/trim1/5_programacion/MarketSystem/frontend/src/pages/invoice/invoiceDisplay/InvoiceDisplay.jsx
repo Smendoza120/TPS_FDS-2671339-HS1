@@ -4,11 +4,15 @@ import { InvoiceData } from "../../../components/InvoiceData";
 import { Total } from "../../../components/Total";
 
 import { Link } from "react-router-dom";
+import { BackButton } from "../../../components/BackButton";
 
 // eslint-disable-next-line react/prop-types
-export function InvoiceDisplay({ sendInvoice }) {
+export function InvoiceDisplay({ sendInvoice, back }) {
   return (
     <section className="invoice">
+
+      <BackButton back={back} />
+
       <Title>Visualización de factura</Title>
       <div>
         <Link to={sendInvoice}>

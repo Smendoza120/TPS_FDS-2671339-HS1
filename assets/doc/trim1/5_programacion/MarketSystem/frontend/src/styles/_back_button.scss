@@ -1,0 +1,25 @@
+.button {
+  &__container {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    border: 2px solid $black;
+    padding: 20px;
+    border-radius: 15px;
+    background: $background;
+    transition: 0.3s linear;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+  &__icon {
+    color: $white;
+    font-size: 3rem;
+  }
+  @media (max-width: 390px) {
+    &__container{
+      display: none;
+    }
+  }
+}

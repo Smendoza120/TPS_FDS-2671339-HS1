@@ -7,7 +7,13 @@ import dailySales from "../../assets/images/icono_ventasdiarias.png";
 import close from "../../assets/images/icono_cerrar.png";
 
 // eslint-disable-next-line react/prop-types
-export function PrincipalInterfaz({pathUser, pathInventory, pathBill, pathDailySales, pathExit,}) {
+export function PrincipalInterfaz({
+  pathUser,
+  pathInventory,
+  pathBill,
+  pathDailySales,
+  pathExit,
+}) {
   return (
     <section className="interfaz">
       <div className="interfaz__container">
