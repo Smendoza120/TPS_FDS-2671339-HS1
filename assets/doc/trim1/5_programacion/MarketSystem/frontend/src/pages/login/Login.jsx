@@ -1,8 +1,15 @@
-import profileImg from "../../assets/images/icono_sesion.jpg";
+/**
+ * PASO A PASO PARA REGISTRAR EL LOGIN
+ * 1. Verificar que desde el backend exista un endpoint que devuelva un mensaje de acuerdo al usuario que se registra
+ * 2. Desde acá en el front, validar ese mensaje y hacer una validación en el Router del App para las rutas sin token (protección)
+ * 3. La lógica para la validación del login se escribe en onSubmit() por medio de Fetch o Axios
+ */
+
+import profileImg from '../../assets/images/icono_sesion.jpg';
 // import { useHistory } from "react-router-dom";
 
 //Validacion formulario
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 // eslint-disable-next-line react/prop-types
 export function Login() {
@@ -15,7 +22,7 @@ export function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
     // history.push('/')
   };
 
@@ -45,15 +52,15 @@ export function Login() {
                 name="mail"
                 id="mail"
                 placeholder="example@correo.com"
-                {...register("mail", {
+                {...register('mail', {
                   required: true,
                   pattern: /\S+@\S+\.\S+/,
                 })}
               />
-              {errors.mail?.type === "required" && (
+              {errors.mail?.type === 'required' && (
                 <p>Este campo es obligatorio</p>
               )}
-              {errors.mail?.type === "pattern" && (
+              {errors.mail?.type === 'pattern' && (
                 <p>Formato correo es incorrecto</p>
               )}
             </div>
@@ -68,9 +75,9 @@ export function Login() {
                 name="pass"
                 id="pass"
                 placeholder="********"
-                {...register("pass", { required: true, minLength: 8})}
+                {...register('pass', { required: true, minLength: 8 })}
               />
-              {errors.pass?.type === "required" && (
+              {errors.pass?.type === 'required' && (
                 <p>Este campo es obligatorio</p>
               )}
               {errors.pass?.type === 'minLength' && (

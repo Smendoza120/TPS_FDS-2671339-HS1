@@ -1,3 +1,12 @@
+/**
+ * PASO A PASO PARA CONECTAR TU FRONT CON EL BACKEND
+ * 1. Utilizar el hook useEffect() para la carga de datos al momento de renderizar el componente
+ * 2. Para la obtención de datos, hazlo con fetch o axios para consumir un endpoint que debe estar previamente configurado en el backend
+ * 3. Para el manejo de caché y rendimiento, utilizar React Query que simplica el consumo de una API
+ * 4. Utilizar useState para almacenar y precargar esos datos
+ * 5. Para mostrarlos debes de recorrer los datos con map o forEach según sea el caso. Algunas librerías solo necesitarán el objeto completo. 
+ */
+
 import { Button } from "../../../components/Button";
 import { Filter } from "../../../components/Filter";
 import { InvoicesSales } from "../../../components/InvoicesSales";
