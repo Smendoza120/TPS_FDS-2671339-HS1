@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PermissionsService } from '../services/permissions.service';
 import { CreatePermissionDto } from '../dto/create-permission.dto';
@@ -18,36 +19,31 @@ import { AuthGuard } from '@nestjs/passport';
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
-  @Post()
-  createEmployee(@Body() createPermissionDto: CreatePermissionDto) {
-    return this.permissionsService.create(createPermissionDto);
-  }
-
-  @Post()
-  create(@Body() createPermissionDto: CreatePermissionDto) {
-    return this.permissionsService.create(createPermissionDto);
-  }
-
   @Get()
-  findAll() {
-    return this.permissionsService.findAll();
+  async getAllPermissions() {
+    return this.permissionsService.getAllPermissions();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.permissionsService.findOne(+id);
+  async getPermission(@Param('id', ParseIntPipe) id: number) {
+    return this.permissionsService.getPermission(id);
+  }
+
+  @Post()
+  async createPermission(@Body() createPermission: CreatePermissionDto) {
+    return this.permissionsService.createPermission(createPermission);
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePermissionDto: UpdatePermissionDto,
+  async updatePermission(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePermission: UpdatePermissionDto,
   ) {
-    return this.permissionsService.update(+id, updatePermissionDto);
+    return this.permissionsService.updatePermission(id, updatePermission);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.permissionsService.remove(+id);
+  async deletePermission(@Param('id', ParseIntPipe) id: number) {
+    return this.permissionsService.deletePermission(id);
   }
 }

@@ -1,45 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOwnerDto } from '../dto/create-owner.dto';
 import { UpdateOwnerDto } from '../dto/update-owner.dto';
 import { Owner } from '../entities/owner.entity';
-import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class OwnerService {
   constructor(
-    @InjectRepository(Owner) private ownerRepository: Repository<Owner>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Owner)
+    private readonly ownerRepository: Repository<Owner>,
   ) {}
 
-  async create(data: CreateOwnerDto) {
-    const newOwner = this.ownerRepository.create(data);
-    const hashPassword = await bcrypt.hash(newOwner.password, 10);
-    newOwner.password = hashPassword;
-    if (data.id_users) {
-      const user = await this.userRepository.findOne({
-        where: { id_users: data.id_users },
-      });
-      newOwner.user = user;
+  async getOwner(id: number): Promise<Owner> {
+    const owner = await this.ownerRepository.findOne({
+      where: { id_owner: id },
+    });
+    if (!owner) {
+      throw new NotFoundException('Propietario no encontrado');
     }
-    return this.ownerRepository.save(newOwner);
+    return owner;
   }
 
-  findAll() {
-    return `This action returns all owner`;
+  async getAllOwners() {
+    const owner = await this.ownerRepository.find();
+    if (!owner) {
+      throw new NotFoundException('Propietario no encontrado');
+    }
+    return owner;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} owner`;
+  async createOwner(createOwner: CreateOwnerDto): Promise<Owner> {
+    const owner = this.ownerRepository.create(createOwner);
+    return this.ownerRepository.save(owner);
   }
 
-  update(id: number, updateOwnerDto: UpdateOwnerDto) {
-    return `This action updates a #${id} owner` + updateOwnerDto;
+  async updateOwner(id: number, updateOwner: UpdateOwnerDto): Promise<Owner> {
+    const owner = await this.getOwner(id);
+    this.ownerRepository.merge(owner, updateOwner);
+    return this.ownerRepository.save(owner);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} owner`;
+  async deleteOwner(id: number): Promise<void> {
+    const owner = await this.getOwner(id);
+    await this.ownerRepository.remove(owner);
   }
 }

@@ -20,32 +20,32 @@ import { AuthGuard } from '@nestjs/passport';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get(':id')
+  async getUser(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getUser(id);
+  }
+
   @Post()
-  create(@Body() data: CreateUserDto) {
-    return this.usersService.create(data);
+  async createUser(@Body() createUser: CreateUserDto) {
+    return this.usersService.createUser(createUser);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  async getAllUsers() {
+    return this.usersService.getAllUsers();
   }
 
   @Patch(':id')
-  update(
+  async updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
   ) {
-    return this.usersService.update(id, payload);
+    return this.usersService.updateUser(id, payload);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.deleteUser(id);
   }
 
   @Get('mail/:mail')

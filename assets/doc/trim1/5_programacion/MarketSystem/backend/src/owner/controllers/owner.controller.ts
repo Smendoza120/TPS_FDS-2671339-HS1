@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { OwnerService } from '../services/owner.service';
 import { CreateOwnerDto } from '../dto/create-owner.dto';
@@ -18,28 +19,31 @@ import { AuthGuard } from '@nestjs/passport';
 export class OwnerController {
   constructor(private readonly ownerService: OwnerService) {}
 
-  @Post()
-  create(@Body() createOwnerDto: CreateOwnerDto) {
-    return this.ownerService.create(createOwnerDto);
+  @Get(':id')
+  async getOwner(@Param('id', ParseIntPipe) id: number) {
+    return this.ownerService.getOwner(id);
   }
 
   @Get()
-  findAll() {
-    return this.ownerService.findAll();
+  async findAll() {
+    return this.ownerService.getAllOwners();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ownerService.findOne(+id);
+  @Post()
+  async createOwner(@Body() createOwner: CreateOwnerDto) {
+    return this.ownerService.createOwner(createOwner);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOwnerDto: UpdateOwnerDto) {
-    return this.ownerService.update(+id, updateOwnerDto);
+  async updateOwner(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateOwner: UpdateOwnerDto,
+  ) {
+    return this.ownerService.updateOwner(id, updateOwner);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ownerService.remove(+id);
+  async deleteOwner(@Param('id', ParseIntPipe) id: number) {
+    return this.ownerService.deleteOwner(id);
   }
 }

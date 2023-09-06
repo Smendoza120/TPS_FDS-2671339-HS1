@@ -3,8 +3,8 @@ import {
   Column,
   Entity,
   OneToOne,
-  JoinColumn,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Permissions } from 'src/permissions/entities/permission.entity';
@@ -21,7 +21,7 @@ export class Owner {
   password: string;
 
   @OneToOne(() => User, (user) => user.owner)
-  @JoinColumn()
+  @JoinColumn({ name: 'id_users' })
   user: User;
 
   @OneToMany(() => Permissions, (permissions) => permissions.owner)

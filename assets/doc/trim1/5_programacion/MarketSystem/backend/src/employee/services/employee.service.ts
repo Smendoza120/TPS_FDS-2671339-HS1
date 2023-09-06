@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';
+import { Employee } from '../entities/employee.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
+  constructor(
+    @InjectRepository(Employee)
+    private readonly employeeRepository: Repository<Employee>,
+  ) {}
+
+  async getEmployee(id: number): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne({
+      where: {
+        id_employee: id,
+      },
+    });
+    if (!employee) {
+      throw new NotFoundException('Empleado no encontrado');
+    }
+    return employee;
   }
 
-  findAll() {
-    return `This action returns all employee`;
+  async getAllEmployees(): Promise<Employee[]> {
+    const employee = await this.employeeRepository.find();
+    if (!employee) {
+      throw new NotFoundException('Empleados no encontrados');
+    }
+    return employee;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
+  async createEmployee(createEmployee: CreateEmployeeDto): Promise<Employee> {
+    const employee = this.employeeRepository.create(createEmployee);
+    return this.employeeRepository.save(employee);
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+  async updateEmployee(
+    id: number,
+    updateEmployee: UpdateEmployeeDto,
+  ): Promise<Employee> {
+    const employee = await this.getEmployee(id);
+    this.employeeRepository.merge(employee, updateEmployee);
+    return this.employeeRepository.save(employee);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async deleteEmployee(id: number) {
+    const employee = await this.getEmployee(id);
+    await this.employeeRepository.remove(employee);
   }
 }

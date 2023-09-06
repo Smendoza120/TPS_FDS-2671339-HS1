@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { EmployeeService } from '../services/employee.service';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
@@ -18,31 +19,31 @@ import { AuthGuard } from '@nestjs/passport';
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Post()
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeeService.create(createEmployeeDto);
-  }
-
   @Get()
-  findAll() {
-    return this.employeeService.findAll();
+  async getAllEmployees() {
+    return this.employeeService.getAllEmployees();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.employeeService.findOne(+id);
+  async getEmployee(@Param('id', ParseIntPipe) id: number) {
+    return this.employeeService.getEmployee(id);
+  }
+
+  @Post()
+  async createEmployee(@Body() createEmployee: CreateEmployeeDto) {
+    return this.employeeService.createEmployee(createEmployee);
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateEmployeeDto: UpdateEmployeeDto,
+  async updateEmployee(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateEmployee: UpdateEmployeeDto,
   ) {
-    return this.employeeService.update(+id, updateEmployeeDto);
+    return this.employeeService.updateEmployee(id, updateEmployee);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.employeeService.remove(+id);
+  async deleteEmployee(@Param('id', ParseIntPipe) id: number) {
+    return this.employeeService.deleteEmployee(id);
   }
 }

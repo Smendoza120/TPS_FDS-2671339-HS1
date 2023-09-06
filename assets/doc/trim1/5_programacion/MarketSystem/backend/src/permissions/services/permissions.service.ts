@@ -1,69 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePermissionDto } from '../dto/create-permission.dto';
 import { UpdatePermissionDto } from '../dto/update-permission.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Owner } from 'src/owner/entities/owner.entity';
 import { Permissions } from '../entities/permission.entity';
-import { Employee } from 'src/employee/entities/employee.entity';
 
 @Injectable()
 export class PermissionsService {
   constructor(
-    @InjectRepository(Owner) private ownerRepository: Repository<Owner>,
     @InjectRepository(Permissions)
-    private permissionsRepository: Repository<Permissions>,
-    @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>,
+    private readonly permissionsRepository: Repository<Permissions>,
   ) {}
 
-  async createEmployee(data: CreatePermissionDto) {
-    const permissions = this.permissionsRepository.create(data);
-    if (data.id_employee) {
-      const employee = await this.employeeRepository.findOne({
-        where: { id_employee: data.id_employee },
-      });
-      permissions.employee = employee;
-    }
-    return this.permissionsRepository.save(permissions);
-  }
-
-  async create(data: CreatePermissionDto) {
-    const permissions = this.permissionsRepository.create(data);
-    if (data.id_owner) {
-      const owner = await this.ownerRepository.findOne({
-        where: { id_owner: data.id_owner },
-      });
-      permissions.owner = owner;
-    }
-    return this.permissionsRepository.save(permissions);
-  }
-
-  findAll() {
-    return this.permissionsRepository.find({
-      relations: ['owner'],
-    });
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} permission`;
-  }
-
-  async update(id: number, changes: UpdatePermissionDto) {
-    const permissions = await this.permissionsRepository.findOne({
+  async getPermission(id: number): Promise<Permissions> {
+    const permission = await this.permissionsRepository.findOne({
       where: { id_permissions: id },
     });
-    if (changes.id_owner) {
-      const owner = await this.ownerRepository.findOne({
-        where: { id_owner: changes.id_owner },
-      });
-      permissions.owner = owner;
+    if (!permission) {
+      throw new NotFoundException('Permiso no encontrado');
     }
-    this.permissionsRepository.merge(permissions, changes);
-    return this.permissionsRepository.save(permissions);
+    return permission;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} permission`;
+  async createPermission(
+    createPermission: CreatePermissionDto,
+  ): Promise<Permissions> {
+    const permission = this.permissionsRepository.create(createPermission);
+    return this.permissionsRepository.save(permission);
+  }
+
+  async getAllPermissions() {
+    const permission = await this.permissionsRepository.find();
+    if (!permission) {
+      throw new NotFoundException('Permisos no encontrados');
+    }
+    return permission;
+  }
+
+  async updatePermission(
+    id: number,
+    updatePermission: UpdatePermissionDto,
+  ): Promise<Permissions> {
+    const permission = await this.getPermission(id);
+    this.permissionsRepository.merge(permission, updatePermission);
+    return this.permissionsRepository.save(permission);
+  }
+
+  async deletePermission(id: number): Promise<void> {
+    const permission = await this.getPermission(id);
+    await this.permissionsRepository.remove(permission);
   }
 }
