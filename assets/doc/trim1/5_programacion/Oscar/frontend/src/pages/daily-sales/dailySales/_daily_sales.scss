@@ -1,0 +1,138 @@
+.daily {
+  width: 100%;
+  height: 99vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &__info {
+    color: $white;
+    font-size: $x-small;
+    text-align: center;
+  }
+
+  &__form {
+    &-container {
+      color: $white;
+    }
+    &-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    &-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    &-label {
+      font-size: 0.9rem;
+    }
+    &-input {
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+    }
+    &-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+
+      margin: 20px 0;
+    }
+  }
+  &__table {
+    width: 100%;
+    text-align: center;
+    &-container {
+      width: 80%;
+      color: $white;
+      text-align: center;
+      margin-bottom: 15px;
+      overflow: auto;
+
+    }
+    &-row {
+      height: 50px;
+      font-size: $text;
+      &-title {
+        padding: 10px 25px;
+        background: $white;
+        color: $black;
+      }
+      &-title:first-child {
+        border-radius: 8px 0 0 0;
+      }
+      &-title:last-child {
+        border-radius: 0 8px 0 0;
+      }
+      &-data {
+        padding: 10px 25px;
+        background: $Medium_blue;
+      }
+      &-modify{
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .3s linear;
+        &:hover{
+          transform: scale(1.1);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  &__total-container{
+    width: 79%;
+    @include finalHorizontalPosition;
+    gap: 10px;
+  }
+  @media (max-width: 768px){
+    &__form{
+      &-content{
+        flex-direction: column;
+      }
+      &-input{
+        width: 300px;
+      }
+    }
+    &__table{
+      &-container{
+        width: 90%;
+      }
+    }
+  }
+
+  @media (max-width: 390px){
+    &__form{
+      &-container{
+        @include verticalPosition;
+
+        width: 100%;
+      }
+      &-content{
+        width: 90%;
+      }
+      &-input{
+        width: 100%;
+      }
+      &-buttons{
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+    &__table{
+      &-container{
+        width: 98%;
+      }
+    }
+    &__total-container{
+      width: 98%;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
