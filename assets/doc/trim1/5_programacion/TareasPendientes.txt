@@ -1,0 +1,5 @@
+[] Organizar carpetas
+[] Llenar los documentos para la entrega
+[] Mejorar todo el backend
+[] Hacer conexion con frontend
+[] Cambiar la base de datos
