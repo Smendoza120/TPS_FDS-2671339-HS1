@@ -16,6 +16,7 @@ import { OwnerModule } from './owner/owner.module';
 import { CustomerModule } from './customer/customer.module';
 import { AuthModule } from './auth/auth.module';
 import config from './config';
+import { CorsModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -38,6 +39,12 @@ import config from './config';
     DatabaseModule,
     CustomerModule,
     AuthModule,
+    CorsModule.forRoot({
+      origin: 'http://localhost:5173', // Reemplaza con la URL de tu aplicación React
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Métodos permitidos
+      allowedHeaders: ['Authorization', 'Content-Type'], // Cabeceras permitidas
+      credentials: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

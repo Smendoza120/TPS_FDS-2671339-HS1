@@ -1,5 +1,6 @@
 import profileImg from "../../assets/images/icono_sesion.jpg";
-// import { useHistory } from "react-router-dom";
+import axios, { Axios } from "axios";
+import { useState } from "react";
 
 //Validacion formulario
 import { useForm } from "react-hook-form";
@@ -8,16 +9,46 @@ import { useForm } from "react-hook-form";
 export function Login() {
   // const history = useHistory();
 
+  // const [formData, setFormData] = useState({
+  //   mail: "",
+  //   pass: "",
+  // });
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
+
+  const onSubmit = async (data) => {
+    // try {
+    //   const response = await axios.post("http://localhost:5173/auth/login", data)
+
+    //   if(response.status === 201 || response.status === 200){
+    //     alert('estas dentro')
+    //   } else {
+    //     alert ('no estas dentro');
+    //   }
+
+    // } catch (error) {
+    //   console.error("El error es: ", error);
+    // }
+    axios
+      .get("http://localhost:3000")
+      .then((response) => {
+        console.log("El servidor está en ejecución:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error al verificar el servidor:", error);
+      });
+  };
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data)
-    // history.push('/')
-  };
 
   //Funcion para ir a la otra pagina
   //Aqui iria la funcion para poder hacer la ruta e ir a la otra pagina
@@ -68,12 +99,12 @@ export function Login() {
                 name="pass"
                 id="pass"
                 placeholder="********"
-                {...register("pass", { required: true, minLength: 8})}
+                {...register("pass", { required: true, minLength: 8 })}
               />
               {errors.pass?.type === "required" && (
                 <p>Este campo es obligatorio</p>
               )}
-              {errors.pass?.type === 'minLength' && (
+              {errors.pass?.type === "minLength" && (
                 <p>La contraseña debe tener mas de 8 caracteres</p>
               )}
             </div>

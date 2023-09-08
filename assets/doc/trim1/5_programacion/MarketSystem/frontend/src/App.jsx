@@ -45,7 +45,7 @@ const router = createBrowserRouter([
     errorElement: <h1 style={{ color: "white" }}>Error page</h1>,
   },
   {
-    path: "/login",
+    path: "/auth/login",
     element: <Login />,
   },
   //Ruta de usuarios
