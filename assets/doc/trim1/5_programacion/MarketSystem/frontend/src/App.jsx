@@ -32,10 +32,6 @@ import { SendingInvoice } from "./pages/invoice/sendingInvoice/SendingInvoice";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
     path: "/",
     element: (
       <PrincipalInterfaz
@@ -47,6 +43,10 @@ const router = createBrowserRouter([
       />
     ),
     errorElement: <h1 style={{ color: "white" }}>Error page</h1>,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
   //Ruta de usuarios
   {
@@ -133,7 +133,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/daily-sales/send-sales-report",
-    element: <SendDailySalesReport back={"/daily-sales/sales-report"}/>,
+    element: <SendDailySalesReport back={"/daily-sales/sales-report"} />,
   },
 ]);
 

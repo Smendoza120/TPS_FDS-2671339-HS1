@@ -3,11 +3,9 @@ import {
   Column,
   Entity,
   OneToOne,
-  OneToMany,
   JoinColumn,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
-import { Permissions } from 'src/permissions/entities/permission.entity';
 
 import { Exclude } from 'class-transformer';
 
@@ -20,10 +18,19 @@ export class Owner {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  @OneToOne(() => User, (user) => user.owner)
-  @JoinColumn({ name: 'id_users' })
-  user: User;
+  @Column({ type: 'boolean' })
+  permission_sales: boolean;
 
-  @OneToMany(() => Permissions, (permissions) => permissions.owner)
-  permissions: Permissions[];
+  @Column({ type: 'boolean' })
+  permission_users: boolean;
+
+  @Column({ type: 'boolean' })
+  permission_inventories: boolean;
+
+  @Column({ type: 'boolean' })
+  permission_bill: boolean;
+
+  @OneToOne(() => User, (user) => user.owner)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

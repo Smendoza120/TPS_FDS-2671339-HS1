@@ -14,9 +14,4 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-
-  @Get('nuevo')
-  getEndPoint() {
-    return ' Yo soy nuevo';
-  }
 }

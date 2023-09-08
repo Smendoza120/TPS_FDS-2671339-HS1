@@ -8,10 +8,21 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  async getUser(id: number) {
+  async create(data: CreateUserDto) {
+    const newUser = this.usersRepository.create(data);
+    return this.usersRepository.save(newUser);
+  }
+
+  findAll() {
+    return this.usersRepository.find({
+      relations: ['owner'],
+    });
+  }
+
+  async findOne(id: number) {
     const user = await this.usersRepository.findOne({
       where: { id_users: id },
     }); // 👈 use repo
@@ -19,28 +30,6 @@ export class UsersService {
       throw new NotFoundException(`user #${id} not found`);
     }
     return user;
-  }
-
-  async createUser(createUser: CreateUserDto): Promise<User> {
-    const user = this.usersRepository.create(createUser);
-    return this.usersRepository.save(user);
-  }
-
-  async getAllUsers() {
-    return this.usersRepository.find({
-      relations: ['owner'],
-    });
-  }
-
-  async updateUser(id: number, updateUser: UpdateUserDto): Promise<User> {
-    const user = await this.getUser(id);
-    this.usersRepository.merge(user, updateUser);
-    return this.usersRepository.save(user);
-  }
-
-  async deleteUser(id: number): Promise<void> {
-    const user = await this.getUser(id); // 👈 use repo
-    await this.usersRepository.remove(user);
   }
 
   // findByEmail(mail: string) {
@@ -52,5 +41,21 @@ export class UsersService {
       where: { mail },
       relations: ['owner'],
     });
+  }
+
+  async update(id: number, changes: UpdateUserDto) {
+    const userUpdate = await this.usersRepository.findOne({
+      where: { id_users: id },
+    });
+    this.usersRepository.merge(userUpdate, changes);
+    return this.usersRepository.save(userUpdate);
+  }
+
+  async remove(id: number) {
+    const userDelete = await this.usersRepository.delete(id); // 👈 use repo
+    if (!userDelete) {
+      throw new NotFoundException(`user #${id} not found`);
+    }
+    return userDelete;
   }
 }
