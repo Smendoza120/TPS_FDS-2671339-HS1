@@ -1,6 +1,6 @@
 import profileImg from "../../assets/images/icono_sesion.jpg";
-import axios, { Axios } from "axios";
-import { useState } from "react";
+import axios from "axios";
+// import { useState } from "react";
 
 //Validacion formulario
 import { useForm } from "react-hook-form";

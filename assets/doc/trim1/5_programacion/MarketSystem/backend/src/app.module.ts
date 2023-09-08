@@ -16,7 +16,7 @@ import { OwnerModule } from './owner/owner.module';
 import { CustomerModule } from './customer/customer.module';
 import { AuthModule } from './auth/auth.module';
 import config from './config';
-import { CorsModule } from '@nestjs/platform-express';
+import { CorsModule } from '@nestjs/common';
 
 @Module({
   imports: [
