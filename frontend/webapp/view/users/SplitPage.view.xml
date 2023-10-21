@@ -1,0 +1,45 @@
+<mvc:View
+    xmlns:core="sap.ui.core"
+    controllerName="com.marketsystem.marketsystem.controller.users.SplitPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <SplitApp id="userSplit">
+        <masterPages>
+            <Page
+                showHeader="true"
+                showNavButton="true"
+                navButtonPress=".goPrincipalPage"
+            >
+                <headerContent />
+                <List>
+                    <StandardListItem
+                        title="{i18n>UserSplitUserCreation}"
+                        icon="sap-icon://add-employee"
+                        type="Navigation"
+                        selected="false"
+                        press=".onUserCreatePress"
+                    />
+                    <StandardListItem
+                        title="{i18n>UserSplitUserList}"
+                        icon="sap-icon://account"
+                        type="Navigation"
+                        selected="true"
+                        press=".onUserListPress"
+                    />
+                </List>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <mvc:XMLView
+                id="userCreation"
+                viewName="com.marketsystem.marketsystem.view.users.UserCreation"
+            />
+            <mvc:XMLView
+                id="userList"
+                viewName="com.marketsystem.marketsystem.view.users.UserList"
+            />
+        </detailPages>
+    </SplitApp>
+</mvc:View>
