@@ -7,48 +7,159 @@
     xmlns="sap.m"
 >
     <Page showHeader="false">
-        <FlexBox
-            width="100%"
-            height="100%"
-            alignItems="Center"
-            justifyContent="Center"
-            backgroundDesign="Solid"
+        <ScrollContainer
+            horizontal="true"
+            vertical="false"
         >
-            <table:Table selectionMode="MultiToggle">
+            <table:Table
+                selectionMode="MultiToggle"
+                rows="{oUserList>/}"
+            >
                 <table:extension>
                     <Bar>
                         <contentRight class="sapUiSmallMarginBottom">
                             <SearchField width="250px" />
                             <Button
+                                id="editInformation"
                                 icon="sap-icon://edit"
                                 text="{i18n>userListEditButton}"
+                                press=".onEdit"
+                            />
+
+                            <Button
+                                id="aceptChanges"
+                                icon="sap-icon://accept"
+                                text="{i18n>userListAceptChanges}"
+                                type="Accept"
+                                visible="false"
+                                press=".onAceptChanges"
+                            />
+
+                            <Button
+                                id="cancelChanges"
+                                icon="sap-icon://decline"
+                                text="{i18n>userListCancelChanges}"
+                                type="Negative"
+                                visible="false"
+                                press=".onCancelChanges"
                             />
                         </contentRight>
                     </Bar>
                 </table:extension>
                 <table:columns>
-                    <table:Column>
+                    <table:Column width="8rem">
                         <Label text="{i18n>UserListName}" />
                         <table:template>
-                            <Text text="Prueba" />
+                            <Input
+                                value="{oUserList>name}"
+                                editable="{oUserList>isEditable}"
+                            />
                         </table:template>
                     </table:Column>
 
-                    <table:Column>
+                    <table:Column width="8rem">
+                        <Label text="{i18n>UserListPass}" />
+                        <table:template>
+                            <Input
+                                value="{oUserList>pass}"
+                                type="Password"
+                                editable="{oUserList>isEditable}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="11rem">
                         <Label text="{i18n>UserListMail}" />
                         <table:template>
-                            <Text text="Prueba" />
+                            <Input
+                                value="{oUserList>mail}"
+                                type="Email"
+                                editable="{oUserList>isEditable}"
+                            />
                         </table:template>
                     </table:Column>
 
-                    <table:Column>
+                    <table:Column width="7rem">
+                        <Label text="{i18n>UserListPhone}" />
+                        <table:template>
+                            <Input
+                                value="{oUserList>phone}"
+                                type="Tel"
+                                editable="{oUserList>isEditable}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="10rem">
                         <Label text="{i18n>UserListPosition}" />
                         <table:template>
-                            <Text text="Prueba" />
+                            <Select
+                                width="100%"
+                                selectedKey="{oUserList>/position}"
+                                items="{oListPosition>/}"
+                                editable="{oUserList>isEditable}"
+                            >
+                                <core:Item
+                                    key="{oListPosition>id}"
+                                    text="{oListPosition>position}"
+                                />
+                            </Select>
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
+                        <Label text="{i18n>UserListBilling}" />
+                        <table:template>
+                            <Switch
+                                state="{oUserList>billing}"
+                                enabled="{oUserList>isEditable}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
+                        <Label text="{i18n>UserListUserCreate}" />
+                        <table:template>
+                            <Switch
+                                state="{oUserList>userCreate}"
+                                enabled="{oUserList>isEditable}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
+                        <Label text="{i18n>UserListDailySales}" />
+                        <table:template>
+                            <Switch
+                                state="{oUserList>dilySales}"
+                                enabled="{oUserList>isEditable}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
+                        <Label text="{i18n>UserListInventory}" />
+                        <table:template>
+                            <Switch
+                                state="{oUserList>inventory}"
+                                enabled="{oUserList>isEditable}"
+                            />
                         </table:template>
                     </table:Column>
                 </table:columns>
             </table:Table>
-        </FlexBox>
+        </ScrollContainer>
     </Page>
 </mvc:View>

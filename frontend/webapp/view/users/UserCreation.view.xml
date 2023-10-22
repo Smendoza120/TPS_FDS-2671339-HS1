@@ -8,10 +8,26 @@
     displayBlock="true"
     xmlns="sap.m"
 >
-    <Page
-        showHeader="false"
-        title="{i18n>UserCreationTitle}"
-    >
+    <Page showHeader="false">
+        <!-- <form:SimpleForm
+            editable="true"
+            layout="ResponsiveGridLayout"
+            width="100%"
+            labelSpanXL="12"
+            labelSpanL="12"
+            labelSpanM="12"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsXL="1"
+            columnsL="1"
+            columnsM="1"
+            singleContainerFullSize="false"
+        > -->
+        <!-- <form:content> -->
         <FlexBox
             width="100%"
             height="100%"
@@ -21,7 +37,7 @@
             direction="Column"
         >
             <Title
-                text="Creacion de usuarios"
+                text="{i18n>UserCreationTitle}"
                 level="H2"
                 titleStyle="H2"
             />
@@ -64,9 +80,16 @@
                     text="{i18n>UserCreationPosition}"
                     class="sapUiTinyMarginTop"
                 />
-                <Select width="100%">
-                    <core:ListItem text="prueba" />
-                    <core:ListItem text="prueba2" />
+                <Select
+                    width="100%"
+                    selectedKey="{oUserList>/position}"
+                    items="{oListPosition>/}"
+                    editable="{oUserList>isEditable}"
+                >
+                    <core:Item
+                        key="{oListPosition>id}"
+                        text="{oListPosition>position}"
+                    />
                 </Select>
             </VBox>
 
@@ -93,7 +116,7 @@
                         />
                         <Switch />
                     </HBox>
-                    
+
                     <HBox
                         justifyContent="Start"
                         alignItems="Center"
@@ -141,6 +164,7 @@
                     text="{i18n>UserCreationCancelUser}"
                     icon="sap-icon://sys-cancel"
                     type="Negative"
+                    press=".prueba"
                 />
 
                 <Button
@@ -149,8 +173,11 @@
                     text="{i18n>UserCreationCreateUser}"
                     icon="sap-icon://accept"
                     type="Accept"
+                    press=".createUser"
                 />
             </HBox>
         </FlexBox>
+        <!-- </form:content> -->
+        <!-- </form:SimpleForm> -->
     </Page>
 </mvc:View>
