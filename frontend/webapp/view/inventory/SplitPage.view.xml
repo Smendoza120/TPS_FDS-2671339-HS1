@@ -1,0 +1,42 @@
+<mvc:View
+    controllerName="com.marketsystem.marketsystem.controller.inventory.SplitPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <SplitApp id="inventorySplit">
+        <masterPages>
+            <Page
+                showNavButton="true"
+                navButtonPress=".goToHome"
+            >
+                <List>
+                    <StandardListItem
+                        title="{i18n>InventorySplitPageInventoryControl}"
+                        icon="sap-icon://inventory"
+                        type="Navigation"
+                        selected="false"
+                        press=".onInventoryControl"
+                    />
+                    <StandardListItem
+                        title="{i18n>InventorySplitPageReportInventory}"
+                        icon="sap-icon://manager-insight"
+                        type="Navigation"
+                        selected="false"
+                        press=".onReportInventory"
+                    />
+                </List>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <mvc:XMLView
+                id="inventoryControl"
+                viewName="com.marketsystem.marketsystem.view.inventory.InventoryControl"
+            />
+            <mvc:XMLView
+                id="reportInventory"
+                viewName="com.marketsystem.marketsystem.view.inventory.ReportInventory"
+            />
+        </detailPages>
+    </SplitApp>
+</mvc:View>

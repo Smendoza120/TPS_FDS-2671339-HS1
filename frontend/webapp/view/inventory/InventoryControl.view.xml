@@ -1,0 +1,12 @@
+<mvc:View
+    controllerName="com.marketsystem.marketsystem.controller.inventory.InventoryControl"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page>
+        <content>
+            <Text text="Inventory" />
+        </content>
+    </Page>
+</mvc:View>

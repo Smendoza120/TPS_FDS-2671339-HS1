@@ -103,4 +103,11 @@ export default class UserList extends Base {
 
     oDialog.open();
   }
+
+  public cancelUpdateUser() {
+    const modelList = this.getView()?.getModel("oUserList") as JSONModel;
+    const editableProperty = modelList.getProperty("/0/isEditable");
+
+    modelList.setProperty("/0/isEditable", !editableProperty);
+  }
 }
