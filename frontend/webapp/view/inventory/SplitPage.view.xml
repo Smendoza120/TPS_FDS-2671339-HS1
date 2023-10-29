@@ -18,6 +18,15 @@
                         selected="false"
                         press=".onInventoryControl"
                     />
+
+                    <StandardListItem
+                        title="{i18n>InventorySplitPageListInventory}"
+                        icon="sap-icon://activity-items"
+                        type="Navigation"
+                        selected="false"
+                        press=".onListInventory"
+                    />
+
                     <StandardListItem
                         title="{i18n>InventorySplitPageReportInventory}"
                         icon="sap-icon://manager-insight"
@@ -33,6 +42,12 @@
                 id="inventoryControl"
                 viewName="com.marketsystem.marketsystem.view.inventory.InventoryControl"
             />
+
+            <mvc:XMLView
+                id="listInventory"
+                viewName="com.marketsystem.marketsystem.view.inventory.ListInventory"
+            />
+
             <mvc:XMLView
                 id="reportInventory"
                 viewName="com.marketsystem.marketsystem.view.inventory.ReportInventory"

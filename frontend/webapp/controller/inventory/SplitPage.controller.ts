@@ -23,4 +23,10 @@ export default class SplitPage extends Base {
 
     inventorySplit.to(this.createId("reportInventory") || "", "fade");
   }
+
+  public onListInventory() {
+    const inventorySplit = this.getView()?.byId("inventorySplit") as SplitApp;
+
+    inventorySplit.to(this.createId("listInventory") || "", "fade");
+  }
 }

@@ -1,3 +1,4 @@
+import { getListStorage, listStorage } from "../../model/models";
 import Base from "../Base.controller";
 
 /**
@@ -5,5 +6,9 @@ import Base from "../Base.controller";
  */
 export default class InventoryControl extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
-  public onInit(): void {}
+  public onInit(): void {
+    this.getView()?.setModel(getListStorage(), "oListStorage");
+
+    listStorage();
+  }
 }

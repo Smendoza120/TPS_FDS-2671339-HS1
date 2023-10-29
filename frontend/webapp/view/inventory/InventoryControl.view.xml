@@ -1,12 +1,91 @@
 <mvc:View
+    xmlns:core="sap.ui.core"
     controllerName="com.marketsystem.marketsystem.controller.inventory.InventoryControl"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:table="sap.ui.table"
     displayBlock="true"
     xmlns="sap.m"
 >
-    <Page>
-        <content>
-            <Text text="Inventory" />
-        </content>
+    <Page
+        showHeader="false"
+        backgroundDesign="List"
+    >
+        <FlexBox
+            alignItems="Center"
+            justifyContent="Center"
+            width="100%"
+            height="100%"
+            direction="Column"
+        >
+            <Title
+                text="{i18n>InventoryControlTitle}"
+                level="H2"
+                titleStyle="H2"
+                class="sapUiSmallMarginBottom"
+            />
+
+            <VBox width="80%">
+                <Label text="Producto" required="true"/>
+                <Input placeholder="Doritos" />
+
+                <Label
+                    text="Cantidad"
+                    class="sapUiTinyMarginTop"
+                    required="true"
+                />
+                <Input
+                    placeholder="2"
+                    type="Number"
+                />
+
+                <Label
+                    text="Precio Unitario"
+                    class="sapUiTinyMarginTop"
+                    required="true"
+                />
+                <Input placeholder="500" />
+
+                <Label
+                    text="Almacenamiento"
+                    class="sapUiTinyMarginTop"
+                    required="true"
+                />
+                <Select
+                    width="100%"
+                    items="{oListStorage>/}"
+                >
+                    <core:Item
+                        key="{oListStorage>id}"
+                        text="{oListStorage>storage}"
+                    />
+                </Select>
+
+                <Label
+                    text="Fecha Vencimiento"
+                    class="sapUiTinyMarginTop"
+                    required="true"
+                />
+                <DateTimePicker />
+            </VBox>
+
+            <HBox
+                class="sapUiTinyMarginTop"
+                width="80%"
+                alignItems="End"
+                justifyContent="End"
+            >
+                <Button
+                    text="Limpiar"
+                    type="Emphasized"
+                    icon="sap-icon://not-editable"
+                />
+                <Button
+                    text="Agregar"
+                    class="sapUiTinyMarginBegin"
+                    type="Accept"
+                    icon="sap-icon://write-new-document"
+                />
+            </HBox>
+        </FlexBox>
     </Page>
 </mvc:View>

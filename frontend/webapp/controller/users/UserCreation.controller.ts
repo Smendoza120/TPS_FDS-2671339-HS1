@@ -42,8 +42,6 @@ export default class UserCreation extends Base {
       userCreate: false,
       isEditable: false,
     };
-
-    prueba
   }
 
   public createUser() {

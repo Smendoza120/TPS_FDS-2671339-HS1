@@ -1,9 +1,13 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Device from "sap/ui/Device";
 import { Position, Users } from "../interfaces/users.interfaz";
+import { Inventory, Storage } from "../interfaces/inventory.interfaz";
 
 const oUsersModel = new JSONModel([]);
 const oListPostion = new JSONModel();
+const oInventoryControl = new JSONModel([]);
+const oListStorage = new JSONModel();
+
 let userStructure: Users[];
 
 export function createDeviceModel() {
@@ -18,6 +22,14 @@ export function getModelUsers(): JSONModel {
 
 export function getListPosition(): JSONModel {
   return oListPostion;
+}
+
+export function getInventoryControl(): JSONModel {
+  return oInventoryControl;
+}
+
+export function getListStorage(): JSONModel {
+  return oListStorage;
 }
 
 export function structureUserCreate(): Users {
@@ -70,4 +82,37 @@ export function listPosition(): Position[] {
 
   oListPostion.setData(position);
   return position;
+}
+
+export function structureInventory(): Inventory {
+  const addInventory: Inventory = {
+    product: "Doritos",
+    quantity: 2,
+    unitPrice: 500,
+    storage: {
+      id: "1",
+      storage: "Almacen",
+    },
+    expirationDate: new Date(),
+    isEdit: false,
+  };
+
+  oInventoryControl.setData([addInventory]);
+  return addInventory;
+}
+
+export function listStorage(): Storage[] {
+  const storage: Storage[] = [
+    {
+      id: "1",
+      storage: "Almacen",
+    },
+    {
+      id: "2",
+      storage: "Bodega",
+    },
+  ];
+
+  oListStorage.setData(storage);
+  return storage;
 }

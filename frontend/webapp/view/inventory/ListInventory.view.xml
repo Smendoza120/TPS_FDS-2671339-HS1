@@ -1,0 +1,137 @@
+<mvc:View
+    xmlns:core="sap.ui.core"
+    controllerName="com.marketsystem.marketsystem.controller.inventory.ListInventory"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:table="sap.ui.table"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page
+        backgroundDesign="List"
+        showHeader="true"
+    >
+        <headerContent>
+            <Bar>
+                <contentRight>
+                    <Button
+                        id="editList"
+                        text="{i18n>ListInventoryEdit}"
+                        icon="sap-icon://edit"
+                        type="Accept"
+                        press=".editInformation"
+                    />
+
+                    <Button
+                        id="aceptChanges"
+                        icon="sap-icon://accept"
+                        type="Accept"
+                        text="{i18n>ListInventoryAceptChanges}"
+                        visible="false"
+                        press=""
+                    />
+                    <Button
+                        id="cancelChanges"
+                        icon="sap-icon://cancel"
+                        type="Negative"
+                        text="{i18n>ListInventoryCancelChanges}"
+                        visible="false"
+                        press=".cancelChanges"
+                    />
+                </contentRight>
+            </Bar>
+        </headerContent>
+
+        <ScrollContainer
+            height="auto"
+            width="auto"
+            vertical="false"
+            horizontal="true"
+        >
+            <HBox
+                width="100%"
+                alignItems="Center"
+                justifyContent="Center"
+            >
+                <Title
+                    class="sapUiSmallMarginTop sapUiSmallMarginBottom"
+                    text="{i18n>ListInventoryTitle}"
+                    level="H2"
+                    titleStyle="H2"
+                    textAlign="Center"
+                />
+            </HBox>
+
+            <table:Table
+                selectionMode="MultiToggle"
+                rows="{oInventoryControl>/}"
+            >
+                <table:columns>
+                    <table:Column width="10rem">
+                        <Label text="{i18n>ListInventoryDateOfEntry}" />
+                        <table:template>
+                            <DateTimePicker
+                                value="{oInventoryControl>expirationDate}"
+                                editable="{oInventoryControl>isEdit}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="10rem">
+                        <Label text="{i18n>ListInventoryDateOfStart}" />
+                        <table:template>
+                            <DateTimePicker
+                                editable="{oInventoryControl>isEdit}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="11rem">
+                        <Label text="{i18n>ListInventoryProduct}" />
+                        <table:template>
+                            <Input
+                                value="{oInventoryControl>product}"
+                                editable="{oInventoryControl>isEdit}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="10rem">
+                        <Label text="{i18n>ListInventoryQuantity}" />
+                        <table:template>
+                            <Input
+                                value="{oInventoryControl>quantity}"
+                                editable="{oInventoryControl>isEdit}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="11rem">
+                        <Label text="{i18n>ListInventoryUnitPrice}" />
+                        <table:template>
+                            <Input
+                                value="{oInventoryControl>unitPrice}"
+                                editable="{oInventoryControl>isEdit}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column width="11rem">
+                        <Label text="{i18n>ListInventoryStorage}" />
+                        <table:template>
+                            <Select
+                                width="100%"
+                                items="{oListStorage>/}"
+                                editable="{oInventoryControl>isEdit}"
+                            >
+                                <core:Item
+                                    key="{oListStorage>id}"
+                                    text="{oListStorage>storage}"
+                                />
+                            </Select>
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </ScrollContainer>
+    </Page>
+</mvc:View>
