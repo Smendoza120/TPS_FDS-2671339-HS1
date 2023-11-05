@@ -36,6 +36,7 @@
             <GenericTile
                 class="sapUiSmallMarginTop sapUiSmallMarginBegin"
                 header="{i18n>HomeItemInventory}"
+                press=".goToInventoryPage"
             >
                 <TileContent>
                     <core:Icon

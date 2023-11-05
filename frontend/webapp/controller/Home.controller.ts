@@ -11,4 +11,8 @@ export default class Home extends Base {
   public goToUsersPage() {
     this.getRouter().navTo("RouteUsers");
   }
+
+  public goToInventoryPage() {
+    this.getRouter().navTo("RouteInventory");
+  }
 }
