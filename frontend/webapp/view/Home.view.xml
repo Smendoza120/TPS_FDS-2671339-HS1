@@ -49,6 +49,7 @@
             <GenericTile
                 class="sapUiSmallMarginTop sapUiSmallMarginBegin"
                 header="{i18n>HomeItemDailySales}"
+                press=".goToDailySales"
             >
                 <TileContent>
                     <core:Icon
