@@ -31,7 +31,7 @@ export class UsersService {
     });
   }
 
-  async getUserByEmail(email: string): Promise<UserEntity> {
+  async getUserByEmail(email: string): Promise<UserEntity> { //obtener po usuario
     return await this.iUserRepository.findOneOrFail({
       where: {
         email: email,
