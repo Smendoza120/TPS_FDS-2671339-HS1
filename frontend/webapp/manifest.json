@@ -96,6 +96,11 @@
           "name": "RouteUsers",
           "pattern": "users",
           "target": ["TargetUsers"]
+        },
+        {
+          "name": "RouteInventory",
+          "pattern": "inventory",
+          "target": ["TargetInventory"]
         }
       ],
       "targets": {
@@ -112,6 +117,13 @@
           "clearControlAggregation": false,
           "viewId": "Users",
           "viewName": "users.SplitPage"
+        },
+        "TargetInventory": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Inventory",
+          "viewName": "inventory.SplitPage"
         }
       }
     },
