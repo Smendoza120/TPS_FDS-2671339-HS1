@@ -101,6 +101,11 @@
           "name": "RouteInventory",
           "pattern": "inventory",
           "target": ["TargetInventory"]
+        },
+        {
+          "name": "RouteDailySales",
+          "pattern": "dailySales",
+          "target": ["TargetDailySales"]
         }
       ],
       "targets": {
@@ -124,6 +129,13 @@
           "clearControlAggregation": false,
           "viewId": "Inventory",
           "viewName": "inventory.SplitPage"
+        },
+        "TargetDailySales": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "DailySales",
+          "viewName": "dailySales.SplitPage"
         }
       }
     },

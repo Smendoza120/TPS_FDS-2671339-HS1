@@ -1,0 +1,60 @@
+<mvc:View
+    controllerName="com.marketsystem.marketsystem.controller.dailySales.SplitPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <SplitApp id="dailySalesSplit">
+        <masterPages>
+            <Page
+                showHeader="true"
+                showNavButton="true"
+                navButtonPress=".goToHome"
+            >
+                <List>
+                    <!-- Ventas diarias -->
+                    <StandardListItem
+                        title="{i18n>DailySalesName}"
+                        icon="sap-icon://sales-order"
+                        type="Navigation"
+                        selected="false"
+                        press=".onDailySales"
+                    />
+
+                    <StandardListItem
+                        title="{i18n>DailySalesListName}"
+                        icon="sap-icon://activities"
+                        type="Navigation"
+                        selected="false"
+                        press=".onListSales"
+                    />
+
+                    <!-- Reporte de ventas -->
+                    <StandardListItem
+                        title="{i18n>DailySalesReportName}"
+                        icon="sap-icon://manager-insight"
+                        type="Navigation"
+                        selected="false"
+                        press=".onReportSales"
+                    />
+                </List>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <mvc:XMLView
+                id="dailySales"
+                viewName="com.marketsystem.marketsystem.view.dailySales.DailySales"
+            />
+
+            <mvc:XMLView
+                id="listSales"
+                viewName="com.marketsystem.marketsystem.view.dailySales.ListSales"
+            />
+
+            <mvc:XMLView
+                id="salesReport"
+                viewName="com.marketsystem.marketsystem.view.dailySales.SalesReport"
+            />
+        </detailPages>
+    </SplitApp>
+</mvc:View>
