@@ -1,9 +1,7 @@
-import { UserDto } from './user-dto';
-
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsBoolean } from "class-validator";
 
-export class WorkerDto extends UserDto {
+export class WorkerDto  {
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
@@ -30,4 +28,6 @@ export class WorkerDto extends UserDto {
     @IsBoolean()
     billsPermission: boolean;
 }
+
+export class UpdateWorkerDto extends OmitType(WorkerDto, ['userId']) {}
 

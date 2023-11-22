@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
-import { UserEntity } from 'src/entities/users.entity';
-import { WorkerEntity } from 'src/entities/workers.entity';
-import { CustomerEntity } from 'src/entities/customers.entity';
+import { UserEntity } from 'src/ms/entities/users.entity';
+import { WorkerEntity } from 'src/ms/entities/workers.entity';
+import { CustomerEntity } from 'src/ms/entities/customers.entity';
 
 export const databaseProviders = [
   {
