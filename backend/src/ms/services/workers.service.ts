@@ -12,6 +12,7 @@ import { UpdateWorkerDto, WorkerDto } from 'src/ms/dto/workers-dto';
 import { UsersService } from './users.service';
 
 import * as bcrypt from 'bcrypt';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 
 @Injectable()
 export class WorkersService {
@@ -209,4 +210,37 @@ export class WorkersService {
     // Si se encuentra un trabajador con ese token, devuélvelo
     return worker;
   }
+
+async changePassword(id: string, changePasswordDto: ChangePasswordDto): Promise<WorkerEntity> {
+  try {
+    // Intenta obtener el worker por su ID
+    const worker = await this.getWorkerById(id);
+
+    // Si el worker no se encuentra, lanza una NotFoundException
+    if (!worker) {
+      throw new NotFoundException(`Worker not found`);
+    }
+
+    // Verifica si la contraseña anterior ingresada coincide con la contraseña actual del worker
+    const isPasswordMatch = await bcrypt.compare(changePasswordDto.oldPassword, worker.password);
+
+    // Si la contraseña anterior no coincide, lanza una excepción
+    if (!isPasswordMatch) {
+      throw new Error(`Incorrect old password`);
+    }
+
+    // Actualiza la contraseña del worker
+    worker.password = changePasswordDto.newPassword;
+
+    // Intenta guardar el worker con la nueva contraseña
+    await this.iWorkerEntity.save(worker);
+
+    // Si el worker se guarda correctamente, devuélvelo
+    return worker;
+  } catch (error) {
+    // Si ocurre cualquier otro error durante la ejecución del método,
+    // lanza una InternalServerErrorException
+    throw new InternalServerErrorException(`Error changing password`);
+  }
+}
 }

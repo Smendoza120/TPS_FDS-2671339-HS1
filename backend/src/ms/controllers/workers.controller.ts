@@ -3,6 +3,7 @@ import { WorkersService } from 'src/ms/services/workers.service';
 import { UpdateWorkerDto, WorkerDto } from 'src/ms/dto/workers-dto';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 
 @ApiTags('workers')
 @Controller('workers')
@@ -46,7 +47,10 @@ export class WorkersController {
     description: 'Update worker by Id',
   })
   @Post(':id')
-  async updateWorker(@Param('id') id: string, @Body() workerDto: UpdateWorkerDto) {
+  async updateWorker(
+    @Param('id') id: string,
+    @Body() workerDto: UpdateWorkerDto,
+  ) {
     return await this.workersService.updateWorker(id, workerDto);
   }
 
@@ -54,8 +58,18 @@ export class WorkersController {
     description: 'Delete worker by Id',
   })
   @Delete(':id')
-    async deleteWorker(@Param('id') id: string) {
-        return await this.workersService.deleteWorker(id);
-    }
+  async deleteWorker(@Param('id') id: string) {
+    return await this.workersService.deleteWorker(id);
+  }
 
+  @ApiOperation({
+    description: 'Change worker password',
+  })
+  @Post('change-password/:id')
+  async changePassword(
+    @Param('id') id: string,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    return await this.workersService.changePassword(id, changePasswordDto);
+  }
 }
