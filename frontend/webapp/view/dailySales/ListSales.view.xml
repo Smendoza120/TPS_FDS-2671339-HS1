@@ -1,0 +1,12 @@
+<mvc:View
+    controllerName="com.marketsystem.marketsystem.controller.dailySales.ListSales"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page>
+        <content>
+            <Text text="Lista de ventas" />
+        </content>
+    </Page>
+</mvc:View>
