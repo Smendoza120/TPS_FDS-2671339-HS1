@@ -27,6 +27,7 @@
     ]
   },
   "include": [
-    "./webapp/**/*"
+    "./webapp/**/*",
+    "node_modules/@types/jquery/misc.d.ts"
   ]
 }

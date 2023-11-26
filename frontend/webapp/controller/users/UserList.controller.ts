@@ -1,9 +1,6 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import {
-  getListPosition,
-  getModelUsers,
-  listPosition,
-  structureUserCreate,
+  getListPosition
 } from "../../model/models";
 import Base from "../Base.controller";
 import Button from "sap/m/Button";
@@ -12,6 +9,7 @@ import Text from "sap/m/Text";
 import Bar from "sap/m/Bar";
 import Title from "sap/m/Title";
 import FlexBox from "sap/m/FlexBox";
+import BusyIndicator from "sap/ui/core/BusyIndicator";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -19,11 +17,45 @@ import FlexBox from "sap/m/FlexBox";
 export default class UserList extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    this.getView()?.setModel(getModelUsers(), "oUserList");
-    this.getView()?.setModel(getListPosition(), "oListPosition");
+    this.getView()?.setModel(new JSONModel([]), "oUser");
+    this.getView()?.setModel(new JSONModel([]), "oWorker");
 
-    structureUserCreate();
-    listPosition();
+    this.oDataUser();
+  }
+
+  public oDataWorker(){
+    BusyIndicator.show(0);
+
+    this.callAjax({
+      url: "/workers",
+      type: "GET"
+    }).then((oData)=>{
+      (this.getView()?.getModel("oWorker") as JSONModel).setData(oData)
+    }).catch((error)=>{
+      console.error(error)
+    }).finally(() =>{
+      BusyIndicator.hide()
+    })
+  }
+
+  public oDataUser() {
+    BusyIndicator.show(0);
+
+    this.callAjax({
+      url: "/users",
+      type: "GET",
+    })
+      .then((oResult: any) => {
+        (this.getView()?.getModel("oUser") as JSONModel).setData(oResult);
+
+        const prueba = this.getView()?.getModel("oUser") as JSONModel
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        BusyIndicator.hide();
+      });
   }
 
   public onEdit() {
