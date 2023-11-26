@@ -11,11 +11,11 @@ export const databaseProviders = [
 
       const datasource = new DataSource({
         type: 'mysql',
-        host: 'localhost',
+        host: "127.0.0.1",
         port: 3306,
-        username: 'marketsystem',
-        password: 'marketsystem123',
-        database: 'marketsystem',
+        username: 'root',
+        password: 'admin',
+        database: 'market_system_pro',
         // host: process.env.API_DATABASE_HOST,
         // port: isNaN(portD) ? 3306 : portD,
         // username: process.env.API_DATABASE_USERNAME,
@@ -23,6 +23,10 @@ export const databaseProviders = [
         // database: process.env.API_DATABASE_NAME,
         entities: [UserEntity, WorkerEntity, CustomerEntity],
         synchronize: true,
+        logging: false 
+      });
+      datasource.initialize().catch(error => {
+        console.error('Error al inicializar la conexión a la base de datos:', error);
       });
       return datasource.initialize();
     },

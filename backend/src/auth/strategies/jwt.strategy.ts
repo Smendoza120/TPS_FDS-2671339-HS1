@@ -9,7 +9,7 @@ export class JwtStrategy extends PassportStrategy(Strategy ,'jwt') { // Define u
             {
                 jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Configura la estrategia JWT para extraer el token JWT del encabezado de autorización como un token Bearer
                 ignoreExpiration: false, // Configura la estrategia JWT para no ignorar la expiración del token
-                secretOrKey: process.env.API_CONFIG_AUTH_SECRET_JWT, // Configura la estrategia JWT para usar la clave secreta especificada en la variable de entorno API_CONFIG_AUTH_SECRET_JWT
+                secretOrKey: "kraken", // Configura la estrategia JWT para usar la clave secreta especificada en la variable de entorno API_CONFIG_AUTH_SECRET_JWT
             }
         );
     }
