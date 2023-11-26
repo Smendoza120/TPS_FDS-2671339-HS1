@@ -2,14 +2,12 @@ version: '3.1'
 
 services:
   db:
-    image: mysql
-    # command: --default-authentication-plugin=mysql_native_password
+    image: mysql:8.2
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      # MYSQL_ROOT_PASSWORD: my-secret-pw
-      MYSQL_DATABASE: market_system_pro
-      MYSQL_USER: root
-      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: marketsystem
+      MYSQL_ROOT_PASSWORD: Bmptl1mT4vZMZm51ghESroxxsOX
     ports:
       - 3305:3306
     volumes:

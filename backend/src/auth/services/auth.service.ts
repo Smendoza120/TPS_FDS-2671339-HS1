@@ -96,5 +96,4 @@ export class AuthService {
     // Guardar el trabajador actualizado
     await this.iWorkersService.save(worker);
   }
-
 }
