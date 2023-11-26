@@ -1,0 +1,80 @@
+<mvc:View
+    controllerName="com.marketsystem.marketsystem.controller.dailySales.DailySales"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page backgroundDesign="List">
+        <FlexBox
+            alignItems="Center"
+            justifyContent="Center"
+            width="100%"
+            height="100%"
+            direction="Column"
+        >
+            <Title
+                level="H2"
+                titleStyle="H2"
+                class="sapUiSmallMarginBottom"
+                text="{i18n>DailySalesTitle}"
+            />
+            <VBox width="80%">
+                <Label
+                    text="Nombre"
+                    required="true"
+                />
+                <Input
+                    type="Text"
+                    placeholder="Carlos"
+                />
+
+                <Label
+                    class="sapUiTinyMarginTop"
+                    text="Producto"
+                    required="true"
+                />
+                <Input
+                    type="Text"
+                    placeholder="Doritos"
+                />
+
+                <Label
+                    class="sapUiTinyMarginTop"
+                    text="Cantidad"
+                    required="true"
+                />
+                <Input
+                    type="Number"
+                    placeholder="5"
+                />
+
+                <Label
+                    class="sapUiTinyMarginTop"
+                    text="Precio Unitario"
+                    required="true"
+                />
+                <Input
+                    type="Number"
+                    placeholder="5000"
+                />
+            </VBox>
+
+            <HBox
+                class="sapUiTinyMarginTop"
+                width="80%"
+                alignItems="End"
+                justifyContent="End"
+            >
+                <Button
+                    text="{i18n>DailySalesCancelAdd}"
+                    type="Negative"
+                />
+                <Button
+                    type="Success"
+                    text="{i18n>DailySalesAddProduct}"
+                    class="sapUiTinyMarginBegin"
+                />
+            </HBox>
+        </FlexBox>
+    </Page>
+</mvc:View>
