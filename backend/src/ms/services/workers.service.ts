@@ -46,7 +46,9 @@ export class WorkersService {
       const user = await this.getUserById(workerDto.userId);
 
       if (!user) {
-        throw new NotFoundException(`User with ID ${workerDto.userId} not found`);
+        throw new NotFoundException(
+          `User with ID ${workerDto.userId} not found`,
+        );
       }
 
       // Crear un nuevo worker
@@ -184,12 +186,12 @@ export class WorkersService {
         passwordResetToken: token,
       },
     });
-  
+
     // Si no se encuentra ningún trabajador con ese token, devuelve null
     if (!worker) {
       return null;
     }
-  
+
     // Si se encuentra un trabajador con ese token, devuélvelo
     return worker;
   }
@@ -201,46 +203,52 @@ export class WorkersService {
         passwordResetToken: token,
       },
     });
-  
+
     // Si no se encuentra ningún trabajador con ese token, devuelve null
     if (!worker) {
       return null;
     }
-  
+
     // Si se encuentra un trabajador con ese token, devuélvelo
     return worker;
   }
 
-async changePassword(id: string, changePasswordDto: ChangePasswordDto): Promise<WorkerEntity> {
-  try {
-    // Intenta obtener el worker por su ID
-    const worker = await this.getWorkerById(id);
+  async changePassword(
+    id: string,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<WorkerEntity> {
+    try {
+      // Intenta obtener el worker por su ID
+      const worker = await this.getWorkerById(id);
 
-    // Si el worker no se encuentra, lanza una NotFoundException
-    if (!worker) {
-      throw new NotFoundException(`Worker not found`);
+      // Si el worker no se encuentra, lanza una NotFoundException
+      if (!worker) {
+        throw new NotFoundException(`Worker not found`);
+      }
+
+      // Verifica si la contraseña anterior ingresada coincide con la contraseña actual del worker
+      const isPasswordMatch = await bcrypt.compare(
+        changePasswordDto.oldPassword,
+        worker.password,
+      );
+
+      // Si la contraseña anterior no coincide, lanza una excepción
+      if (!isPasswordMatch) {
+        throw new Error(`Incorrect old password`);
+      }
+
+      // Actualiza la contraseña del worker
+      worker.password = changePasswordDto.newPassword;
+
+      // Intenta guardar el worker con la nueva contraseña
+      await this.iWorkerEntity.save(worker);
+
+      // Si el worker se guarda correctamente, devuélvelo
+      return worker;
+    } catch (error) {
+      // Si ocurre cualquier otro error durante la ejecución del método,
+      // lanza una InternalServerErrorException
+      throw new InternalServerErrorException(`Error changing password`);
     }
-
-    // Verifica si la contraseña anterior ingresada coincide con la contraseña actual del worker
-    const isPasswordMatch = await bcrypt.compare(changePasswordDto.oldPassword, worker.password);
-
-    // Si la contraseña anterior no coincide, lanza una excepción
-    if (!isPasswordMatch) {
-      throw new Error(`Incorrect old password`);
-    }
-
-    // Actualiza la contraseña del worker
-    worker.password = changePasswordDto.newPassword;
-
-    // Intenta guardar el worker con la nueva contraseña
-    await this.iWorkerEntity.save(worker);
-
-    // Si el worker se guarda correctamente, devuélvelo
-    return worker;
-  } catch (error) {
-    // Si ocurre cualquier otro error durante la ejecución del método,
-    // lanza una InternalServerErrorException
-    throw new InternalServerErrorException(`Error changing password`);
   }
-}
 }
