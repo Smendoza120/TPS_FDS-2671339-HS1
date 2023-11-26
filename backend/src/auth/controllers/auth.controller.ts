@@ -25,8 +25,7 @@ export class AuthController {
   @Post('login') // Decorador de NestJS que indica que este método maneja las solicitudes POST a la ruta 'login'
   @ApiBody({ type: LoginDto }) // Decorador de Swagger que indica que este método espera un cuerpo de solicitud que coincide con la estructura definida en LoginDto
   async login(@Body() loginDto: LoginDto, @Req() req: Request) {
-    // Método de inicio de sesión. Extrae el cuerpo de la solicitud y lo valida contra LoginDto, e inyecta el objeto de solicitud Express
-    // Devuelve el JWT generado para el usuario que ha sido adjuntado al objeto de solicitud por Passport después de la autenticación exitosa
+    // Método de inicio de sesión. Extrae el cuerpo de la solicitud y lo valida contra LoginDto, e inyecta el objeto de solicitud Express  Devuelve el JWT generado para el usuario que ha sido adjuntado al objeto de solicitud por Passport después de la autenticación exitosa
     return this.iAuthService.generateJWT(req.user as WorkerEntity);
   }
 
