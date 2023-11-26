@@ -1,5 +1,5 @@
-import { Body, Controller, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
-import { Request } from 'express'; //
+import { Body, Controller, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express'; //
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { LoginDto } from '../dto/login.dto';
@@ -21,12 +21,13 @@ export class AuthController {
   @ApiOperation({
     description: 'Login for email and password',
   })
-  @UseGuards(AuthGuard('local')) // Decorador de NestJS que aplica el guard AuthGuard con la estrategia 'local' a este método. Esto significa que este método requiere autenticación y utiliza la estrategia 'local' de Passport para autenticar al usuario
-  @Post('login') // Decorador de NestJS que indica que este método maneja las solicitudes POST a la ruta 'login'
-  @ApiBody({ type: LoginDto }) // Decorador de Swagger que indica que este método espera un cuerpo de solicitud que coincide con la estructura definida en LoginDto
-  async login(@Body() loginDto: LoginDto, @Req() req: Request) {
-    // Método de inicio de sesión. Extrae el cuerpo de la solicitud y lo valida contra LoginDto, e inyecta el objeto de solicitud Express  Devuelve el JWT generado para el usuario que ha sido adjuntado al objeto de solicitud por Passport después de la autenticación exitosa
-    return this.iAuthService.generateJWT(req.user as WorkerEntity);
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  @ApiBody({ type: LoginDto })
+  async login(@Body() loginDto: LoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const jwt = await this.iAuthService.generateJWT(req.user as WorkerEntity);
+    res.cookie('jwt', jwt, { httpOnly: true });
+    return { status: 'success' };
   }
 
   @ApiOperation({
