@@ -61,7 +61,7 @@
             </HBox>
             <table:Table
                 selectionMode="MultiToggle"
-                rows="{oUserList>/}"
+                rows="{oUser>/}"
             >
                 <table:extension>
                     <Bar>
@@ -75,7 +75,7 @@
                         <Label text="{i18n>UserListName}" />
                         <table:template>
                             <Input
-                                value="{oUserList>name}"
+                                value="{oUser>firstName} {oUser>lastName}"
                                 editable="{oUserList>isEditable}"
                             />
                         </table:template>
@@ -85,7 +85,7 @@
                         <Label text="{i18n>UserListPass}" />
                         <table:template>
                             <Input
-                                value="{oUserList>pass}"
+                                value="{oUser>pass}"
                                 type="Password"
                                 editable="{oUserList>isEditable}"
                             />
@@ -96,7 +96,7 @@
                         <Label text="{i18n>UserListMail}" />
                         <table:template>
                             <Input
-                                value="{oUserList>mail}"
+                                value="{oUser>email}"
                                 type="Email"
                                 editable="{oUserList>isEditable}"
                             />
@@ -107,27 +107,10 @@
                         <Label text="{i18n>UserListPhone}" />
                         <table:template>
                             <Input
-                                value="{oUserList>phone}"
+                                value="{oUser>phone}"
                                 type="Tel"
                                 editable="{oUserList>isEditable}"
                             />
-                        </table:template>
-                    </table:Column>
-
-                    <table:Column width="10rem">
-                        <Label text="{i18n>UserListPosition}" />
-                        <table:template>
-                            <Select
-                                width="100%"
-                                selectedKey="{oUserList>/position}"
-                                items="{oListPosition>/}"
-                                editable="{oUserList>isEditable}"
-                            >
-                                <core:Item
-                                    key="{oListPosition>id}"
-                                    text="{oListPosition>position}"
-                                />
-                            </Select>
                         </table:template>
                     </table:Column>
 
