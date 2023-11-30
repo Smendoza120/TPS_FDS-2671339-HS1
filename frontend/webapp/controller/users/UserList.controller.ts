@@ -41,6 +41,7 @@ export default class UserList extends Base {
   public oDataUser() {
     BusyIndicator.show(0);
 
+    
     this.callAjax({
       url: "/users",
       type: "GET",
