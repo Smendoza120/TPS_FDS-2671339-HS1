@@ -1,9 +1,9 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import {
   getListPosition,
-  getModelUsers,
-  listPosition,
-  structureUserCreate,
+  // getModelUsers,
+  // listPosition,
+  // structureUserCreate,
 } from "../../model/models";
 import Base from "../Base.controller";
 import MessageToast from "sap/m/MessageToast";
@@ -15,11 +15,11 @@ import { Users } from "../../interfaces/users.interfaz";
 export default class UserCreation extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    this.getView()?.setModel(getModelUsers(), "oUserList");
+    // this.getView()?.setModel(getModelUsers(), "oUserList");
     this.getView()?.setModel(getListPosition(), "oListPosition");
 
-    structureUserCreate();
-    listPosition();
+    // structureUserCreate();
+    // listPosition();
   }
 
   public prueba() {
