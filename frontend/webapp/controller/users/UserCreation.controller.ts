@@ -17,6 +17,7 @@ export default class UserCreation extends Base {
   public onInit(): void {
     // this.getView()?.setModel(getModelUsers(), "oUserList");
     this.getView()?.setModel(getListPosition(), "oListPosition");
+    
 
     // structureUserCreate();
     // listPosition();
