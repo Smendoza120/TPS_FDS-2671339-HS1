@@ -13,6 +13,7 @@ import { Users } from "../../interfaces/users.interfaz";
  * @namespace com.marketsystem.marketsystem.controller
  */
 export default class UserCreation extends Base {
+  
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
     // this.getView()?.setModel(getModelUsers(), "oUserList");
