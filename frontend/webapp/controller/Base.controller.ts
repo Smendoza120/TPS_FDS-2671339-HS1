@@ -14,7 +14,8 @@ export default class Base extends Controller {
   public getBackendUrl(): string {
     return window.location.host.includes("market_system.co")
       ? window.location.origin
-      : "https://nest-backend-market-system-postgres.onrender.com";
+      // : "https://nest-backend-market-system-postgres.onrender.com";
+      : "http://localhost:3000"
   }
 
   public callAjax(settings: JQuery.AjaxSettings<any>): Promise<any> {

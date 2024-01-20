@@ -2,7 +2,11 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 import Device from "sap/ui/Device";
 import { Inventory, Storage } from "../interfaces/inventory.interfaz";
 
+//Datos de usuario
 const oUser = new JSONModel([]);
+//Datos del trabajador
+const oWorker = new JSONModel([]);
+
 const oListPostion = new JSONModel();
 const oInventoryControl = new JSONModel([]);
 const oListStorage = new JSONModel();
@@ -17,6 +21,10 @@ export function getUser(): JSONModel {
   return oUser;
 }
 
+export function getWorker(): JSONModel {
+  return oWorker;
+}
+
 export function getListPosition(): JSONModel {
   return oListPostion;
 }
@@ -28,34 +36,6 @@ export function getInventoryControl(): JSONModel {
 export function getListStorage(): JSONModel {
   return oListStorage;
 }
-
-// export function structureUserCreate(): Users {
-//   const userCreateData: Users = {
-//     name: "Harold",
-//     pass: "asdwasdw",
-//     mail: "harold@sanchez.com",
-//     phone: "3118047047",
-//     position: [
-//       {
-//         id: "1",
-//         position: "Administrador",
-//       },
-//     ],
-//     dilySales: false,
-//     billing: false,
-//     inventory: false,
-//     userCreate: false,
-//     isEditable: false,
-//   };
-
-//   oUsersModel.setData([userCreateData]);
-//   return userCreateData;
-// }
-
-// export function setUsersData() {
-//   userStructure = (oUsersModel as JSONModel).getData();
-//   userStructure.push(structureUserCreate());
-// }
 
 export function structureInventory(): Inventory {
   const addInventory: Inventory = {

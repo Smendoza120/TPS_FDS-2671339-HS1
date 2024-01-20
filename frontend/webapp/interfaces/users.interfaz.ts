@@ -1,14 +1,9 @@
 export interface Users {
-  name: string;
-  pass: string;
-  mail: string;
+  idUser?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   phone: string;
-  position: Position[];
-  dilySales: boolean;
-  userCreate: boolean;
-  inventory: boolean;
-  billing: boolean;
-  isEditable: boolean;
 }
 
 export interface Position {
