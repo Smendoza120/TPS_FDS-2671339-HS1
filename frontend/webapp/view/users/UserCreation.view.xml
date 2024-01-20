@@ -8,7 +8,10 @@
     displayBlock="true"
     xmlns="sap.m"
 >
-    <Page showHeader="false">
+    <Page
+        showHeader="true"
+        backgroundDesign="List"
+    >
         <FlexBox
             width="100%"
             height="100%"
@@ -28,7 +31,21 @@
                 class="sapUiSmallMarginTop"
             >
                 <Label text="{i18n>UserCreationName}" />
-                <Input placeholder="Carlos" />
+                <Input
+                    placeholder="Carlos"
+                    valueLiveUpdate="true"
+                    value="{formWorker>/user/firstName}"
+                />
+
+                <Label
+                    text="{i18n>UserCreationLastName}"
+                    class="sapUiTinyMarginTop"
+                />
+                <Input
+                    placeholder="Sanchez"
+                    valueLiveUpdate="true"
+                    value="{formWorker>/user/lastName}"
+                />
 
                 <Label
                     text="{i18n>UserCreationPass}"
@@ -37,6 +54,8 @@
                 <Input
                     placeholder="*******"
                     type="Password"
+                    valueLiveUpdate="true"
+                    value="{formWorker>/password}"
                 />
 
                 <Label
@@ -44,8 +63,10 @@
                     class="sapUiTinyMarginTop"
                 />
                 <Input
-                    placeholder="Carlos"
+                    placeholder="carlos.sanchez@gmail.com"
                     type="Email"
+                    valueLiveUpdate="true"
+                    value="{formWorker>/user/email}"
                 />
 
                 <Label
@@ -55,6 +76,8 @@
                 <Input
                     placeholder="3118047047"
                     type="Tel"
+                    valueLiveUpdate="true"
+                    value="{formWorker>/user/phone}"
                 />
 
                 <Label
@@ -95,7 +118,7 @@
                             required="true"
                             text="{i18n>UserCreationDailySales}"
                         />
-                        <Switch />
+                        <Switch state="{formWorker>/salesPermission}" />
                     </HBox>
 
                     <HBox
@@ -104,7 +127,7 @@
                         direction="RowReverse"
                     >
                         <Label text="{i18n>UserCreationBilling}" />
-                        <Switch />
+                        <Switch state="{formWorker>/billsPermission}" />
                     </HBox>
                 </VBox>
 
@@ -120,7 +143,7 @@
                         direction="RowReverse"
                     >
                         <Label text="{i18n>UserCreationUserCreate}" />
-                        <Switch />
+                        <Switch state="{formWorker>/usersPermission}" />
                     </HBox>
 
                     <HBox
@@ -129,7 +152,7 @@
                         direction="RowReverse"
                     >
                         <Label text="{i18n>UserCreationInventory}" />
-                        <Switch />
+                        <Switch state="{formWorker>/inventoryPermission}" />
                     </HBox>
                 </VBox>
             </FlexBox>
