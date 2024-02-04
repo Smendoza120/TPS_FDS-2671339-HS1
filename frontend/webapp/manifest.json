@@ -47,7 +47,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.119.2",
       "libs": {
@@ -93,6 +93,11 @@
           "target": ["TargetHome"]
         },
         {
+          "name": "RouteLogIn",
+          "pattern": "logIn",
+          "target": ["TargetLogIn"]
+        },
+        {
           "name": "RouteUsers",
           "pattern": "users",
           "target": ["TargetUsers"]
@@ -115,6 +120,13 @@
           "clearControlAggregation": false,
           "viewId": "Home",
           "viewName": "Home"
+        },
+        "TargetLogIn": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "LogIn",
+          "viewName": "logIn.LogIn"
         },
         "TargetUsers": {
           "viewType": "XML",

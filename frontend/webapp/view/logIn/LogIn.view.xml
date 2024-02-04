@@ -1,0 +1,87 @@
+<mvc:View
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    controllerName="com.marketsystem.marketsystem.controller.logIn.LogIn"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page
+        id="logIn"
+        showHeader="false"
+    >
+        <FlexBox
+            alignItems="Center"
+            justifyContent="Center"
+            direction="Column"
+            height="100vh"
+        >
+            <FlexBox
+                backgroundDesign="Solid"
+                width="80%"
+                height="80%"
+                alignItems="Center"
+                justifyContent="Center"
+                direction="Column"
+            >
+                <Title
+                    text="{i18n>LogInTitle}"
+                    level="H2"
+                    titleStyle="H2"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <VBox
+                    width="90%"
+                    class="sapUiMediumMarginBottom"
+                >
+                    <Label text="{i18n>LogInMail}" />
+                    <Input
+                        id="mail"
+                        placeholder="correo@gmail.com"
+                        type="Text"
+                        liveChange="true"
+                    />
+                    <Text
+                        id="errorMail"
+                        text="{i18n>LogInErrorMail}"
+                        class="sapUiTinyMarginBottom errorMail"
+                        visible="false"
+                    />
+
+                    <Label text="{i18n>LogInPass}" />
+                    <Input
+                        id="pass"
+                        placeholder="********"
+                        type="Password"
+                        liveChange="true"
+                    />
+                </VBox>
+
+                <HBox
+                    alignItems="End"
+                    justifyContent="End"
+                    width="90%"
+                >
+                    <Button
+                        class="sapUiTinyMarginEnd"
+                        text="{i18n>LogInLogIn}"
+                        press=".onLogIn"
+                        icon="sap-icon://accept"
+                        type="Accept"
+                    />
+                    <Button
+                        class="sapUiTinyMarginBegin"
+                        text="{i18n>LogInCancel}"
+                        press=".onCleanForm"
+                        type="Negative"
+                    />
+                </HBox>
+
+                <HBox>
+                    <Button icon="" type="Default" text=""/>
+                </HBox>
+            </FlexBox>
+        </FlexBox>
+    </Page>
+</mvc:View>
