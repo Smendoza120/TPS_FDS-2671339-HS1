@@ -10,12 +10,6 @@ export class InventoryEntitie {
     idInventory: string;
 
     @Column({
-        type: 'int',
-        name: 'queantity'
-    })
-    queantity: number
-
-    @Column({
         type: 'varchar',
         length: 255,
         name: 'storage'

@@ -30,10 +30,10 @@ export class SalesService {
 
     await this.salesRepository.save(sale);
 
-    // Update the inventory
-    for (const product of sale.products) {
-      await this.iInventoryService.decreaseQuantity(product.inventory.idInventory, sale.quantity);
-    }
+    // // Update the inventory
+    // for (const product of sale.products) {
+    //   await this.iInventoryService.decreaseQuantity(product.inventory.idInventory, sale.quantity);
+    // }
 
     return sale;
   }

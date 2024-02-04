@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
 import { InventoryEntitie } from './inventory.entity';
-import { SalesEntity } from './sales.entity';
 
 @Entity({ name: 'products' })
 export class ProductsEntity {
@@ -24,22 +23,25 @@ export class ProductsEntity {
   price: number;
 
   @Column({
+    type: 'int',
+    name: 'quantity'
+  })
+  quantity: number;
+
+  @Column({
     type: 'date',
     name: 'due_date'
   })
-  dueDate: Date;
+  dueDate: string;
 
   @Column({
     type: 'date',
     name: 'purchase_date'
   })
-  purchaseDate: Date;
+  purchaseDate: string;
 
   @ManyToOne(() => InventoryEntitie, inventory => inventory.products) // Define la relación de muchos a uno con Inventory
   inventory: InventoryEntitie; // Esta es la propiedad que contendrá la referencia al objeto Inventory asociado
-
-  @ManyToOne(() => SalesEntity, sale => sale.products)
-  sale: SalesEntity;
 
   @BeforeInsert()
   addId() {
