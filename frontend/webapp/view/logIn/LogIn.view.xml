@@ -59,8 +59,8 @@
                 </VBox>
 
                 <HBox
-                    alignItems="End"
-                    justifyContent="End"
+                    alignItems="Center"
+                    justifyContent="Center"
                     width="90%"
                 >
                     <Button
@@ -78,8 +78,12 @@
                     />
                 </HBox>
 
-                <HBox>
-                    <Button icon="" type="Default" text=""/>
+                <HBox class="sapUiMediumMarginTop">
+                    <Button
+                        type="Accept"
+                        text="{i18n>LogInChangePass}"
+                        press=".onSendMail"
+                    />
                 </HBox>
             </FlexBox>
         </FlexBox>

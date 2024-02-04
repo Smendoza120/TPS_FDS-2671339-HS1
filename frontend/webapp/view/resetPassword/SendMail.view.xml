@@ -1,0 +1,52 @@
+<mvc:View
+    controllerName="com.marketsystem.marketsystem.controller.resetPassword.SendMail"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page showHeader="false">
+        <content>
+            <FlexBox
+                alignItems="Center"
+                justifyContent="Center"
+                width="100%"
+                height="100vh"
+                direction="Column"
+            >
+                <FlexBox
+                    alignItems="Center"
+                    justifyContent="Center"
+                    direction="Column"
+                    backgroundDesign="Solid"
+                    width="50%"
+                    height="50VH"
+                >
+                    <Title
+                        text="{i18n>SendMailTitle}"
+                        titleStyle="H2"
+                        class="sapUiSmallMarginBottom"
+                    />
+
+                    <VBox
+                        alignItems="Center"
+                        justifyContent="Center"
+                        backgroundDesign="Solid"
+                    >
+                        <VBox
+                            class="sapUiSmallMarginBottom"
+                            width="100%"
+                        >
+                            <Label text="{i18n>SendMailMail}" />
+                            <Input
+                                placeholder="correo@gmail.com"
+                                width="100%"
+                            />
+                        </VBox>
+
+                        <Button text="{i18n>SendMailSendCode}" type="Accept"/>
+                    </VBox>
+                </FlexBox>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>

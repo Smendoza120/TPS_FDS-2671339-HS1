@@ -28,7 +28,7 @@ export default class LogIn extends Base {
     mailInput.setValueState(ValueState.None);
 
     if (!this.validateEmail(userMail)) {
-    errorText.setVisible(true);
+      errorText.setVisible(true);
       mailInput.setValueState(ValueState.Error);
       return;
     }
@@ -97,5 +97,9 @@ export default class LogIn extends Base {
     mailInput.setValueState(ValueState.None);
     passInput.setValue("");
     errorText.setVisible(false);
+  }
+
+  public onSendMail() {
+    this.getRouter().navTo("RouteSendMail");
   }
 }
