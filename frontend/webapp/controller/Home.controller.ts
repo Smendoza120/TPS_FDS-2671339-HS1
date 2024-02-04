@@ -8,6 +8,10 @@ export default class Home extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {}
 
+  public goFinishSession(){
+    this.getRouter().navTo("RouteLogIn")
+  }
+
   public goToUsersPage() {
     this.getRouter().navTo("RouteUsers");
   }

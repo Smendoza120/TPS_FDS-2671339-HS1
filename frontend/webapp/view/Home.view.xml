@@ -15,6 +15,7 @@
                 text="{i18n>HomeCloseSession}"
                 icon="sap-icon://decline"
                 iconFirst="true"
+                press=".goFinishSession"
             />
         </headerContent>
         <content>

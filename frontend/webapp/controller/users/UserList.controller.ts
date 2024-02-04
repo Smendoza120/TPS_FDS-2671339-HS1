@@ -86,7 +86,7 @@ export default class UserList extends Base {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
 
     oTable.setModel(oWorkersModel);
-    oTable.bindRows("oWorkers>/");
+    // oTable.bindRows("oWorkers>/");
   }
 
   //?Informacion del usuario
