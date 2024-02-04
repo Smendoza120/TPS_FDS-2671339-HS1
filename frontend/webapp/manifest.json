@@ -98,6 +98,16 @@
           "target": ["TargetLogIn"]
         },
         {
+          "name": "RouteSendMail",
+          "pattern": "sendMail",
+          "target": ["TargetSendMail"]
+        },
+        {
+          "name": "RouteResetPassword",
+          "pattern": "resetPassword",
+          "target": ["TargetResetPassword"]
+        },
+        {
           "name": "RouteUsers",
           "pattern": "users",
           "target": ["TargetUsers"]
@@ -127,6 +137,20 @@
           "clearControlAggregation": false,
           "viewId": "LogIn",
           "viewName": "logIn.LogIn"
+        },
+        "TargetSendMail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "SendMail",
+          "viewName": "resetPassword.SendMail"
+        },
+        "TargetResetPassword": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ResetPassword",
+          "viewName": "resetPassword.ResetPassword"
         },
         "TargetUsers": {
           "viewType": "XML",
