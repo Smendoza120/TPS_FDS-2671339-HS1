@@ -1,7 +1,6 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { getListPosition } from "../../model/models";
 import Base from "../Base.controller";
-import MessageToast from "sap/m/MessageToast";
 import BusyIndicator from "sap/ui/core/BusyIndicator";
 import { Users } from "../../interfaces/users.interfaz";
 import { Workers } from "../../interfaces/workers.interfaz";
@@ -33,26 +32,20 @@ export default class UserCreation extends Base {
       } as Workers), // Asegúrate de castear tu modelo con la interfaz correcta
       "formWorker"
     );
-
-    // structureUserCreate();
-    // listPosition();
   }
 
   public createUser() {
-    alert("Entrando a la funcion createUser");
-
     const formData = (
       this.getView()?.getModel("formWorker") as JSONModel
     ).getData();
 
     if (this.validateFormData(formData)) {
-      alert("Datos del formulario validos");
-
       this.createUserInDatabase(formData.user)
         .then((createUser: any) => {
-          alert(`Usuario creado: ${createUser}`);
           if (createUser.idUser) {
-            return this.createWorker(createUser.userId, formData);
+            alert(`formData: ${JSON.stringify(formData)}`);
+            alert(`formData.user: ${JSON.stringify(formData.user)}`);
+            return this.createWorker(createUser.idUser, formData);
           } else {
             MessageBox.error(
               "Error al crear el usuario. Por favor, inténtelo de nuevo."
@@ -60,17 +53,13 @@ export default class UserCreation extends Base {
           }
         })
         .catch((err: any) => {
-          alert(`Error: ${err}`);
           MessageBox.error(
             "Error al crear el usuario. Por favor, inténtelo de nuevo."
           );
         });
     } else {
-      alert(`Datos del formulario no validos`);
       MessageBox.error("Por favor, complete todos los campos obligatorios.");
     }
-
-    alert(JSON.stringify(formData));
   }
 
   private createUserInDatabase(userData: Users): Promise<any> {
@@ -87,9 +76,12 @@ export default class UserCreation extends Base {
               "formWorker"
             ) as JSONModel;
             userModel.setProperty("/userId", createdUser.idUser);
+
+            resolve(createdUser);
           } else {
-            // alert("Error al crear el usuario: " + JSON.stringify(createdUser));
-            console.log("Error");
+            MessageBox.error(
+              "El error esta en la creacion de usuario en la base de datos"
+            );
           }
 
           resolve(createdUser);
@@ -118,8 +110,13 @@ export default class UserCreation extends Base {
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify(workerData),
+      // data: workerData,
     })
       .then((createWorker: any) => {
+        alert(`User id antes: ${idUser}`);
+        alert(`Creacion de trabajador: ${createWorker}`);
+        alert(`Datos del trabajador ${JSON.stringify(createWorker)}`);
+
         const currentData = (
           this.getView()?.getModel("oWorkers") as JSONModel
         ).getData();
@@ -131,23 +128,21 @@ export default class UserCreation extends Base {
         );
 
         MessageBox.success("Trabajador creado exitosamente");
+        alert(`User id despues: ${idUser}`);
       })
       .catch((error) => {
         alert(`Este es el userid: ${idUser}`);
         alert(JSON.stringify(error));
         MessageBox.error(
-          "Error al crear el usuario. Por favor, inténtelo de nuevo."
+          "Error al crear el trabajador. Por favor, inténtelo de nuevo."
         );
+
+        alert("El error esta en la creacion de trabajador"); //Error
       })
       .finally(() => {
         BusyIndicator.hide();
       });
   }
-
-  // public createUser() {
-  //   const message = "Cuenta creada con exito";
-  //   MessageToast.show(message);
-  // }
 
   public goToUsersPage() {
     this.getRouter().navTo("RouteUsers");

@@ -79,22 +79,6 @@
                     valueLiveUpdate="true"
                     value="{formWorker>/user/phone}"
                 />
-
-                <Label
-                    text="{i18n>UserCreationPosition}"
-                    class="sapUiTinyMarginTop"
-                />
-                <Select
-                    width="100%"
-                    selectedKey="{oUserList>/position}"
-                    items="{oListPosition>/}"
-                    editable="{oUserList>isEditable}"
-                >
-                    <core:Item
-                        key="{oListPosition>id}"
-                        text="{oListPosition>position}"
-                    />
-                </Select>
             </VBox>
 
             <FlexBox
