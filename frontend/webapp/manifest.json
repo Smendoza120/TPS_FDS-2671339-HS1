@@ -47,7 +47,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.119.2",
       "libs": {
@@ -93,6 +93,21 @@
           "target": ["TargetHome"]
         },
         {
+          "name": "RouteLogIn",
+          "pattern": "logIn",
+          "target": ["TargetLogIn"]
+        },
+        {
+          "name": "RouteSendMail",
+          "pattern": "sendMail",
+          "target": ["TargetSendMail"]
+        },
+        {
+          "name": "RouteResetPassword",
+          "pattern": "resetPassword",
+          "target": ["TargetResetPassword"]
+        },
+        {
           "name": "RouteUsers",
           "pattern": "users",
           "target": ["TargetUsers"]
@@ -115,6 +130,27 @@
           "clearControlAggregation": false,
           "viewId": "Home",
           "viewName": "Home"
+        },
+        "TargetLogIn": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "LogIn",
+          "viewName": "logIn.LogIn"
+        },
+        "TargetSendMail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "SendMail",
+          "viewName": "resetPassword.SendMail"
+        },
+        "TargetResetPassword": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ResetPassword",
+          "viewName": "resetPassword.ResetPassword"
         },
         "TargetUsers": {
           "viewType": "XML",

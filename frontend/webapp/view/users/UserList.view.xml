@@ -61,7 +61,9 @@
             </HBox>
             <table:Table
                 selectionMode="MultiToggle"
-                rows="{oUserList>/}"
+                rows="{oWorkers>/}"
+                id="tableWorkers"
+                busyIndicatorDelay="0"
             >
                 <table:extension>
                     <Bar>
@@ -71,87 +73,95 @@
                     </Bar>
                 </table:extension>
                 <table:columns>
-                    <table:Column width="8rem">
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
                         <Label text="{i18n>UserListName}" />
                         <table:template>
                             <Input
-                                value="{oUserList>name}"
+                                value="{oWorkers>user/firstName}"
                                 editable="{oUserList>isEditable}"
                             />
                         </table:template>
                     </table:Column>
 
-                    <table:Column width="8rem">
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
+                        <Label text="{i18n>userListLastName}" />
+                        <table:template>
+                            <Input
+                                value="{oWorkers>user/lastName}"
+                                editable="{oUserList>isEditable}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
                         <Label text="{i18n>UserListPass}" />
                         <table:template>
                             <Input
-                                value="{oUserList>pass}"
+                                value="{oWorkers>password}"
                                 type="Password"
                                 editable="{oUserList>isEditable}"
                             />
                         </table:template>
                     </table:Column>
 
-                    <table:Column width="11rem">
+                    <table:Column
+                        width="15rem"
+                        hAlign="Center"
+                    >
                         <Label text="{i18n>UserListMail}" />
                         <table:template>
                             <Input
-                                value="{oUserList>mail}"
+                                value="{oWorkers>user/email}"
                                 type="Email"
                                 editable="{oUserList>isEditable}"
                             />
                         </table:template>
                     </table:Column>
 
-                    <table:Column width="7rem">
+                    <table:Column
+                        width="9rem"
+                        hAlign="Center"
+                    >
                         <Label text="{i18n>UserListPhone}" />
                         <table:template>
                             <Input
-                                value="{oUserList>phone}"
+                                value="{oWorkers>user/phone}"
                                 type="Tel"
                                 editable="{oUserList>isEditable}"
                             />
                         </table:template>
                     </table:Column>
 
-                    <table:Column width="10rem">
-                        <Label text="{i18n>UserListPosition}" />
-                        <table:template>
-                            <Select
-                                width="100%"
-                                selectedKey="{oUserList>/position}"
-                                items="{oListPosition>/}"
-                                editable="{oUserList>isEditable}"
-                            >
-                                <core:Item
-                                    key="{oListPosition>id}"
-                                    text="{oListPosition>position}"
-                                />
-                            </Select>
-                        </table:template>
-                    </table:Column>
-
                     <table:Column
-                        width="8rem"
+                        width="10rem"
                         hAlign="Center"
                     >
                         <Label text="{i18n>UserListBilling}" />
                         <table:template>
                             <Switch
-                                state="{oUserList>billing}"
+                                state="{oWorkers>billsPermission}"
                                 enabled="{oUserList>isEditable}"
                             />
                         </table:template>
                     </table:Column>
 
                     <table:Column
-                        width="8rem"
+                        width="10rem"
                         hAlign="Center"
                     >
                         <Label text="{i18n>UserListUserCreate}" />
                         <table:template>
                             <Switch
-                                state="{oUserList>userCreate}"
+                                state="{oWorkers>usersPermission}"
                                 enabled="{oUserList>isEditable}"
                             />
                         </table:template>
@@ -164,7 +174,7 @@
                         <Label text="{i18n>UserListDailySales}" />
                         <table:template>
                             <Switch
-                                state="{oUserList>dilySales}"
+                                state="{oWorkers>salesPermission}"
                                 enabled="{oUserList>isEditable}"
                             />
                         </table:template>
@@ -177,9 +187,20 @@
                         <Label text="{i18n>UserListInventory}" />
                         <table:template>
                             <Switch
-                                state="{oUserList>inventory}"
+                                state="{oWorkers>inventoryPermission}"
                                 enabled="{oUserList>isEditable}"
                             />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        width="8rem"
+                        hAlign="Center"
+                    >
+                        <Label text="{i18n>UserListInventory}" />
+                        <table:template>
+                            <Button icon="sap-icon://delete" />
+                            <Button icon="sap-icon://show"/>
                         </table:template>
                     </table:Column>
                 </table:columns>

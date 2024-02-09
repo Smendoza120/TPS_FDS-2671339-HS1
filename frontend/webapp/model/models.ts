@@ -1,14 +1,15 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Device from "sap/ui/Device";
-import { Position, Users } from "../interfaces/users.interfaz";
 import { Inventory, Storage } from "../interfaces/inventory.interfaz";
 
-const oUsersModel = new JSONModel([]);
+//Datos de usuario
+const oUser = new JSONModel([]);
+//Datos del trabajador
+const oWorker = new JSONModel([]);
+
 const oListPostion = new JSONModel();
 const oInventoryControl = new JSONModel([]);
 const oListStorage = new JSONModel();
-
-let userStructure: Users[];
 
 export function createDeviceModel() {
   const model = new JSONModel(Device);
@@ -16,8 +17,12 @@ export function createDeviceModel() {
   return model;
 }
 
-export function getModelUsers(): JSONModel {
-  return oUsersModel;
+export function getUser(): JSONModel {
+  return oUser;
+}
+
+export function getWorker(): JSONModel {
+  return oWorker;
 }
 
 export function getListPosition(): JSONModel {
@@ -30,58 +35,6 @@ export function getInventoryControl(): JSONModel {
 
 export function getListStorage(): JSONModel {
   return oListStorage;
-}
-
-export function structureUserCreate(): Users {
-  const userCreateData: Users = {
-    name: "Harold",
-    pass: "asdwasdw",
-    mail: "harold@sanchez.com",
-    phone: "3118047047",
-    position: [
-      {
-        id: "1",
-        position: "Administrador",
-      },
-    ],
-    dilySales: false,
-    billing: false,
-    inventory: false,
-    userCreate: false,
-    isEditable: false,
-  };
-
-  oUsersModel.setData([userCreateData]);
-  return userCreateData;
-}
-
-export function setUsersData() {
-  userStructure = (oUsersModel as JSONModel).getData();
-  userStructure.push(structureUserCreate());
-}
-
-export function listPosition(): Position[] {
-  const position: Position[] = [
-    {
-      id: "1",
-      position: "Administrador",
-    },
-    {
-      id: "2",
-      position: "Contador",
-    },
-    {
-      id: "3",
-      position: "Gerente",
-    },
-    {
-      id: "4",
-      position: "Almacenista",
-    },
-  ];
-
-  oListPostion.setData(position);
-  return position;
 }
 
 export function structureInventory(): Inventory {
