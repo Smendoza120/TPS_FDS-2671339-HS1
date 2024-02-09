@@ -21,19 +21,43 @@ export default class LogIn extends Base {
     const passInput = this.getView()?.byId("pass") as Input;
 
     const errorText: Text = this.getView()?.byId("errorMail") as Text;
+    const formError: Text = this.getView()?.byId("formError") as Text;
 
     const userMail = mailInput.getValue();
     const userPass = passInput.getValue();
 
     mailInput.setValueState(ValueState.None);
 
-    if (!this.validateEmail(userMail)) {
+    if(userMail === "" && userPass === ""){
+      passInput.setValueState(ValueState.Error);
+      mailInput.setValueState(ValueState.Error);
+      formError.setText("Ingresa los datos")
+      formError.setVisible(true);
+      return;
+    }
+
+    if (userMail === "") {
       errorText.setVisible(true);
+      errorText.setText("Ingresa un correo electronico");
+      mailInput.setValueState(ValueState.Error);
+      return;
+    } else if (!this.validateEmail(userMail)) {
+      errorText.setVisible(true);
+      errorText.setText("Correo electrónico no válido");
       mailInput.setValueState(ValueState.Error);
       return;
     }
 
+    if (userPass === "") {
+      passInput.setValueState(ValueState.Error);
+      formError.setText("Ingresa la contraseña");
+      formError.setVisible(true);
+      return;
+    }
+
     try {
+      passInput.setValueState(ValueState.None);
+      formError.setVisible(false);
       mailInput.setValueState(ValueState.None);
       errorText.setVisible(false);
 

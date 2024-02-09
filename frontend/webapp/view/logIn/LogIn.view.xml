@@ -44,19 +44,25 @@
                     />
                     <Text
                         id="errorMail"
-                        text="{i18n>LogInErrorMail}"
                         class="sapUiTinyMarginBottom errorMail"
                         visible="false"
                     />
 
-                    <Label text="{i18n>LogInPass}" />
+                    <Label text="{i18n>LogInPass}" class="sapUiTinyMarginTop" />
                     <Input
                         id="pass"
                         placeholder="********"
                         type="Password"
                         liveChange="true"
                     />
+
+                    <Text
+                        id="formError"
+                        class="sapUiTinyMarginBottom errorMail"
+                        visible="false"
+                    />
                 </VBox>
+
 
                 <HBox
                     alignItems="Center"
