@@ -1,14 +1,10 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Base from "../Base.controller";
 import Button from "sap/m/Button";
-import Dialog from "sap/m/Dialog";
-import Text from "sap/m/Text";
-import Bar from "sap/m/Bar";
-import Title from "sap/m/Title";
-import FlexBox from "sap/m/FlexBox";
 import BusyIndicator from "sap/ui/core/BusyIndicator";
 import { EditableInfo } from "../../interfaces/editable.interfaz";
 import Table from "sap/ui/table/Table";
+import MessageBox from "sap/m/MessageBox";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -21,6 +17,7 @@ export default class UserList extends Base {
     this.getView()?.setModel(new JSONModel([]), "oWorkers");
 
     this.getView()?.setModel(new JSONModel([]), "oUserList");
+    this.getView()?.setModel(new JSONModel([]), "oUserListBackup")
 
     this.callData();
     this.updateTableWorker();
@@ -113,10 +110,10 @@ export default class UserList extends Base {
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
 
-    const pruebaUser = this.getView()?.getModel("oUser");
-
-    const purebaTrabajador = this.getView()?.getModel("oWorkers");
-    alert(JSON.stringify(purebaTrabajador?.getProperty("/")));
+    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
+    const editableData = oUserListModel.getProperty("/");
+    editableData.isEditable = true;
+    oUserListModel.setProperty("/0", editableData);
 
     if (editButton.getVisible() === true) {
       aceptChangesButton.setVisible(true);
@@ -127,68 +124,59 @@ export default class UserList extends Base {
       cancelChangesButton.setVisible(false);
       editButton.setVisible(true);
     }
-
-    const modelList = this.getView()?.getModel("oUserList") as JSONModel;
-    const editableProperty = modelList.getProperty("/");
-
-    modelList.setProperty("/0/isEditable", !editableProperty);
   }
 
   public onCancelChanges() {
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+
+    const oUserListBackupModel = this.getView()?.getModel("oUserListBackup") as JSONModel;  
+    const originalData = oUserListBackupModel.getData();
+    oUserListBackupModel
+
+    MessageBox.information("Cambios Cancelados");
+
     const editButton = this.getView()?.byId("editInformation") as Button;
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
 
-    if (cancelChangesButton.getVisible() === true) {
-      aceptChangesButton.setVisible(false);
-      cancelChangesButton.setVisible(false);
-      editButton.setVisible(true);
-    } else {
-      aceptChangesButton.setVisible(true);
-      cancelChangesButton.setVisible(true);
-      editButton.setVisible(false);
-    }
+    editButton.setVisible(true);
+    aceptChangesButton.setVisible(false);
+    cancelChangesButton.setVisible(false);
 
     const modelList = this.getView()?.getModel("oUserList") as JSONModel;
-    const editableProperty = modelList.getProperty("/0/isEditable");
+    modelList.setProperty("/0/isEditable", false);
 
-    modelList.setProperty("/0/isEditable", !editableProperty);
+    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
+    const editableData = oUserListModel.getProperty("/0");
+
+    editableData.isEditable = false;
+
+    oUserListModel.setProperty("/0", editableData);
   }
 
   public onAceptChanges() {
-    const oDialog = new Dialog({
-      showHeader: true,
-      customHeader: new Bar({
-        contentLeft: new Title({
-          text: "Realizar cambios",
-        }),
-      }),
-      content: [
-        new FlexBox({
-          alignItems: "Center",
-          justifyContent: "Center",
-          alignContent: "Center",
-          items: new Text({
-            text: "¿Deseas realizar los cambios?",
-            textAlign: "Center",
-          }),
-        }),
-      ],
-      beginButton: new Button({
-        text: "Aceptar",
-        press: function () {
-          oDialog.close();
-        },
-      }),
-      endButton: new Button({
-        text: "Cancelar",
-        press: function () {
-          oDialog.close();
-        },
-      }),
-    });
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+    const updatedDate = oWorkersModel.getProperty("/");
 
-    oDialog.open();
+    MessageBox.success("Cambios Guardados correctamente");
+
+    const editButton = this.getView()?.byId("editInformation") as Button;
+    const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
+    const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+
+    editButton.setVisible(true);
+    aceptChangesButton.setVisible(false);
+    cancelChangesButton.setVisible(false);
+
+    const modelList = this.getView()?.getModel("oUserList") as JSONModel;
+    modelList.setProperty("/0/isEditable", false);
+
+    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
+    const editableData = oUserListModel.getProperty("/0");
+
+    editableData.isEditable = false;
+
+    oUserListModel.setProperty("/0", editableData);
   }
 
   public cancelUpdateUser() {
