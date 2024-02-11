@@ -20,7 +20,7 @@ export class SalesEntity {
         type: 'date',
         name: 'sales_date'
     })
-    salesDate: Date;
+    salesDate: string;
 
     @OneToOne(() => CustomerEntity, { cascade: true, eager: true })
     @JoinColumn({
