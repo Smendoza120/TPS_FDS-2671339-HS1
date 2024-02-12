@@ -11,13 +11,41 @@ import { InventoryService } from './services/invenotory.service';
 import { InventoryController } from './controllers/inventory.controller';
 import { SalesService } from './services/sales.service';
 import { SalesController } from './controllers/sales.controller';
+import { ReportService } from './services/reports.service';
+import { ReportsController } from './controllers/reports.controller';
 import { Providers } from './providers/providers';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
-    imports: [DatabaseModule],
-    controllers: [UsersController, WorkersController, CustomerController,ProductController, InventoryController, SalesController],
-    providers: [ ...Providers, UsersService, WorkersService, CustomerService,ProductService, InventoryService, SalesService],
-    exports: [...Providers, UsersService, WorkersService, CustomerService,ProductService, InventoryService, SalesService]
+  imports: [DatabaseModule],
+  controllers: [
+    UsersController,
+    WorkersController,
+    CustomerController,
+    ProductController,
+    InventoryController,
+    SalesController,
+    ReportsController,
+  ],
+  providers: [
+    ...Providers,
+    UsersService,
+    WorkersService,
+    CustomerService,
+    ProductService,
+    InventoryService,
+    SalesService,
+    ReportService,
+  ],
+  exports: [
+    ...Providers,
+    UsersService,
+    WorkersService,
+    CustomerService,
+    ProductService,
+    InventoryService,
+    SalesService,
+    ReportService,
+  ],
 })
 export class MsModule {}

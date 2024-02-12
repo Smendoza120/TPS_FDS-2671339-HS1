@@ -4,28 +4,27 @@ import { ReportsSalesEntity } from '../entities/reports.entity';
 import { SalesService } from './sales.service';
 
 @Injectable()
-export class InventoryService {
+export class ReportService {
   constructor(
-    @Inject('INVENTORY_REPOSITORY')
+    @Inject('REPORT_SALES_REPOSITORY')
     private iReportsSalesEntity: Repository<ReportsSalesEntity>,
     private salesService: SalesService,
   ) {}
 
-  async createDailyReport(): Promise<ReportsSalesEntity> {
-    // Obtén la fecha actual
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
+  async createDailyReport(date: string): Promise<ReportsSalesEntity> {
+    // Convert the date string to a Date object
+    const reportDate = new Date(date);
+    reportDate.setHours(0, 0, 0, 0);
 
-    // Obtén todas las ventas del día
-    const sales = await this.salesService.getSalesByDate(currentDate);
+    // Generate the sales report for the day
+    const salesReport = await this.salesService.generateDailyReport(reportDate);
 
-    // Crea un nuevo reporte y agrega las ventas a él
+    // Create a new report and add the sales to it
     const report = new ReportsSalesEntity();
-    report.sales = sales;
+    report.sales = [salesReport]; // Wrap salesReport in an array
 
-    // Guarda el reporte en la base de datos
-    // Asume que tienes un método save en tu SalesService
-    await this.salesService.saveReport(report);
+    // Save the report in the database
+    await this.iReportsSalesEntity.save(report);
 
     return report;
   }

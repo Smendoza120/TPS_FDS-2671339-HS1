@@ -20,6 +20,6 @@ export class ReportsSalesEntity {
     this.idReportSales = uuidv4();
   }
 
-  @OneToMany(() => SalesEntity, (sale) => sale.customer)
+  @OneToMany(() => SalesEntity, (sale) => sale.report)
   sales: SalesEntity[];
 }
