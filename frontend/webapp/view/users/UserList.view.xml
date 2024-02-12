@@ -81,7 +81,8 @@
                         <table:template>
                             <Input
                                 value="{oWorkers>user/firstName}"
-                                editable="{oUserList>isEditable}"
+                                editable="{oUserList>/isEditable}"
+                                visible="{oUserList>/isVisible}"
                             />
                         </table:template>
                     </table:Column>
@@ -94,7 +95,7 @@
                         <table:template>
                             <Input
                                 value="{oWorkers>user/lastName}"
-                                editable="{oUserList>isEditable}"
+                                editable="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -108,7 +109,7 @@
                             <Input
                                 value="{oWorkers>password}"
                                 type="Password"
-                                editable="{oUserList>isEditable}"
+                                editable="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -122,7 +123,7 @@
                             <Input
                                 value="{oWorkers>user/email}"
                                 type="Email"
-                                editable="{oUserList>isEditable}"
+                                editable="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -136,7 +137,7 @@
                             <Input
                                 value="{oWorkers>user/phone}"
                                 type="Tel"
-                                editable="{oUserList>isEditable}"
+                                editable="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -149,7 +150,7 @@
                         <table:template>
                             <Switch
                                 state="{oWorkers>billsPermission}"
-                                enabled="{oUserList>isEditable}"
+                                enabled="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -162,7 +163,7 @@
                         <table:template>
                             <Switch
                                 state="{oWorkers>usersPermission}"
-                                enabled="{oUserList>isEditable}"
+                                enabled="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -175,7 +176,7 @@
                         <table:template>
                             <Switch
                                 state="{oWorkers>salesPermission}"
-                                enabled="{oUserList>isEditable}"
+                                enabled="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -188,7 +189,7 @@
                         <table:template>
                             <Switch
                                 state="{oWorkers>inventoryPermission}"
-                                enabled="{oUserList>isEditable}"
+                                enabled="{oUserList>/isEditable}"
                             />
                         </table:template>
                     </table:Column>
@@ -196,11 +197,11 @@
                     <table:Column
                         width="8rem"
                         hAlign="Center"
+                        visible="{oUserList>/isEditable}"
                     >
                         <Label text="{i18n>UserListInventory}" />
                         <table:template>
                             <Button icon="sap-icon://delete" />
-                            <Button icon="sap-icon://show"/>
                         </table:template>
                     </table:Column>
                 </table:columns>
