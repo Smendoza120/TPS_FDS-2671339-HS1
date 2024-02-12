@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert, OneToMany } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
 import { UserEntity } from './users.entity';
 import { SalesEntity } from './sales.entity';
@@ -16,8 +16,8 @@ export class CustomerEntity {
     this.idCustomer = uuidv4();
   }
 
-  @OneToOne(() => SalesEntity, sale => sale.customers)
-  sale: SalesEntity;
+  @OneToMany(() => SalesEntity, sale => sale.customer)
+  sales: SalesEntity[];
 
   @OneToOne(() => UserEntity, { cascade: true, eager: true })
   @JoinColumn({

@@ -23,6 +23,16 @@ export class ProductService {
     return product;
   }
 
+  async updateQuantity(id: string, quantity: number): Promise<ProductsEntity> {
+    const product = await this.iProductsEntity.findOne({ where: { idProduct: id } });
+    if (!product) {
+      throw new Error(`Product with ID ${id} not found`);
+    }
+    product.quantity -= quantity;
+    await this.iProductsEntity.save(product);
+    return product;
+  }
+
   async find(): Promise<ProductsEntity[]> {
     return await this.iProductsEntity.find();
   }

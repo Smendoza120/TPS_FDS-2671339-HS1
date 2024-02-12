@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsInt, IsDate, IsUUID } from "class-validator";
+import { IsInt, IsUUID, IsString } from "class-validator";
 
 export class SalesDto {
   @ApiProperty()
@@ -7,8 +7,8 @@ export class SalesDto {
   quantity: number;
 
   @ApiProperty()
-  @IsDate()
-  salesDate: Date;
+  @IsString()
+  salesDate: string;
 
   @ApiProperty()
   @IsUUID()

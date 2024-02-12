@@ -14,6 +14,9 @@ export class CustomerService {
 
   async create(dto: CustomerDto): Promise<CustomerEntity> {
     const user = await this.userService.getUserById(dto.userId);
+    if (!user) {
+      throw new Error(`User with ID ${dto.userId} not found`);
+    }
     
     const customer = new CustomerEntity();
     customer.user = user; 
@@ -25,7 +28,14 @@ export class CustomerService {
   
   async update(id: string, dto: CustomerDto): Promise<CustomerEntity> {
     const customer = await this.findOne(id);
+    if (!customer) {
+      throw new Error(`Customer with ID ${id} not found`);
+    }
+
     const user = await this.userService.getUserById(dto.userId);
+    if (!user) {
+      throw new Error(`User with ID ${dto.userId} not found`);
+    }
     
     customer.user = user;
     
@@ -35,7 +45,11 @@ export class CustomerService {
   }
   
   async findOne(id: string): Promise<CustomerEntity> {
-    return await this.iCustomerEntity.findOneOrFail({where: {idCustomer: id}});
+    const customer = await this.iCustomerEntity.findOne({where: {idCustomer: id}});
+    if (!customer) {
+      throw new Error(`Customer with ID ${id} not found`);
+    }
+    return customer;
   }
   
   async find(): Promise<CustomerEntity[]> {
@@ -44,17 +58,30 @@ export class CustomerService {
   
   async delete(id: string): Promise<void> {
     const customer = await this.findOne(id);
+    if (!customer) {
+      throw new Error(`Customer with ID ${id} not found`);
+    }
     await this.userService.delete(customer.user.idUser);
     await this.iCustomerEntity.delete(id);
   }
   
   async findByEmail(email: string): Promise<CustomerEntity> {
     const user = await this.userService.getUserByEmail(email);
-    return await this.iCustomerEntity.findOne({ where: { idCustomer: user.idUser } });
+    if (!user) {
+      throw new Error(`User with email ${email} not found`);
+    }
+    const customer = await this.iCustomerEntity.findOne({ where: { idCustomer: user.idUser } });
+    if (!customer) {
+      throw new Error(`Customer with user ID ${user.idUser} not found`);
+    }
+    return customer;
   }
   
   async findById(id: string): Promise<CustomerEntity> {
-    const user = await this.userService.getUserById(id);
-    return await this.iCustomerEntity.findOne({ where: { idCustomer: user.idUser } });
+    const customer = await this.iCustomerEntity.findOne({ where: { idCustomer: id } });
+    if (!customer) {
+      throw new Error(`Customer with ID ${id} not found`);
+    }
+    return customer;
   }
 }

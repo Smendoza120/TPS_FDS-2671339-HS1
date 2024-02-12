@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, IntegerType, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, OneToMany, JoinColumn } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
 import { ProductsEntity } from "./products.entity";
 
@@ -8,12 +8,6 @@ export class InventoryEntitie {
         name: 'id_inventory',
     })
     idInventory: string;
-
-    @Column({
-        type: 'int',
-        name: 'queantity'
-    })
-    queantity: number
 
     @Column({
         type: 'varchar',

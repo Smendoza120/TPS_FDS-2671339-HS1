@@ -35,14 +35,4 @@ export class InventoryService {
     const inventory = await this.iInventoryEntitie.findOneOrFail({where: {idInventory: id}});
     await this.iInventoryEntitie.remove(inventory);
   }
-
-  async decreaseQuantity(id: string, decreaseBy: number): Promise<InventoryEntitie> {
-    const inventory = await this.iInventoryEntitie.findOneOrFail({where: {idInventory: id}});
-    if (inventory.queantity < decreaseBy) {
-      throw new Error('Not enough items in inventory');
-    }
-    inventory.queantity -= decreaseBy;
-    await this.iInventoryEntitie.save(inventory);
-    return inventory;
-  }
 }

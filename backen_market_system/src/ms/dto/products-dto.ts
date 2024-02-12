@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsString, IsDate, IsUUID, IsNumber } from "class-validator";
+import { IsString, IsUUID, IsNumber } from "class-validator";
 
 export class ProductDto {
     @ApiProperty()
@@ -11,16 +11,20 @@ export class ProductDto {
     price: number;
 
     @ApiProperty()
-    @IsDate()
-    dueDate: Date;
+    @IsNumber()
+    quantity: number;
+
+    @ApiProperty()
+    @IsString()
+    dueDate: string;
     
     @ApiProperty()
-    @IsDate()
-    purchaseDate: Date;
+    @IsString()
+    purchaseDate: string;
 
     @ApiProperty()
     @IsUUID()
-    inventoryId: string;
+    inventory_id: string;
 }
 
 export class UpdateProductDto extends PartialType(ProductDto) {}
