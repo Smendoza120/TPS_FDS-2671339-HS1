@@ -6,6 +6,7 @@ import { EditableInfo } from "../../interfaces/editable.interfaz";
 import Table from "sap/ui/table/Table";
 import MessageBox from "sap/m/MessageBox";
 
+
 /**
  * @namespace com.marketsystem.marketsystem.controller
  */
