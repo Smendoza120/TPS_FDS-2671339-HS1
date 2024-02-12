@@ -7,6 +7,8 @@ import { CustomerEntity } from '../entities/customers.entity';
 import { SalesEntity } from '../entities/sales.entity';
 import { ProductsEntity } from '../entities/products.entity';
 import { InventoryEntitie } from '../entities/inventory.entity';
+import { ReportsSalesEntity } from '../entities/reports.entity';
+import { BillsEntity } from '../entities/bills.entity';
 // Definimos y exportamos una constante llamada Providers. Esta constante es un array de objetos, donde cada objeto es un proveedor.
 export const Providers = [
   {
@@ -53,6 +55,18 @@ export const Providers = [
     provide: 'INVENTORY_REPOSITORY',
     useFactory: (connection: DataSource) =>
       connection.getRepository(InventoryEntitie),
+    inject: ['DATABASE_CONNECTION'],
+  },
+  {
+    provide: 'REPORT_SALES_REPOSITORY',
+    useFactory: (connection: DataSource) =>
+      connection.getRepository(ReportsSalesEntity),
+    inject: ['DATABASE_CONNECTION'],
+  },
+  {
+    provide: 'BILLS_REPOSITORY',
+    useFactory: (connection: DataSource) =>
+      connection.getRepository(BillsEntity),
     inject: ['DATABASE_CONNECTION'],
   },
 ];

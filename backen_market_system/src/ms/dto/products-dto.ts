@@ -24,7 +24,7 @@ export class ProductDto {
 
     @ApiProperty()
     @IsUUID()
-    inventoryId: string;
+    inventory_id: string;
 }
 
 export class UpdateProductDto extends PartialType(ProductDto) {}

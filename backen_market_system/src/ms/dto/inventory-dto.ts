@@ -1,11 +1,7 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsString, IsInt } from "class-validator";
+import { IsString } from "class-validator";
 
 export class InventoryDto {
-    @ApiProperty()
-    @IsInt()
-    quantity: number;
-
     @ApiProperty()
     @IsString()
     storage: string;
