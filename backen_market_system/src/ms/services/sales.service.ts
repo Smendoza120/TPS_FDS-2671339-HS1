@@ -1,15 +1,18 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { SalesEntity } from '../entities/sales.entity';
 import { SalesDto } from '../dto/sales-dto';
 import { InventoryService } from './invenotory.service';
 import { CustomerService } from './customer.service';
 import { ProductService } from './products.service';
+import { ReportsSalesEntity } from '../entities/reports.entity';
 @Injectable()
 export class SalesService {
   constructor(
     @Inject('SALES_REPOSITORY')
     private salesRepository: Repository<SalesEntity>,
+    @Inject('REPORT_SALES_REPOSITORY')
+    private reportsSalesEntity: Repository<ReportsSalesEntity>,
     private iInventoryService: InventoryService,
     private iCustomerService: CustomerService,
     private iProductService: ProductService,
@@ -24,7 +27,7 @@ export class SalesService {
       if (!customer) {
         throw new Error(`Customer with ID ${dto.customerId} not found`);
       }
-      sale.customers = customer;
+      sale.customer = customer;
   
       // Inicializa sale.products si es undefined
       if (!sale.products) {
@@ -67,7 +70,7 @@ export class SalesService {
   }
 
   async find(): Promise<SalesEntity[]> {
-    return await this.salesRepository.find({ relations: ["products", "customers"] });
+    return await this.salesRepository.find({ relations: ["products", "customer"] });
   }
 
   async findById(id: string): Promise<SalesEntity> {
@@ -84,5 +87,81 @@ export class SalesService {
       throw new Error(`Sale with ID ${id} not found`);
     }
     await this.salesRepository.remove(sale);
+  }
+
+  async generateDailyReport(date: Date): Promise<any> {
+    // Obtén la fecha del día siguiente
+    const nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + 1);
+  
+    // Convierte las fechas a cadenas en formato YYYY-MM-DD
+    const dateString = date.toISOString().split('T')[0];
+    const nextDateString = nextDate.toISOString().split('T')[0];
+  
+    // Obtén todas las ventas del día
+    const sales = await this.salesRepository.find({
+      where: {
+        salesDate: Between(dateString, nextDateString),
+      },
+      relations: ['products'], // Asegúrate de cargar los productos relacionados
+    });
+  
+    // Inicializa el total y el objeto de reporte
+    let total = 0;
+    const report: any = {};
+  
+    // Itera sobre cada venta
+    for (const sale of sales) {
+      // Itera sobre cada producto en la venta
+      for (const product of sale.products) {
+        // Busca el producto usando el servicio ProductService
+        const productDetails = await this.iProductService.findById(product.idProduct);
+  
+        // Si el producto ya está en el reporte, incrementa la cantidad y suma al total
+        if (report[product.idProduct]) {
+          report[product.idProduct].quantity += sale.quantity;
+          report[product.idProduct].total += sale.quantity * productDetails.price;
+        } else {
+          // Si el producto no está en el reporte, añádelo
+          report[product.idProduct] = {
+            product: productDetails.productName,
+            quantity: sale.quantity,
+            price: productDetails.price,
+            total: sale.quantity * productDetails.price,
+          };
+        }
+  
+        // Suma al total general
+        total += sale.quantity * productDetails.price;
+      }
+    }
+  
+    // Añade el total al reporte
+    report.total = total;
+  
+    return report;
+  }
+
+  async getSalesByDate(date: Date): Promise<SalesEntity[]> {
+    // Obtén la fecha del día siguiente
+    const nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + 1);
+
+    // Convierte las fechas a cadenas en formato YYYY-MM-DD
+    const dateString = date.toISOString().split('T')[0];
+    const nextDateString = nextDate.toISOString().split('T')[0];
+
+    // Obtén todas las ventas del día
+    const sales = await this.salesRepository.find({
+      where: {
+        salesDate: Between(dateString, nextDateString),
+      },
+    });
+
+    return sales;
+  }
+
+  async saveReport(report: ReportsSalesEntity): Promise<ReportsSalesEntity> {
+    return await this.reportsSalesEntity.save(report);
   }
 }

@@ -1,7 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, JoinColumn, OneToOne, ManyToMany, JoinTable } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
+// En SalesEntity
+import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, JoinColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { ProductsEntity } from "./products.entity";
 import { CustomerEntity } from './customers.entity';
+import { ReportsSalesEntity } from './reports.entity';
+import { BillsEntity } from './bills.entity'
 
 @Entity({name: 'sales'})
 export class SalesEntity {
@@ -22,11 +25,14 @@ export class SalesEntity {
     })
     salesDate: string;
 
-    @OneToOne(() => CustomerEntity, { cascade: true, eager: true })
-    @JoinColumn({
-      name: 'id_customer',
-    })
-    customers: CustomerEntity;
+    @ManyToOne(() => CustomerEntity, customer => customer.sales, { cascade: true, eager: true })
+    customer: CustomerEntity;
+
+    @ManyToOne(() => ReportsSalesEntity, report => report.sales, { cascade: true, eager: true })
+    report: ReportsSalesEntity;
+
+    @ManyToOne(() => BillsEntity, bills => bills.sales, { cascade: true, eager: true })
+    bills: BillsEntity;
 
     @ManyToMany(() => ProductsEntity)
     @JoinTable()
