@@ -31,19 +31,25 @@
                         alignItems="Center"
                         justifyContent="Center"
                         backgroundDesign="Solid"
+                        width="100%"
                     >
                         <VBox
                             class="sapUiSmallMarginBottom"
-                            width="100%"
+                            width="80%"
                         >
-                            <Label text="{i18n>SendMailMail}" />
                             <Input
+                                id="sendMail"
                                 placeholder="correo@gmail.com"
                                 width="100%"
                             />
                         </VBox>
 
-                        <Button text="{i18n>SendMailSendCode}" type="Accept"/>
+                        <Button
+                            text="{i18n>SendMailSendCode}"
+                            type="Accept"
+                            icon="sap-icon://email"
+                            press=".oSendMail"
+                        />
                     </VBox>
                 </FlexBox>
             </FlexBox>
