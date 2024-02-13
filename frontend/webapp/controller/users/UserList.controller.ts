@@ -5,7 +5,7 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import { EditableInfo } from "../../interfaces/editable.interfaz";
 import Table from "sap/ui/table/Table";
 import MessageBox from "sap/m/MessageBox";
-
+import Switch from "sap/m/Switch";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -13,23 +13,32 @@ import MessageBox from "sap/m/MessageBox";
 export default class UserList extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    this.getView()?.setModel(new JSONModel([]), "oUser");
-    this.getView()?.setModel(new JSONModel([]), "oPermissions");
-    this.getView()?.setModel(new JSONModel([]), "oWorkers");
+    // this.getView()?.setModel(new JSONModel([]), "oUser");
+    // this.getView()?.setModel(new JSONModel([]), "oPermissions");
+    // this.getView()?.setModel(new JSONModel([]), "oWorkers");
 
-    this.getView()?.setModel(new JSONModel([]), "oUserList");
-    this.getView()?.setModel(new JSONModel([]), "oUserListBackup")
+    // this.getView()?.setModel(new JSONModel([]), "oUserList");
+    // this.getView()?.setModel(new JSONModel([]), "oWorkersBackup");
 
+    this.initModels();
     this.callData();
     this.updateTableWorker();
   }
 
-  public async callData() {
+  private initModels(): void {
+    this.getView()?.setModel(new JSONModel([]), "oUser");
+    this.getView()?.setModel(new JSONModel([]), "oPermissions");
+    this.getView()?.setModel(new JSONModel([]), "oWorkers");
+    this.getView()?.setModel(new JSONModel([]), "oUserList");
+    this.getView()?.setModel(new JSONModel([]), "oWorkersBackup");
+  }
+
+  private async callData(): Promise<void> {
     await this.oDataWorker();
     this.oDataUser();
     this.editableInfo();
-    //!Esto se usa para revisar la informacion de los modelos
-    // await this.testModels();
+    this.assignSwitchIds();
+    this.setSwitchIds();
   }
 
   public editableInfo() {
@@ -65,6 +74,7 @@ export default class UserList extends Base {
         (this.getView()?.getModel("oWorkers") as JSONModel).setData(
           updatedData
         );
+
         this.updateTableWorker();
       })
       .catch((error) => {
@@ -73,6 +83,23 @@ export default class UserList extends Base {
       .finally(() => {
         BusyIndicator.hide();
       });
+  }
+
+  private assignSwitchIds(): void {
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+    const workersData = oWorkersModel.getProperty("/");
+
+    workersData.forEach((worker: any) => {
+      const workerId = worker.id;
+
+      worker.billsPermission = `billsSwitch_${workerId}`;
+      worker.usersPermission = `usersSwitch_${workerId}`;
+      worker.salesPermission = `salesSwitch_${workerId}`;
+      worker.inventoryPermission = `inventorySwitch_${workerId}`;
+    });
+
+    oWorkersModel.setProperty("/", workersData);
+    alert(JSON.stringify(oWorkersModel.getProperty("/")));
   }
 
   public onAfterRendering(): void {
@@ -111,10 +138,20 @@ export default class UserList extends Base {
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
 
-    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
-    const editableData = oUserListModel.getProperty("/");
+    //Copia de seguridad
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+    const originalData = [...oWorkersModel.getProperty("/")];
+
+    const oWorkersBackupModel = this.getView()?.getModel(
+      "oWorkersBackup"
+    ) as JSONModel;
+    oWorkersBackupModel.setData([...originalData]);
+
+    const oUsersListModel = this.getView()?.getModel("oUserList") as JSONModel;
+    const editableData = oUsersListModel.getProperty("/");
+
     editableData.isEditable = true;
-    oUserListModel.setProperty("/0", editableData);
+    oUsersListModel.setProperty("/0", editableData);
 
     if (editButton.getVisible() === true) {
       aceptChangesButton.setVisible(true);
@@ -128,11 +165,12 @@ export default class UserList extends Base {
   }
 
   public onCancelChanges() {
+    const oWoerkersBackupModel = this.getView()?.getModel(
+      "oWorkersBackup"
+    ) as JSONModel;
+    const originalData = oWoerkersBackupModel.getData();
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-
-    const oUserListBackupModel = this.getView()?.getModel("oUserListBackup") as JSONModel;  
-    const originalData = oUserListBackupModel.getData();
-    oUserListBackupModel
+    oWorkersModel.setData(originalData);
 
     MessageBox.information("Cambios Cancelados");
 
@@ -153,31 +191,98 @@ export default class UserList extends Base {
     editableData.isEditable = false;
 
     oUserListModel.setProperty("/0", editableData);
+
+    oWoerkersBackupModel.setData([]);
   }
 
-  public onAceptChanges() {
+  public async updateWorker(worker: any) {
+    const workerId = worker.id;
+
+    await this.callAjax({
+      url: `/workers/${workerId}`,
+      type: "POST",
+      data: worker,
+    });
+  }
+
+  public clearBackupData() {
+    const oWorkersBackupModel = this.getView()?.getModel(
+      "oWorkersBackup"
+    ) as JSONModel;
+    oWorkersBackupModel.setData([]);
+  }
+
+  public setSwitchIds() {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    const updatedDate = oWorkersModel.getProperty("/");
+    const workersData = oWorkersModel.getProperty("/");
 
-    MessageBox.success("Cambios Guardados correctamente");
+    workersData.forEach((worker: any) => {
+      worker.billsSwitchId = "billsSwitch_" + worker.id;
+      worker.usersSwitchId = "usersSwitch_" + worker.id;
+      worker.salesSwitchId = "salesSwitch_" + worker.id;
+      worker.inventorySwitchId = "inventorySwitch_" + worker.id;
+    });
 
-    const editButton = this.getView()?.byId("editInformation") as Button;
-    const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
-    const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+    oWorkersModel.setProperty("/", workersData);
+  }
 
-    editButton.setVisible(true);
-    aceptChangesButton.setVisible(false);
-    cancelChangesButton.setVisible(false);
+  public async onAceptChanges() {
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+    const updatedData = oWorkersModel.getProperty("/");
 
-    const modelList = this.getView()?.getModel("oUserList") as JSONModel;
-    modelList.setProperty("/0/isEditable", false);
+    try {
+      for (const worker of updatedData) {
+        const salesSwitchId = `salesSwitch_${worker.id}`;
+        const inventorySwitchId = `inventorySwitch_${worker.id}`;
+        const userssSwitchId = `usersSwitch_${worker.id}`;
+        const billsSwitchId = `billsSwitch_${worker.id}`;
 
-    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
-    const editableData = oUserListModel.getProperty("/0");
+        const dataToSend = {
+          ...worker,
+          salesPermission: (
+            this.getView()?.byId(salesSwitchId) as Switch
+          ).getState(),
+          inventoryPermission: (
+            this.getView()?.byId(inventorySwitchId) as Switch
+          ).getState(),
+          usersPermission: (
+            this.getView()?.byId(userssSwitchId) as Switch
+          ).getState(),
+          billsPermission: (
+            this.getView()?.byId(billsSwitchId) as Switch
+          ).getState(),
+        };
 
-    editableData.isEditable = false;
+        await this.updateWorker(dataToSend);
+      }
 
-    oUserListModel.setProperty("/0", editableData);
+      MessageBox.success("Cambios Guardados correctamente");
+      this.clearBackupData();
+
+      const editButton = this.getView()?.byId("editInformation") as Button;
+      const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
+      const cancelChangesButton = this.getView()?.byId(
+        "cancelChanges"
+      ) as Button;
+
+      editButton.setVisible(true);
+      aceptChangesButton.setVisible(false);
+      cancelChangesButton.setVisible(false);
+
+      const modelList = this.getView()?.getModel("oUserList") as JSONModel;
+      modelList.setProperty("/0/isEditable", false);
+
+      const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
+      const editableData = oUserListModel.getProperty("/0");
+
+      editableData.isEditable = false;
+
+      oUserListModel.setProperty("/0", editableData);
+    } catch (error) {
+      MessageBox.error(
+        `No se pudieron realizar los cambios: ${JSON.stringify(error)}`
+      );
+    }
   }
 
   public cancelUpdateUser() {
