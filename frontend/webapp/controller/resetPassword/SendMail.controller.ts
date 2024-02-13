@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import BusyIndicator from "sap/ui/core/BusyIndicator";
 import Base from "../Base.controller";
 import Input from "sap/m/Input";
@@ -41,14 +40,3 @@ export default class SendMail extends Base {
     }
   }
 }
-=======
-import Base from "../Base.controller";
-
-/**
- * @namespace com.marketsystem.marketsystem.controller
- */
-export default class SendMail extends Base {
-  /*eslint-disable @typescript-eslint/no-empty-function*/
-  public onInit(): void {}
-}
->>>>>>> upstream/dev-hs
