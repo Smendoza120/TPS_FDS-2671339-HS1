@@ -5,7 +5,6 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import { EditableInfo } from "../../interfaces/editable.interfaz";
 import Table from "sap/ui/table/Table";
 import MessageBox from "sap/m/MessageBox";
-import Switch from "sap/m/Switch";
 import Dialog from "sap/m/Dialog";
 import Text from "sap/m/Text";
 
@@ -115,7 +114,6 @@ export default class UserList extends Base {
     //Copia de seguridad
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
     const originalData = oWorkersModel.getData();
-    // const originalData = [...oWorkersModel.getProperty("/")];
 
     const oWorkersBackupModel = this.getView()?.getModel(
       "oWorkersBackup"
@@ -179,7 +177,6 @@ export default class UserList extends Base {
 
   public async onAceptChanges() {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    // const updatedData = oWorkersModel.getProperty("/");
     const updatedData = oWorkersModel.getData();
 
     try {
