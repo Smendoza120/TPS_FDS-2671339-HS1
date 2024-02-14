@@ -12,7 +12,6 @@ import MessageBox from "sap/m/MessageBox";
 export default class UserCreation extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    // this.getView()?.setModel(getModelUsers(), "oUserList");
     this.getView()?.setModel(getListPosition(), "oListPosition");
 
     this.getView()?.setModel(
@@ -29,7 +28,7 @@ export default class UserCreation extends Base {
           email: "",
           phone: "",
         },
-      } as Workers), // Asegúrate de castear tu modelo con la interfaz correcta
+      } as Workers),
       "formWorker"
     );
   }
@@ -75,6 +74,7 @@ export default class UserCreation extends Base {
             const userModel = this.getView()?.getModel(
               "formWorker"
             ) as JSONModel;
+
             userModel.setProperty("/userId", createdUser.idUser);
 
             resolve(createdUser);
@@ -110,12 +110,11 @@ export default class UserCreation extends Base {
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify(workerData),
-      // data: workerData,
     })
       .then((createWorker: any) => {
-        alert(`User id antes: ${idUser}`);
-        alert(`Creacion de trabajador: ${createWorker}`);
-        alert(`Datos del trabajador ${JSON.stringify(createWorker)}`);
+        // alert(`User id antes: ${idUser}`);
+        // alert(`Creacion de trabajador: ${createWorker}`);
+        // alert(`Datos del trabajador ${JSON.stringify(createWorker)}`);
 
         const currentData = (
           this.getView()?.getModel("oWorkers") as JSONModel

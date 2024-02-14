@@ -6,6 +6,8 @@ import { EditableInfo } from "../../interfaces/editable.interfaz";
 import Table from "sap/ui/table/Table";
 import MessageBox from "sap/m/MessageBox";
 import Switch from "sap/m/Switch";
+import Dialog from "sap/m/Dialog";
+import Text from "sap/m/Text";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -13,16 +15,8 @@ import Switch from "sap/m/Switch";
 export default class UserList extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    // this.getView()?.setModel(new JSONModel([]), "oUser");
-    // this.getView()?.setModel(new JSONModel([]), "oPermissions");
-    // this.getView()?.setModel(new JSONModel([]), "oWorkers");
-
-    // this.getView()?.setModel(new JSONModel([]), "oUserList");
-    // this.getView()?.setModel(new JSONModel([]), "oWorkersBackup");
-
     this.initModels();
     this.callData();
-    this.updateTableWorker();
   }
 
   private initModels(): void {
@@ -37,8 +31,6 @@ export default class UserList extends Base {
     await this.oDataWorker();
     this.oDataUser();
     this.editableInfo();
-    this.assignSwitchIds();
-    this.setSwitchIds();
   }
 
   public editableInfo() {
@@ -85,23 +77,6 @@ export default class UserList extends Base {
       });
   }
 
-  private assignSwitchIds(): void {
-    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    const workersData = oWorkersModel.getProperty("/");
-
-    workersData.forEach((worker: any) => {
-      const workerId = worker.id;
-
-      worker.billsPermission = `billsSwitch_${workerId}`;
-      worker.usersPermission = `usersSwitch_${workerId}`;
-      worker.salesPermission = `salesSwitch_${workerId}`;
-      worker.inventoryPermission = `inventorySwitch_${workerId}`;
-    });
-
-    oWorkersModel.setProperty("/", workersData);
-    alert(JSON.stringify(oWorkersModel.getProperty("/")));
-  }
-
   public onAfterRendering(): void {
     this.updateTableWorker();
   }
@@ -111,7 +86,6 @@ export default class UserList extends Base {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
 
     oTable.setModel(oWorkersModel);
-    // oTable.bindRows("oWorkers>/");
   }
 
   //?Informacion del usuario
@@ -140,7 +114,8 @@ export default class UserList extends Base {
 
     //Copia de seguridad
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    const originalData = [...oWorkersModel.getProperty("/")];
+    const originalData = oWorkersModel.getData();
+    // const originalData = [...oWorkersModel.getProperty("/")];
 
     const oWorkersBackupModel = this.getView()?.getModel(
       "oWorkersBackup"
@@ -195,16 +170,6 @@ export default class UserList extends Base {
     oWoerkersBackupModel.setData([]);
   }
 
-  public async updateWorker(worker: any) {
-    const workerId = worker.id;
-
-    await this.callAjax({
-      url: `/workers/${workerId}`,
-      type: "POST",
-      data: worker,
-    });
-  }
-
   public clearBackupData() {
     const oWorkersBackupModel = this.getView()?.getModel(
       "oWorkersBackup"
@@ -212,49 +177,24 @@ export default class UserList extends Base {
     oWorkersBackupModel.setData([]);
   }
 
-  public setSwitchIds() {
-    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    const workersData = oWorkersModel.getProperty("/");
-
-    workersData.forEach((worker: any) => {
-      worker.billsSwitchId = "billsSwitch_" + worker.id;
-      worker.usersSwitchId = "usersSwitch_" + worker.id;
-      worker.salesSwitchId = "salesSwitch_" + worker.id;
-      worker.inventorySwitchId = "inventorySwitch_" + worker.id;
-    });
-
-    oWorkersModel.setProperty("/", workersData);
-  }
-
   public async onAceptChanges() {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    const updatedData = oWorkersModel.getProperty("/");
+    // const updatedData = oWorkersModel.getProperty("/");
+    const updatedData = oWorkersModel.getData();
 
     try {
-      for (const worker of updatedData) {
-        const salesSwitchId = `salesSwitch_${worker.id}`;
-        const inventorySwitchId = `inventorySwitch_${worker.id}`;
-        const userssSwitchId = `usersSwitch_${worker.id}`;
-        const billsSwitchId = `billsSwitch_${worker.id}`;
+      await Promise.all(
+        updatedData.map(async (worker: any) => {
+          const workerId = worker.idWorker;
 
-        const dataToSend = {
-          ...worker,
-          salesPermission: (
-            this.getView()?.byId(salesSwitchId) as Switch
-          ).getState(),
-          inventoryPermission: (
-            this.getView()?.byId(inventorySwitchId) as Switch
-          ).getState(),
-          usersPermission: (
-            this.getView()?.byId(userssSwitchId) as Switch
-          ).getState(),
-          billsPermission: (
-            this.getView()?.byId(billsSwitchId) as Switch
-          ).getState(),
-        };
-
-        await this.updateWorker(dataToSend);
-      }
+          await this.callAjax({
+            url: `/workers/${workerId}`,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(worker),
+          });
+        })
+      );
 
       MessageBox.success("Cambios Guardados correctamente");
       this.clearBackupData();
@@ -294,5 +234,57 @@ export default class UserList extends Base {
 
   public goToUsersPage() {
     this.getRouter().navTo("RouteUsers");
+  }
+
+  //?Eliminar trabajador
+  public onDeleteWorker(oEvent: any) {
+    const oSelectedWorker = oEvent.getSource().getBindingContext("oWorkers").getObject();
+
+    const dialog = new Dialog({
+      title: "Eliminar Trabajador",
+      type: "Message",
+      content: new Text({
+        text: `¿Está seguro de que desea eliminar al trabajador ${oSelectedWorker.user.firstName} ${oSelectedWorker.user.lastName}?`,
+      }),
+      beginButton: new Button({
+        text: "Aceptar",
+        press: () => {
+          this.deleteWorker(oSelectedWorker.idWorker);
+          dialog.close();
+        },
+      }),
+      endButton: new Button({
+        text: "Cancelar",
+        press: () => {
+          dialog.close();
+        },
+      }),
+      afterClose: () => {
+        dialog.destroy();
+      },
+    });
+
+    dialog.open();
+  }
+
+  public async deleteWorker(workerId: string) {
+    try {
+      await this.callAjax({
+        url: `/workers/${workerId}`,
+        type: "DELETE",
+      });
+
+      const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+      const workersData = oWorkersModel
+        .getData()
+        .filter((worker: any) => worker.idWorker !== workerId);
+      oWorkersModel.setData(workersData);
+
+      MessageBox.success("Trabajador eliminado correctamente");
+    } catch (error) {
+      MessageBox.error(
+        `No se pudo eliminar al trabajador: ${JSON.stringify(error)}`
+      );
+    }
   }
 }
