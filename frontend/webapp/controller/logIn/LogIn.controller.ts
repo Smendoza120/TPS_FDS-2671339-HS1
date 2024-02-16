@@ -10,10 +10,37 @@ import Text from "sap/m/Text";
  */
 export default class LogIn extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
-  public onInit(): void {}
+  public onInit(): void {
+    const sessionId = localStorage.getItem("sessionId");
+    // alert(`SessionID: ${sessionId}`);
+  }
 
   public goToHomePage(): void {
     this.getRouter().navTo("RouteHome");
+  }
+
+  private async extractAndStoreAccessTokenFromCookie(): Promise<void> {
+    // const cookieValue = document.cookie.replace(
+    //   /(?:(?:^|.*;\s*)j\s*=\s*([^;]*).*$)|^.*$/,
+    //   "$1"
+    // );
+
+    document.cookie = "hola";
+
+    const cookieValue = document.cookie;
+
+    alert(typeof cookieValue)
+
+    // const cookieData = JSON.parse(decodeURIComponent(cookieValue));
+
+    // const accessToken = cookieData;
+
+    // if (accessToken) {
+    //   // localStorage.setItem("accessToken", accessToken);
+    //   alert(`accessToken: ${accessToken}`);
+    // } else {
+    //   alert("No se pudo encontrar el token");
+    // }
   }
 
   public async onLogIn(): Promise<void> {
@@ -28,10 +55,10 @@ export default class LogIn extends Base {
 
     mailInput.setValueState(ValueState.None);
 
-    if(userMail === "" && userPass === ""){
+    if (userMail === "" && userPass === "") {
       passInput.setValueState(ValueState.Error);
       mailInput.setValueState(ValueState.Error);
-      formError.setText("Ingresa los datos")
+      formError.setText("Ingresa los datos");
       formError.setVisible(true);
       return;
     }
@@ -65,6 +92,12 @@ export default class LogIn extends Base {
 
       if (response) {
         this.goToHomePage();
+
+        await this.extractAndStoreAccessTokenFromCookie();
+
+        setTimeout(async () => {
+          await this.extractAndStoreAccessTokenFromCookie();
+        }, 1000);
       }
     } catch (error) {
       console.error("Error", error);
@@ -88,6 +121,12 @@ export default class LogIn extends Base {
     })
       .then((response) => {
         if (response) {
+          const sessionId = response.status;
+          localStorage.setItem("sessionId", sessionId);
+          // alert(`SessionID: ${sessionId}`);
+          const prueba = localStorage.getItem("accessToken");
+          alert(prueba);
+          document.cookie = ``;
           return response;
         } else {
           throw new Error(

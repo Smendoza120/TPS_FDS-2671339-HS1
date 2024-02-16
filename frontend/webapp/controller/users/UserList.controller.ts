@@ -76,14 +76,15 @@ export default class UserList extends Base {
       });
   }
 
-  public onAfterRendering(): void {
-    this.updateTableWorker();
-  }
+  // public onAfterRendering(): void {
+  //   this.updateTableWorker();
+  // }
 
   public updateTableWorker() {
     const oTable = this.getView()?.byId("tableWorkers") as Table;
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
 
+    oTable.setModel(null);
     oTable.setModel(oWorkersModel);
   }
 
@@ -193,6 +194,9 @@ export default class UserList extends Base {
         })
       );
 
+      oWorkersModel.refresh(true);
+      this.updateTableWorker();
+
       MessageBox.success("Cambios Guardados correctamente");
       this.clearBackupData();
 
@@ -276,6 +280,7 @@ export default class UserList extends Base {
         .getData()
         .filter((worker: any) => worker.idWorker !== workerId);
       oWorkersModel.setData(workersData);
+      oWorkersModel.refresh(true);
 
       MessageBox.success("Trabajador eliminado correctamente");
     } catch (error) {

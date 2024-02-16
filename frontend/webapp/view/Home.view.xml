@@ -21,6 +21,7 @@
         <content>
             <!-- creacion usuarios -->
             <GenericTile
+                id="usersTile"
                 class="sapUiSmallMarginTop sapUiSmallMarginBegin"
                 header="{i18n>HomeItemUsers}"
                 press=".goToUsersPage"
@@ -35,6 +36,7 @@
 
             <!-- Inventario -->
             <GenericTile
+                id="invetoryTile"
                 class="sapUiSmallMarginTop sapUiSmallMarginBegin"
                 header="{i18n>HomeItemInventory}"
                 press=".goToInventoryPage"
@@ -46,8 +48,10 @@
                     />
                 </TileContent>
             </GenericTile>
+
             <!-- Control ventas diario -->
             <GenericTile
+                id="salesTile"
                 class="sapUiSmallMarginTop sapUiSmallMarginBegin"
                 header="{i18n>HomeItemDailySales}"
                 press=".goToDailySales"
@@ -59,8 +63,10 @@
                     />
                 </TileContent>
             </GenericTile>
+
             <!-- Facturacion -->
             <GenericTile
+                id="billTile"
                 class="sapUiSmallMarginTop sapUiSmallMarginBegin"
                 header="{i18n>HomeItemBilling}"
             >
