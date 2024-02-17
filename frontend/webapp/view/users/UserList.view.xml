@@ -201,7 +201,7 @@
                     >
                         <Label text="{i18n>UserListInventory}" />
                         <table:template>
-                            <Button icon="sap-icon://delete" />
+                            <Button icon="sap-icon://delete" press=".onDeleteWorker" />
                         </table:template>
                     </table:Column>
                 </table:columns>

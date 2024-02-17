@@ -5,7 +5,8 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import { EditableInfo } from "../../interfaces/editable.interfaz";
 import Table from "sap/ui/table/Table";
 import MessageBox from "sap/m/MessageBox";
-
+import Dialog from "sap/m/Dialog";
+import Text from "sap/m/Text";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -13,23 +14,22 @@ import MessageBox from "sap/m/MessageBox";
 export default class UserList extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
+    this.initModels();
+    this.callData();
+  }
+
+  private initModels(): void {
     this.getView()?.setModel(new JSONModel([]), "oUser");
     this.getView()?.setModel(new JSONModel([]), "oPermissions");
     this.getView()?.setModel(new JSONModel([]), "oWorkers");
-
     this.getView()?.setModel(new JSONModel([]), "oUserList");
-    this.getView()?.setModel(new JSONModel([]), "oUserListBackup")
-
-    this.callData();
-    this.updateTableWorker();
+    this.getView()?.setModel(new JSONModel([]), "oWorkersBackup");
   }
 
-  public async callData() {
+  private async callData(): Promise<void> {
     await this.oDataWorker();
     this.oDataUser();
     this.editableInfo();
-    //!Esto se usa para revisar la informacion de los modelos
-    // await this.testModels();
   }
 
   public editableInfo() {
@@ -65,6 +65,7 @@ export default class UserList extends Base {
         (this.getView()?.getModel("oWorkers") as JSONModel).setData(
           updatedData
         );
+
         this.updateTableWorker();
       })
       .catch((error) => {
@@ -75,16 +76,16 @@ export default class UserList extends Base {
       });
   }
 
-  public onAfterRendering(): void {
-    this.updateTableWorker();
-  }
+  // public onAfterRendering(): void {
+  //   this.updateTableWorker();
+  // }
 
   public updateTableWorker() {
     const oTable = this.getView()?.byId("tableWorkers") as Table;
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
 
+    oTable.setModel(null);
     oTable.setModel(oWorkersModel);
-    // oTable.bindRows("oWorkers>/");
   }
 
   //?Informacion del usuario
@@ -111,10 +112,20 @@ export default class UserList extends Base {
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
 
-    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
-    const editableData = oUserListModel.getProperty("/");
+    //Copia de seguridad
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+    const originalData = oWorkersModel.getData();
+
+    const oWorkersBackupModel = this.getView()?.getModel(
+      "oWorkersBackup"
+    ) as JSONModel;
+    oWorkersBackupModel.setData([...originalData]);
+
+    const oUsersListModel = this.getView()?.getModel("oUserList") as JSONModel;
+    const editableData = oUsersListModel.getProperty("/");
+
     editableData.isEditable = true;
-    oUserListModel.setProperty("/0", editableData);
+    oUsersListModel.setProperty("/0", editableData);
 
     if (editButton.getVisible() === true) {
       aceptChangesButton.setVisible(true);
@@ -128,11 +139,12 @@ export default class UserList extends Base {
   }
 
   public onCancelChanges() {
+    const oWoerkersBackupModel = this.getView()?.getModel(
+      "oWorkersBackup"
+    ) as JSONModel;
+    const originalData = oWoerkersBackupModel.getData();
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-
-    const oUserListBackupModel = this.getView()?.getModel("oUserListBackup") as JSONModel;  
-    const originalData = oUserListBackupModel.getData();
-    oUserListBackupModel
+    oWorkersModel.setData(originalData);
 
     MessageBox.information("Cambios Cancelados");
 
@@ -153,31 +165,65 @@ export default class UserList extends Base {
     editableData.isEditable = false;
 
     oUserListModel.setProperty("/0", editableData);
+
+    oWoerkersBackupModel.setData([]);
   }
 
-  public onAceptChanges() {
+  public clearBackupData() {
+    const oWorkersBackupModel = this.getView()?.getModel(
+      "oWorkersBackup"
+    ) as JSONModel;
+    oWorkersBackupModel.setData([]);
+  }
+
+  public async onAceptChanges() {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
-    const updatedDate = oWorkersModel.getProperty("/");
+    const updatedData = oWorkersModel.getData();
 
-    MessageBox.success("Cambios Guardados correctamente");
+    try {
+      await Promise.all(
+        updatedData.map(async (worker: any) => {
+          const workerId = worker.idWorker;
 
-    const editButton = this.getView()?.byId("editInformation") as Button;
-    const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
-    const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+          await this.callAjax({
+            url: `/workers/${workerId}`,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(worker),
+          });
+        })
+      );
 
-    editButton.setVisible(true);
-    aceptChangesButton.setVisible(false);
-    cancelChangesButton.setVisible(false);
+      oWorkersModel.refresh(true);
+      this.updateTableWorker();
 
-    const modelList = this.getView()?.getModel("oUserList") as JSONModel;
-    modelList.setProperty("/0/isEditable", false);
+      MessageBox.success("Cambios Guardados correctamente");
+      this.clearBackupData();
 
-    const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
-    const editableData = oUserListModel.getProperty("/0");
+      const editButton = this.getView()?.byId("editInformation") as Button;
+      const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
+      const cancelChangesButton = this.getView()?.byId(
+        "cancelChanges"
+      ) as Button;
 
-    editableData.isEditable = false;
+      editButton.setVisible(true);
+      aceptChangesButton.setVisible(false);
+      cancelChangesButton.setVisible(false);
 
-    oUserListModel.setProperty("/0", editableData);
+      const modelList = this.getView()?.getModel("oUserList") as JSONModel;
+      modelList.setProperty("/0/isEditable", false);
+
+      const oUserListModel = this.getView()?.getModel("oUserList") as JSONModel;
+      const editableData = oUserListModel.getProperty("/0");
+
+      editableData.isEditable = false;
+
+      oUserListModel.setProperty("/0", editableData);
+    } catch (error) {
+      MessageBox.error(
+        `No se pudieron realizar los cambios: ${JSON.stringify(error)}`
+      );
+    }
   }
 
   public cancelUpdateUser() {
@@ -189,5 +235,58 @@ export default class UserList extends Base {
 
   public goToUsersPage() {
     this.getRouter().navTo("RouteUsers");
+  }
+
+  //?Eliminar trabajador
+  public onDeleteWorker(oEvent: any) {
+    const oSelectedWorker = oEvent.getSource().getBindingContext("oWorkers").getObject();
+
+    const dialog = new Dialog({
+      title: "Eliminar Trabajador",
+      type: "Message",
+      content: new Text({
+        text: `¿Está seguro de que desea eliminar al trabajador ${oSelectedWorker.user.firstName} ${oSelectedWorker.user.lastName}?`,
+      }),
+      beginButton: new Button({
+        text: "Aceptar",
+        press: () => {
+          this.deleteWorker(oSelectedWorker.idWorker);
+          dialog.close();
+        },
+      }),
+      endButton: new Button({
+        text: "Cancelar",
+        press: () => {
+          dialog.close();
+        },
+      }),
+      afterClose: () => {
+        dialog.destroy();
+      },
+    });
+
+    dialog.open();
+  }
+
+  public async deleteWorker(workerId: string) {
+    try {
+      await this.callAjax({
+        url: `/workers/${workerId}`,
+        type: "DELETE",
+      });
+
+      const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+      const workersData = oWorkersModel
+        .getData()
+        .filter((worker: any) => worker.idWorker !== workerId);
+      oWorkersModel.setData(workersData);
+      oWorkersModel.refresh(true);
+
+      MessageBox.success("Trabajador eliminado correctamente");
+    } catch (error) {
+      MessageBox.error(
+        `No se pudo eliminar al trabajador: ${JSON.stringify(error)}`
+      );
+    }
   }
 }
