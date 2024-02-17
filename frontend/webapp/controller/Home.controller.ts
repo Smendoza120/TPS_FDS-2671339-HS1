@@ -1,6 +1,8 @@
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Base from "./Base.controller";
 import GenericTile from "sap/m/GenericTile";
+import MessageBox from "sap/m/MessageBox";
+import BusyIndicator from "sap/ui/core/BusyIndicator";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -22,7 +24,7 @@ export default class Home extends Base {
   }
 
   public loadUserPermissions(): void {
-    const idWorker = "d61c05da-d16f-4a74-b6f2-08576252e9f4"; //Falta traer el id del trabajador con el endpoint
+    const idWorker = "8f33f4a3-9349-4f99-a6eb-a2d242b0d8fe"; //Falta traer el id del trabajador con el endpoint
 
     this.callWorkerEndPoint(idWorker)
       .then((workerData: any) => {

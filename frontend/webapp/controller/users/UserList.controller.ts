@@ -13,9 +13,20 @@ import Text from "sap/m/Text";
  */
 export default class UserList extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
+  private previousWorkers(): any {}
+
+  private areEqual(obj1: any, obj2: any): boolean {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  }
+
   public onInit(): void {
     this.initModels();
     this.callData();
+    this.loadWorkerData();
+  }
+
+  public onAfterRendering(): void {
+    this.loadWorkerData();
   }
 
   private initModels(): void {
@@ -30,6 +41,30 @@ export default class UserList extends Base {
     await this.oDataWorker();
     this.oDataUser();
     this.editableInfo();
+    this.updateUserTable();
+  }
+
+  private async loadWorkerData(): Promise<void> {
+    try {
+      BusyIndicator.show(0);
+
+      const workerList = await this.callAjax({
+        url: "/workers",
+        method: "GET",
+      });
+
+      const oWorkerModel = this.getView()?.getModel("oWorkers") as JSONModel;
+      oWorkerModel.setData(workerList);
+      this.updateTableWorker();
+    } catch (error) {
+      MessageBox.error(
+        `Error al cargar los datos de los trabajadores: ${JSON.stringify(
+          error
+        )}`
+      );
+    } finally {
+      BusyIndicator.hide();
+    }
   }
 
   public editableInfo() {
@@ -76,16 +111,15 @@ export default class UserList extends Base {
       });
   }
 
-  // public onAfterRendering(): void {
-  //   this.updateTableWorker();
-  // }
-
   public updateTableWorker() {
     const oTable = this.getView()?.byId("tableWorkers") as Table;
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
 
-    oTable.setModel(null);
-    oTable.setModel(oWorkersModel);
+    if (oTable && oWorkersModel) {
+      oTable.setModel(oWorkersModel);
+    } else {
+      alert("Error: Table or Workers Model is undefined");
+    }
   }
 
   //?Informacion del usuario
@@ -111,6 +145,7 @@ export default class UserList extends Base {
     const editButton = this.getView()?.byId("editInformation") as Button;
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+    const deleteWorkersButton = this.getView()?.byId("deleteWorkers") as Button;
 
     //Copia de seguridad
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
@@ -130,10 +165,12 @@ export default class UserList extends Base {
     if (editButton.getVisible() === true) {
       aceptChangesButton.setVisible(true);
       cancelChangesButton.setVisible(true);
+      deleteWorkersButton.setVisible(true)
       editButton.setVisible(false);
     } else {
       aceptChangesButton.setVisible(false);
       cancelChangesButton.setVisible(false);
+      deleteWorkersButton.setVisible(false)
       editButton.setVisible(true);
     }
   }
@@ -151,10 +188,12 @@ export default class UserList extends Base {
     const editButton = this.getView()?.byId("editInformation") as Button;
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+    const deleteWorkersButton = this.getView()?.byId("deleteWorkers") as Button;
 
     editButton.setVisible(true);
     aceptChangesButton.setVisible(false);
     cancelChangesButton.setVisible(false);
+    deleteWorkersButton.setVisible(false);
 
     const modelList = this.getView()?.getModel("oUserList") as JSONModel;
     modelList.setProperty("/0/isEditable", false);
@@ -205,10 +244,12 @@ export default class UserList extends Base {
       const cancelChangesButton = this.getView()?.byId(
         "cancelChanges"
       ) as Button;
+      const deleteWorkersButton = this.getView()?.byId("deleteWorkers") as Button;
 
       editButton.setVisible(true);
       aceptChangesButton.setVisible(false);
       cancelChangesButton.setVisible(false);
+      deleteWorkersButton.setVisible(false);
 
       const modelList = this.getView()?.getModel("oUserList") as JSONModel;
       modelList.setProperty("/0/isEditable", false);
@@ -239,7 +280,10 @@ export default class UserList extends Base {
 
   //?Eliminar trabajador
   public onDeleteWorker(oEvent: any) {
-    const oSelectedWorker = oEvent.getSource().getBindingContext("oWorkers").getObject();
+    const oSelectedWorker = oEvent
+      .getSource()
+      .getBindingContext("oWorkers")
+      .getObject();
 
     const dialog = new Dialog({
       title: "Eliminar Trabajador",
@@ -286,6 +330,83 @@ export default class UserList extends Base {
     } catch (error) {
       MessageBox.error(
         `No se pudo eliminar al trabajador: ${JSON.stringify(error)}`
+      );
+    }
+  }
+
+  private async updateUserTable() {
+    try {
+      const workerList = await this.callAjax({
+        url: "/workers",
+        method: "GET",
+      });
+
+      const oWorkerModel = this.getView()?.getModel("oWorkers") as JSONModel;
+      oWorkerModel.setData(workerList);
+
+      this.updateTableWorker();
+    } catch (error) {
+      alert("Error");
+      alert(JSON.stringify(error));
+    }
+  }
+
+  public onDeleteSelectedWorkers(): void {
+    const oTable = this.getView()?.byId("tableWorkers") as Table;
+    const aSelectedIndices = oTable.getSelectedIndices();
+    const aSelectedWorkers: any[] = [];
+
+    aSelectedIndices.forEach((index: number) => {
+      const oContext = oTable.getContextByIndex(index);
+      if (oContext) {
+        const oWorker = oContext.getObject();
+        aSelectedWorkers.push(oWorker);
+      }
+    });
+
+    if (aSelectedWorkers.length === 0) {
+      MessageBox.warning("No se han seleccionado trabajadores para eliminar.");
+      return;
+    }
+
+    const dialog = new Dialog({
+      title: "Eliminar Trabajadores",
+      type: "Message",
+      content: new Text({
+        text: `¿Está seguro de que desea eliminar ${aSelectedWorkers.length} trabajadores seleccionados?`,
+      }),
+      beginButton: new Button({
+        text: "Aceptar",
+        press: () => {
+          this.deleteSelectedWorkers(aSelectedWorkers);
+          dialog.close();
+        },
+      }),
+      endButton: new Button({
+        text: "Cancelar",
+        press: () => {
+          dialog.close();
+        },
+      }),
+      afterClose: () => {
+        dialog.destroy();
+      },
+    });
+
+    dialog.open();
+  }
+
+  public async deleteSelectedWorkers(selectedWorkers: any[]): Promise<void> {
+    const aWorkerIds = selectedWorkers.map((worker) => worker.idWorker);
+
+    try {
+      await Promise.all(
+        aWorkerIds.map((workerId) => this.deleteWorker(workerId))
+      );
+      MessageBox.success("Trabajadores eliminados correctamente");
+    } catch (error) {
+      MessageBox.error(
+        `Error al eliminar trabajadores: ${JSON.stringify(error)}`
       );
     }
   }

@@ -20,27 +20,21 @@ export default class LogIn extends Base {
   }
 
   private async extractAndStoreAccessTokenFromCookie(): Promise<void> {
-    // const cookieValue = document.cookie.replace(
-    //   /(?:(?:^|.*;\s*)j\s*=\s*([^;]*).*$)|^.*$/,
-    //   "$1"
-    // );
+    const cookieValue = document.cookie.replace(
+      /(?:(?:^|.*;\s*)j\s*=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
 
-    document.cookie = "hola";
+    const cookieData = JSON.parse(decodeURIComponent(cookieValue));
 
-    const cookieValue = document.cookie;
+    const accessToken = cookieData;
 
-    alert(typeof cookieValue)
-
-    // const cookieData = JSON.parse(decodeURIComponent(cookieValue));
-
-    // const accessToken = cookieData;
-
-    // if (accessToken) {
-    //   // localStorage.setItem("accessToken", accessToken);
-    //   alert(`accessToken: ${accessToken}`);
-    // } else {
-    //   alert("No se pudo encontrar el token");
-    // }
+    if (accessToken) {
+      // localStorage.setItem("accessToken", accessToken);
+      // alert(`accessToken: ${accessToken}`);
+    } else {
+      // alert("No se pudo encontrar el token"); 
+    }
   }
 
   public async onLogIn(): Promise<void> {
@@ -93,7 +87,7 @@ export default class LogIn extends Base {
       if (response) {
         this.goToHomePage();
 
-        await this.extractAndStoreAccessTokenFromCookie();
+        // await this.extractAndStoreAccessTokenFromCookie();
 
         setTimeout(async () => {
           await this.extractAndStoreAccessTokenFromCookie();
@@ -101,7 +95,7 @@ export default class LogIn extends Base {
       }
     } catch (error) {
       console.error("Error", error);
-      alert(JSON.stringify(error));
+      // alert(JSON.stringify(error));
     }
   }
 
@@ -125,7 +119,7 @@ export default class LogIn extends Base {
           localStorage.setItem("sessionId", sessionId);
           // alert(`SessionID: ${sessionId}`);
           const prueba = localStorage.getItem("accessToken");
-          alert(prueba);
+          alert(`Esto es una prueba: ${prueba}`);
           document.cookie = ``;
           return response;
         } else {
