@@ -130,7 +130,6 @@ export class SalesService {
             total: sale.quantity * productDetails.price,
           };
         }
-  
         // Suma al total general
         total += sale.quantity * productDetails.price;
       }
