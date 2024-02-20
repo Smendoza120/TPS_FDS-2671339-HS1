@@ -32,6 +32,7 @@
             >
                 <Label text="{i18n>UserCreationName}" />
                 <Input
+                    id="firstName"
                     placeholder="Carlos"
                     valueLiveUpdate="true"
                     value="{formWorker>/user/firstName}"
@@ -42,6 +43,7 @@
                     class="sapUiTinyMarginTop"
                 />
                 <Input
+                    id="lastName"
                     placeholder="Sanchez"
                     valueLiveUpdate="true"
                     value="{formWorker>/user/lastName}"
@@ -52,6 +54,7 @@
                     class="sapUiTinyMarginTop"
                 />
                 <Input
+                    id="pass"
                     placeholder="*******"
                     type="Password"
                     valueLiveUpdate="true"
@@ -63,6 +66,7 @@
                     class="sapUiTinyMarginTop"
                 />
                 <Input
+                    id="email"
                     placeholder="carlos.sanchez@gmail.com"
                     type="Email"
                     valueLiveUpdate="true"
@@ -74,6 +78,7 @@
                     class="sapUiTinyMarginTop"
                 />
                 <Input
+                    id="phone"
                     placeholder="3118047047"
                     type="Tel"
                     valueLiveUpdate="true"
@@ -102,7 +107,10 @@
                             required="true"
                             text="{i18n>UserCreationDailySales}"
                         />
-                        <Switch state="{formWorker>/salesPermission}" />
+                        <Switch
+                            id="salesPermission"
+                            state="{formWorker>/salesPermission}"
+                        />
                     </HBox>
 
                     <HBox
@@ -111,7 +119,10 @@
                         direction="RowReverse"
                     >
                         <Label text="{i18n>UserCreationBilling}" />
-                        <Switch state="{formWorker>/billsPermission}" />
+                        <Switch
+                            id="billsPermission"
+                            state="{formWorker>/billsPermission}"
+                        />
                     </HBox>
                 </VBox>
 
@@ -127,7 +138,10 @@
                         direction="RowReverse"
                     >
                         <Label text="{i18n>UserCreationUserCreate}" />
-                        <Switch state="{formWorker>/usersPermission}" />
+                        <Switch
+                            id="usersPermission"
+                            state="{formWorker>/usersPermission}"
+                        />
                     </HBox>
 
                     <HBox
@@ -136,7 +150,10 @@
                         direction="RowReverse"
                     >
                         <Label text="{i18n>UserCreationInventory}" />
-                        <Switch state="{formWorker>/inventoryPermission}" />
+                        <Switch
+                            id="inventoryPermission"
+                            state="{formWorker>/inventoryPermission}"
+                        />
                     </HBox>
                 </VBox>
             </FlexBox>
@@ -149,10 +166,10 @@
             >
                 <Button
                     width="100px"
-                    text="{i18n>UserCreationCancelUser}"
-                    icon="sap-icon://sys-cancel"
-                    type="Negative"
-                    press=".prueba"
+                    text="{i18n>UserCreationCleanUser}"
+                    icon="sap-icon://not-editable"
+                    type="Emphasized"
+                    press=".onCancel"
                 />
 
                 <Button
