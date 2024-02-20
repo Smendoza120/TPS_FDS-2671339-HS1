@@ -166,9 +166,9 @@
             >
                 <Button
                     width="100px"
-                    text="{i18n>UserCreationCancelUser}"
-                    icon="sap-icon://sys-cancel"
-                    type="Negative"
+                    text="{i18n>UserCreationCleanUser}"
+                    icon="sap-icon://not-editable"
+                    type="Emphasized"
                     press=".onCancel"
                 />
 
