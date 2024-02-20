@@ -2,7 +2,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   BeforeInsert,
-  OneToMany
+  OneToMany,
+  Column
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
 import { SalesEntity } from './sales.entity';
@@ -13,6 +14,12 @@ export class ReportsSalesEntity {
     name: 'id_report_sales',
   })
   idReportSales: string;
+
+  @Column({
+    type: 'date',
+    name: 'report_date'
+  })
+  date: string;
 
   @BeforeInsert()
   addId() {

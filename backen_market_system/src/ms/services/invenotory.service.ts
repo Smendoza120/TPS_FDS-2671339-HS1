@@ -23,8 +23,25 @@ export class InventoryService {
     return inventory;
   }
 
-  async find(): Promise<InventoryEntitie[]> {
-    return await this.iInventoryEntitie.find({ relations: ["products"] });
+  async find(): Promise<any[]> {
+    const inventories = await this.iInventoryEntitie.find({ relations: ["products"] });
+    return inventories.map(inventory => {
+      const productSummary = inventory.products.reduce((summary, product) => {
+        if (!summary[product.productName]) {
+          summary[product.productName] = {
+            quantity: 0,
+            total: 0,
+          };
+        }
+        summary[product.productName].quantity += product.quantity;
+        summary[product.productName].total += product.price * product.quantity;
+        return summary;
+      }, {});
+      return {
+        ...inventory,
+        productSummary,
+      };
+    });
   }
 
   async findById(id: string): Promise<InventoryEntitie> {

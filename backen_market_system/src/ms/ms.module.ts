@@ -13,6 +13,10 @@ import { SalesService } from './services/sales.service';
 import { SalesController } from './controllers/sales.controller';
 import { ReportService } from './services/reports.service';
 import { ReportsController } from './controllers/reports.controller';
+import { BillsService } from './services/bills.service';
+import { BillsController } from './controllers/bills.controller';
+import { SharingController } from './controllers/sharing.controller';
+import { SharingService } from './services/sharing.service';
 import { Providers } from './providers/providers';
 import { DatabaseModule } from '../database/database.module';
 
@@ -26,6 +30,8 @@ import { DatabaseModule } from '../database/database.module';
     InventoryController,
     SalesController,
     ReportsController,
+    BillsController,
+    SharingController
   ],
   providers: [
     ...Providers,
@@ -36,6 +42,8 @@ import { DatabaseModule } from '../database/database.module';
     InventoryService,
     SalesService,
     ReportService,
+    BillsService,
+    SharingService
   ],
   exports: [
     ...Providers,
@@ -46,6 +54,8 @@ import { DatabaseModule } from '../database/database.module';
     InventoryService,
     SalesService,
     ReportService,
+    BillsService,
+    SharingService
   ],
 })
 export class MsModule {}

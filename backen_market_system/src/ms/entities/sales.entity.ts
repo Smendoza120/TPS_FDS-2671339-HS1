@@ -1,5 +1,5 @@
 // En SalesEntity
-import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, JoinColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { ProductsEntity } from "./products.entity";
 import { CustomerEntity } from './customers.entity';
@@ -15,7 +15,7 @@ export class SalesEntity {
 
     @Column({
         type: 'int',
-        name: 'queantity'
+        name: 'quantity'
     })
     quantity : number
 

@@ -164,4 +164,83 @@ export class SalesService {
   async saveReport(report: ReportsSalesEntity): Promise<ReportsSalesEntity> {
     return await this.reportsSalesEntity.save(report);
   }
+
+  async getSalesForCustomerOnDate(customerId: string, date: string): Promise<any> {
+    // Convert the date string to a Date object
+    const dateObject = new Date(date);
+
+    // Convert the date to the start and end of the day
+    const start = new Date(dateObject);
+    start.setHours(0, 0, 0, 0);
+    const startString = start.toISOString();
+    
+    const end = new Date(dateObject);
+    end.setHours(23, 59, 59, 999);
+    const endString = end.toISOString();
+    
+
+    // Get all sales for the customer between the start and end dates
+    const customerEntity = await this.iCustomerService.findOne(customerId);
+    const sales = await this.salesRepository.find({
+      where: {
+        customer: customerEntity, // Fix: Use the correct property name for the customer ID
+        salesDate: Between(startString, endString)
+      },
+      relations: ['products'], // Make sure to load the related products
+    });
+
+    // Initialize the total and the report object
+    let total = 0;
+    const report: any = {};
+
+    // Iterate over each sale
+    for (const sale of sales) {
+      // Iterate over each product in the sale
+      for (const product of sale.products) {
+        // If the product is already in the report, increment the quantity and add to the total
+        if (report[product.idProduct]) {
+          report[product.idProduct].quantity += sale.quantity;
+          report[product.idProduct].total += sale.quantity * product.price;
+        } else {
+          // If the product is not in the report, add it
+          report[product.idProduct] = {
+            product: product.productName,
+            quantity: sale.quantity,
+            price: product.price,
+            total: sale.quantity * product.price,
+          };
+        }
+
+        // Add to the overall total
+        total += sale.quantity * product.price;
+      }
+    }
+
+    // Add the total to the report
+    report.total = total;
+
+    return report;
+  }
+
+  async getSalesByReportId(reportId: string): Promise<SalesEntity[]> {
+    // Busca el informe por su ID
+    const report = await this.reportsSalesEntity.findOne({where: {idReportSales: reportId}});
+    if (!report) {
+      throw new Error(`Report with ID ${reportId} not found`);
+    }
+  
+    // Busca las ventas asociadas con el informe
+    const sales = await this.salesRepository.find({
+      where: {
+        report: report
+      },
+      relations: ['products', 'customer'] // Carga los productos y el cliente relacionados
+    });
+  
+    return sales;
+  }
+
+  async saveSales(sale: SalesEntity): Promise<SalesEntity> {
+    return await this.salesRepository.save(sale);
+  }
 }
