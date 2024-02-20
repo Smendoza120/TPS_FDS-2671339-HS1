@@ -5,6 +5,8 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import { Users } from "../../interfaces/users.interfaz";
 import { Workers } from "../../interfaces/workers.interfaz";
 import MessageBox from "sap/m/MessageBox";
+import Input from "sap/m/Input";
+import Switch from "sap/m/Switch";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -13,6 +15,7 @@ export default class UserCreation extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
     this.getView()?.setModel(getListPosition(), "oListPosition");
+    this.getView()?.setModel(new JSONModel([]), "oWorkers");
 
     this.getView()?.setModel(
       new JSONModel({
@@ -42,8 +45,6 @@ export default class UserCreation extends Base {
       this.createUserInDatabase(formData.user)
         .then((createUser: any) => {
           if (createUser.idUser) {
-            alert(`formData: ${JSON.stringify(formData)}`);
-            alert(`formData.user: ${JSON.stringify(formData.user)}`);
             return this.createWorker(createUser.idUser, formData);
           } else {
             MessageBox.error(
@@ -112,10 +113,6 @@ export default class UserCreation extends Base {
       data: JSON.stringify(workerData),
     })
       .then((createWorker: any) => {
-        // alert(`User id antes: ${idUser}`);
-        // alert(`Creacion de trabajador: ${createWorker}`);
-        // alert(`Datos del trabajador ${JSON.stringify(createWorker)}`);
-
         const currentData = (
           this.getView()?.getModel("oWorkers") as JSONModel
         ).getData();
@@ -127,23 +124,69 @@ export default class UserCreation extends Base {
         );
 
         MessageBox.success("Trabajador creado exitosamente");
-        alert(`User id despues: ${idUser}`);
+        this.clearFormFields();
+        this.updateUserTable();
       })
       .catch((error) => {
-        alert(`Este es el userid: ${idUser}`);
-        alert(JSON.stringify(error));
         MessageBox.error(
           "Error al crear el trabajador. Por favor, inténtelo de nuevo."
         );
-
-        alert("El error esta en la creacion de trabajador"); //Error
       })
       .finally(() => {
         BusyIndicator.hide();
       });
   }
 
+  public clearFormFields(): void {
+    const inputsToClear = [
+      "firstName",
+      "lastName",
+      "pass",
+      "email",
+      "phone",
+    ];
+
+    inputsToClear.forEach((fieldName) => {
+      const inputField = this.getView()?.byId(fieldName) as Input;
+      if (inputField) {
+        inputField.setValue("");
+      }
+    });
+
+    const switchesToClear = [
+      "salesPermission",
+      "billsPermission",
+      "usersPermission",
+      "inventoryPermission",
+    ];
+
+    switchesToClear.forEach((fieldName) => {
+      const switchControl = this.getView()?.byId(fieldName) as Switch;
+      if (switchControl) {
+        switchControl.setState(true);
+      }
+    });
+  }
+
+  public onCancel(): void {
+    this.clearFormFields();
+  }
+
   public goToUsersPage() {
     this.getRouter().navTo("RouteUsers");
+  }
+
+  private async updateUserTable() {
+    try {
+      const workerList = await this.callAjax({
+        url: "/workers",
+        method: "GET",
+      });
+
+      const oWorkerModel = this.getView()?.getModel("oWorkers") as JSONModel;
+      oWorkerModel.setData(workerList);
+    } catch (error) {
+      alert(JSON.stringify(error));
+    }
   }
 }
