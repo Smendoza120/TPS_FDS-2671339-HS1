@@ -30,12 +30,6 @@ export class ProductsEntity {
 
   @Column({
     type: 'date',
-    name: 'due_date'
-  })
-  dueDate: string;
-
-  @Column({
-    type: 'date',
     name: 'purchase_date'
   })
   purchaseDate: string;

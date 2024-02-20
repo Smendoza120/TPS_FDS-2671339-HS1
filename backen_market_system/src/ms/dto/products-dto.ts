@@ -13,10 +13,6 @@ export class ProductDto {
     @ApiProperty()
     @IsNumber()
     quantity: number;
-
-    @ApiProperty()
-    @IsString()
-    dueDate: string;
     
     @ApiProperty()
     @IsString()
