@@ -25,8 +25,10 @@
             />
 
             <VBox width="80%">
-                <Label text="Producto" required="true"/>
-                <Input placeholder="Doritos" />
+                <Label text="Producto" required="true" />
+                <Input
+                    id="productNameInput"
+                    placeholder="Doritos" />
 
                 <Label
                     text="Cantidad"
@@ -34,6 +36,7 @@
                     required="true"
                 />
                 <Input
+                    id="quantityInput"
                     placeholder="2"
                     type="Number"
                 />
@@ -43,7 +46,9 @@
                     class="sapUiTinyMarginTop"
                     required="true"
                 />
-                <Input placeholder="500" />
+                <Input
+                    id="priceInput"
+                    placeholder="500" />
 
                 <Label
                     text="Almacenamiento"
@@ -51,6 +56,7 @@
                     required="true"
                 />
                 <Select
+                    id="storageComboBox"
                     width="100%"
                     items="{oListStorage>/}"
                 >
@@ -59,13 +65,6 @@
                         text="{oListStorage>storage}"
                     />
                 </Select>
-
-                <Label
-                    text="Fecha Vencimiento"
-                    class="sapUiTinyMarginTop"
-                    required="true"
-                />
-                <DateTimePicker />
             </VBox>
 
             <HBox
@@ -84,6 +83,7 @@
                     class="sapUiTinyMarginBegin"
                     type="Accept"
                     icon="sap-icon://write-new-document"
+                    press=".onCreateProduct"
                 />
             </HBox>
         </FlexBox>
