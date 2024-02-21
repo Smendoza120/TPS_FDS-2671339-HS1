@@ -6,6 +6,10 @@
 - [x] Realizar la seccion de eliminacion de usuario
 
 # inventario
-- [] Quitar fecha de vencimineto
+- [X] Quitar fecha de vencimineto
+- [X] Creacion de producto
+- [] Control de errores
+    - [] Validacion de campos vacios (Mensaje final y los bordes se ponen rojos)
+    - [] Validacion de campos erroneos (Cada uno individual)
 - [] Si el producto esta deshabilitar los campos y mostrar un popup informando que vaya al listado de productos
-- [] 
+- [] Hacer la lista del inventario

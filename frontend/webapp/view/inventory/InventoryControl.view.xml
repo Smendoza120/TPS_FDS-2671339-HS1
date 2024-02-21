@@ -80,6 +80,7 @@
                     text="{i18n>InventoryControlCleanProduct}"
                     type="Emphasized"
                     icon="sap-icon://not-editable"
+                    press=".clearFormFields"
                 />
                 <Button
                     text="{i18n>InventoryControlAddProduct}"
