@@ -117,6 +117,7 @@ export default class InventoryControl extends Base {
       const ineventoryId = await this.createInventory({
         storage: selectedText,
       });
+    
 
       const newProduct = {
         productName: productName,

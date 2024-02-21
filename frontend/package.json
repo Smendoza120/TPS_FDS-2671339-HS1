@@ -10,7 +10,8 @@
     ],
     "main": "webapp/index.html",
     "dependencies": {
-        "jquery": "^3.7.1"
+        "jquery": "^3.7.1",
+        "uuid": "^9.0.1"
     },
     "devDependencies": {
         "@sap-ux/eslint-plugin-fiori-tools": "^0.2.0",
