@@ -16,65 +16,61 @@ export default class InventoryControl extends Base {
     listStorage();
   }
 
-  public async createInventoryAndProduct(productData: any): Promise<void> {
-    try {
-      BusyIndicator.show(0);
+  public createInventory(inventoryData: any): Promise<string> {
+    BusyIndicator.show(0);
 
-      const inventoryData = {
-        storage: productData.storageName,
-      };
-
-      const inventoryId = await this.createInventory(inventoryData);
-
-      productData.inventory_id = inventoryId;
-
-      await this.createProduct(productData);
-
-      MessageBox.success("Producto creado exitosamente");
-
-      this.clearFormFields();
-    } catch (error) {
-      alert("Crear inventario y producto");
-      MessageBox.error("Crear inventario y producto");
-      MessageBox.error(`Error al crear el producto: ${error}`);
-      MessageBox.error(`Error al crear el producto: ${JSON.stringify(error)}`);
-    } finally {
-      BusyIndicator.hide();
-    }
-  }
-
-  public async createInventory(inventoryData: any): Promise<void> {
-    try {
-      BusyIndicator.show(0);
-      const response = await this.callAjax({
+    return new Promise<string>((resolve, reject) => {
+      this.callAjax({
         type: "POST",
         url: "/inventory",
         contentType: "application/json",
         data: JSON.stringify(inventoryData),
-      });
-
-      return response.inventory_id;
-    } catch (error) {
-    } finally {
-      BusyIndicator.hide();
-    }
+      })
+        .then((response) => {
+          if (JSON.stringify(response) && JSON.stringify(response.id)) {
+            resolve(JSON.stringify(response.id));
+            alert(response.id);
+          } else {
+            reject(new Error("No se pudo obtener el ID del inventario."));
+          }
+        })
+        .catch((error) => {
+          reject(
+            new Error(`Error al crear el inventario: ${JSON.stringify(error)}`)
+          );
+        })
+        .finally(() => {
+          BusyIndicator.hide();
+        });
+    });
   }
 
-  public async createProduct(productData: any): Promise<void> {
-    try {
-      BusyIndicator.show(0);
-      await this.callAjax({
+  public createProduct(productData: any): Promise<void> {
+    BusyIndicator.show(0);
+
+    return new Promise<void>((resolve, reject) => {
+      this.callAjax({
         type: "POST",
         url: "/products",
         contentType: "application/json",
         data: JSON.stringify(productData),
-      });
-    } catch (error) {
-      alert("Crear producto");
-      throw new Error(`Error al crear el producto: ${JSON.stringify(error)}`);
-    } finally {
-      BusyIndicator.hide();
-    }
+      })
+        .then((response) => {
+          if (response && response.success) {
+            resolve();
+          } else {
+            reject(new Error("La creación del producto falló"));
+          }
+        })
+        .catch((error) => {
+          reject(
+            new Error(`Error al crear el producto: ${JSON.stringify(error)}`)
+          );
+        })
+        .finally(() => {
+          BusyIndicator.hide();
+        });
+    });
   }
 
   private clearFormFields(): void {
@@ -90,12 +86,14 @@ export default class InventoryControl extends Base {
   public async onCreateProduct(): Promise<void> {
     try {
       const storageComboBox = this.getView()?.byId("storageComboBox") as Select;
-      const selectedKey = storageComboBox.getSelectedKey();
+      const selectedItem = storageComboBox.getSelectedItem();
 
-      if (!selectedKey) {
+      if (!selectedItem) {
         MessageBox.error("Seleccione un almacenamiento");
         return;
       }
+
+      const selectedText = selectedItem.getText();
 
       const productNameInput = this.getView()?.byId(
         "productNameInput"
@@ -104,19 +102,35 @@ export default class InventoryControl extends Base {
       const priceInput = this.getView()?.byId("priceInput") as Input;
 
       const productName = productNameInput.getValue();
-      const quantity = quantityInput.getValue();
-      const price = priceInput.getValue();
+
+      const quantityStr = quantityInput.getValue();
+      const quantity = parseInt(quantityStr);
+
+      const priceStr = priceInput.getValue();
+      const price = parseFloat(priceStr);
+
+      const currentDate = new Date();
+
+      alert(currentDate);
+      const purchaseDate = currentDate.toISOString().slice(0, 10);
+      alert(purchaseDate);
+      const ineventoryId = await this.createInventory({
+        storage: selectedText,
+      });
 
       const newProduct = {
-        productName,
-        quantity,
-        price,
-        storageName: selectedKey,
+        productName: productName,
+        price: price,
+        quantity: quantity,
+        purchaseDate: purchaseDate,
+        inventory_id: ineventoryId,
       };
 
-      await this.createInventoryAndProduct(newProduct);
+      await this.createProduct(newProduct);
+
+      this.clearFormFields();
     } catch (error) {
-      alert("Error funcion");
+      alert("Error funcion onCreateProduct");
       MessageBox.error(`Error al crear el producto: ${error}`);
     }
   }

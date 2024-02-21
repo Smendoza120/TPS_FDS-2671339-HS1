@@ -51,7 +51,7 @@
                 <Input
                     id="priceInput"
                     placeholder="500"
-                    required="true" />
+                    required="true"     />
 
                 <Label
                     text="Almacenamiento"
