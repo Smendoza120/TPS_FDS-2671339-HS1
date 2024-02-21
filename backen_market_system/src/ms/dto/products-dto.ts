@@ -19,7 +19,7 @@ export class ProductDto {
     purchaseDate: string;
 
     @ApiProperty()
-    @IsUUID()
+    @IsString()
     inventory_id: string;
 }
 

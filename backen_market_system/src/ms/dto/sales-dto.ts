@@ -15,7 +15,7 @@ export class SalesDto {
   customerId: string;
 
   @ApiProperty() // Asume que el ID del producto es un string
-  @IsUUID() // Valida que el ID es un UUID v4
+  @IsString() // Valida que el ID es un UUID v4
   productId: string;
 }
 
