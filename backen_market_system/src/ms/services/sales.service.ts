@@ -6,6 +6,7 @@ import { InventoryService } from './invenotory.service';
 import { CustomerService } from './customer.service';
 import { ProductService } from './products.service';
 import { ReportsSalesEntity } from '../entities/reports.entity';
+
 @Injectable()
 export class SalesService {
   constructor(
@@ -20,32 +21,26 @@ export class SalesService {
 
   async create(dto: SalesDto): Promise<SalesEntity> {
     try {
-      dto.salesDate = new Date(dto.salesDate).toISOString(); // Convierte salesDate a una cadena en formato ISO
+      dto.salesDate = new Date(dto.salesDate).toISOString();
       const sale = this.salesRepository.create(dto);
-    
+  
       const customer = await this.iCustomerService.findById(dto.customerId);
       if (!customer) {
         throw new Error(`Customer with ID ${dto.customerId} not found`);
       }
       sale.customer = customer;
   
-      // Inicializa sale.products si es undefined
-      if (!sale.products) {
-        sale.products = [];
+      const product = await this.iProductService.findById(dto.productId);
+      if (!product) {
+        throw new Error(`Product with ID ${dto.productId} not found`);
       }
-
-      // Busca cada producto por su ID y agrégalo a la venta
-      for (const productId of dto.productIds) {
-        const product = await this.iProductService.findById(productId);
-        if (!product) {
-          throw new Error(`Product with ID ${productId} not found`);
-        }
-        if (product.quantity < dto.quantity) {
-          throw new Error('Not enough products in the inventory for the sale');
-        }
-        sale.products.push(product);
-        await this.iProductService.updateQuantity(productId, dto.quantity);
+      if (product.quantity < dto.quantity) {
+        throw new Error('Not enough products in the inventory for the sale');
       }
+      sale.product = product;
+      sale.quantity = dto.quantity; // Añade esta línea para establecer la cantidad
+  
+      await this.iProductService.updateQuantity(dto.productId, dto.quantity);
   
       await this.salesRepository.save(sale);
   
@@ -54,7 +49,7 @@ export class SalesService {
       throw new HttpException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: 'There was a problem with your request',
-        message: error.message, // Include the original error message
+        message: error.message,
       }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -90,39 +85,31 @@ export class SalesService {
   }
 
   async generateDailyReport(date: Date): Promise<any> {
-    // Obtén la fecha del día siguiente
     const nextDate = new Date(date);
     nextDate.setDate(nextDate.getDate() + 1);
   
-    // Convierte las fechas a cadenas en formato YYYY-MM-DD
     const dateString = date.toISOString().split('T')[0];
     const nextDateString = nextDate.toISOString().split('T')[0];
   
-    // Obtén todas las ventas del día
     const sales = await this.salesRepository.find({
       where: {
         salesDate: Between(dateString, nextDateString),
       },
-      relations: ['products'], // Asegúrate de cargar los productos relacionados
+      relations: ['product'],
     });
   
-    // Inicializa el total y el objeto de reporte
     let total = 0;
     const report: any = {};
   
-    // Itera sobre cada venta
     for (const sale of sales) {
-      // Itera sobre cada producto en la venta
-      for (const product of sale.products) {
-        // Busca el producto usando el servicio ProductService
+      const product = sale.product;
+      if (product) {
         const productDetails = await this.iProductService.findById(product.idProduct);
-  
-        // Si el producto ya está en el reporte, incrementa la cantidad y suma al total
+      
         if (report[product.idProduct]) {
           report[product.idProduct].quantity += sale.quantity;
           report[product.idProduct].total += sale.quantity * productDetails.price;
         } else {
-          // Si el producto no está en el reporte, añádelo
           report[product.idProduct] = {
             product: productDetails.productName,
             quantity: sale.quantity,
@@ -130,27 +117,22 @@ export class SalesService {
             total: sale.quantity * productDetails.price,
           };
         }
-        // Suma al total general
         total += sale.quantity * productDetails.price;
       }
     }
   
-    // Añade el total al reporte
     report.total = total;
   
     return report;
   }
 
   async getSalesByDate(date: Date): Promise<SalesEntity[]> {
-    // Obtén la fecha del día siguiente
     const nextDate = new Date(date);
     nextDate.setDate(nextDate.getDate() + 1);
 
-    // Convierte las fechas a cadenas en formato YYYY-MM-DD
     const dateString = date.toISOString().split('T')[0];
     const nextDateString = nextDate.toISOString().split('T')[0];
 
-    // Obtén todas las ventas del día
     const sales = await this.salesRepository.find({
       where: {
         salesDate: Between(dateString, nextDateString),
@@ -165,10 +147,8 @@ export class SalesService {
   }
 
   async getSalesForCustomerOnDate(customerId: string, date: string): Promise<any> {
-    // Convert the date string to a Date object
     const dateObject = new Date(date);
-
-    // Convert the date to the start and end of the day
+  
     const start = new Date(dateObject);
     start.setHours(0, 0, 0, 0);
     const startString = start.toISOString();
@@ -177,31 +157,26 @@ export class SalesService {
     end.setHours(23, 59, 59, 999);
     const endString = end.toISOString();
     
-
-    // Get all sales for the customer between the start and end dates
+  
     const customerEntity = await this.iCustomerService.findOne(customerId);
     const sales = await this.salesRepository.find({
       where: {
-        customer: customerEntity, // Fix: Use the correct property name for the customer ID
+        customer: customerEntity,
         salesDate: Between(startString, endString)
       },
-      relations: ['products'], // Make sure to load the related products
+      relations: ['product'], // Changed 'products' to 'product'
     });
-
-    // Initialize the total and the report object
+  
     let total = 0;
     const report: any = {};
-
-    // Iterate over each sale
+  
     for (const sale of sales) {
-      // Iterate over each product in the sale
-      for (const product of sale.products) {
-        // If the product is already in the report, increment the quantity and add to the total
+      if (sale.product) { // Check if product exists
+        const product = sale.product; // Removed the inner loop over sale.products
         if (report[product.idProduct]) {
           report[product.idProduct].quantity += sale.quantity;
           report[product.idProduct].total += sale.quantity * product.price;
         } else {
-          // If the product is not in the report, add it
           report[product.idProduct] = {
             product: product.productName,
             quantity: sale.quantity,
@@ -209,31 +184,27 @@ export class SalesService {
             total: sale.quantity * product.price,
           };
         }
-
-        // Add to the overall total
+  
         total += sale.quantity * product.price;
       }
     }
-
-    // Add the total to the report
+  
     report.total = total;
-
+  
     return report;
   }
 
   async getSalesByReportId(reportId: string): Promise<SalesEntity[]> {
-    // Busca el informe por su ID
     const report = await this.reportsSalesEntity.findOne({where: {idReportSales: reportId}});
     if (!report) {
       throw new Error(`Report with ID ${reportId} not found`);
     }
   
-    // Busca las ventas asociadas con el informe
     const sales = await this.salesRepository.find({
       where: {
         report: report
       },
-      relations: ['products', 'customer'] // Carga los productos y el cliente relacionados
+      relations: ['product', 'customer'] // Changed 'products' to 'product'
     });
   
     return sales;

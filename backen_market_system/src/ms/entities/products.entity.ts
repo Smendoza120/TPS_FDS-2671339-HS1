@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
 import { InventoryEntitie } from './inventory.entity';
+import { SalesEntity } from './sales.entity';
 
 @Entity({ name: 'products' })
 export class ProductsEntity {
@@ -41,6 +42,8 @@ export class ProductsEntity {
   @Column({ type: 'uuid' }) // Asegúrate de que el tipo de la columna coincida con el tipo de la clave primaria de InventoryEntitie
   inventory_id: string; // Esta es la columna de clave foránea
 
+  @OneToMany(() => SalesEntity, sale => sale.product)
+  sales: SalesEntity[];
 
   @BeforeInsert()
   addId() {

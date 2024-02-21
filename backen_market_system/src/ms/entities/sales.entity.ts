@@ -1,5 +1,5 @@
 // En SalesEntity
-import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { ProductsEntity } from "./products.entity";
 import { CustomerEntity } from './customers.entity';
@@ -34,9 +34,8 @@ export class SalesEntity {
     @ManyToOne(() => BillsEntity, bills => bills.sales, { cascade: true, eager: true })
     bills: BillsEntity;
 
-    @ManyToMany(() => ProductsEntity)
-    @JoinTable()
-    products: ProductsEntity[]
+    @ManyToOne(() => ProductsEntity, product => product.sales, { cascade: true, eager: true })
+    product: ProductsEntity;
 
     @BeforeInsert()
     addId() {

@@ -38,11 +38,14 @@ export class SharingService {
 
   async shareBill(shareBillDto: ShareBillDto) {
     const { billId, email } = shareBillDto;
-    const bill = await this.billsService.findBillById(billId, { relations: ['sales', 'sales.customer'] });
+    const bill = await this.billsService.findBillById(billId, { relations: ['sales', 'sales.customer', 'sales.product'] });
     if (bill.sales && bill.sales.length > 0) {
-      const customerId = bill.sales[0].customer.idCustomer;
-      const products = await this.billsService.getProductsByCustomerAndDate(customerId, bill.date);
-      await this.shareByEmail(email, bill, products);
+      const salesRepresentation = bill.sales.map(sale => ({
+        product: sale.product,
+        quantity: sale.quantity,
+        total: sale.product.price * sale.quantity
+      }));
+      await this.shareByEmail(email, bill, salesRepresentation);
     }
   }
 
@@ -50,33 +53,31 @@ export class SharingService {
     const { inventoryId, email } = shareInventoryDto;
     const inventory = await this.inventoryService.findById(inventoryId);
     await this.shareInventoryReportByEmail(email, inventory);
-    // await this.shareInventoryReportByWhatsApp(phoneNumber, inventory);
   }
 
-  async shareByEmail(email: string, bill: BillsEntity, products: ProductsEntity[]) {
+  async shareByEmail(email: string, bill: BillsEntity, sales: { product: ProductsEntity, quantity: number, total: number }[]) {
     Object.defineProperty(pdfMake, 'vfs', {
       value: pdfFonts.pdfMake.vfs,
       writable: true,
       enumerable: true,
       configurable: true
     });
-  
+
     let tableBody = [
       ['Product Name', 'Quantity', 'Unit Price', 'Total']
     ];
-  
-    products.forEach(product => {
-      let total = product.quantity * product.price;
+
+    sales.forEach(sale => {
       tableBody.push([
-        product.productName, 
-        product.quantity.toString(), 
-        product.price.toString(), 
-        total.toString()
+        sale.product.productName, 
+        sale.quantity.toString(), 
+        sale.product.price.toString(), 
+        sale.total.toString()
       ]);
     });
-  
+
     let currentDate = new Date();
-  
+
     let docDefinition = {
       content: [
         'Esta es tu factura:',
@@ -95,12 +96,12 @@ export class SharingService {
         '\nFecha de generación de la factura: ' + currentDate.toLocaleString()
       ]
     };
-  
+
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-  
+
     pdfDocGenerator.getBase64(async (base64) => {
       let attachment = Buffer.from(base64, 'base64');
-  
+
       const mailOptions = {
         from: process.env.API_EMAIL,
         to: email,
@@ -111,7 +112,7 @@ export class SharingService {
           content: attachment
         }]
       };
-  
+
       await this.transporter.sendMail(mailOptions);
     });
   }
@@ -214,18 +215,17 @@ export class SharingService {
   
     // Iterate over each sale
     sales.forEach(sale => {
-      // For each sale, iterate over its products
-      sale.products.forEach(product => {
-        // Calculate the total for the product
-        let total = product.quantity * product.price;
-        // Add the product data to the table body
-        tableBody.push([
-          product.productName, 
-          product.quantity.toString(), 
-          product.price.toString(), 
-          total.toString()
-        ]);
-      });
+      // For each sale, get its product
+      let product = sale.product;
+      // Calculate the total for the product
+      let total = product.quantity * product.price;
+      // Add the product data to the table body
+      tableBody.push([
+        product.productName, 
+        product.quantity.toString(), 
+        product.price.toString(), 
+        total.toString()
+      ]);
     });
   
     // Get the current date
