@@ -28,7 +28,8 @@
                 <Label text="Producto" required="true" />
                 <Input
                     id="productNameInput"
-                    placeholder="Doritos" />
+                    placeholder="Doritos"
+                    required="true" />
 
                 <Label
                     text="Cantidad"
@@ -39,6 +40,7 @@
                     id="quantityInput"
                     placeholder="2"
                     type="Number"
+                    required="true"
                 />
 
                 <Label
@@ -48,7 +50,8 @@
                 />
                 <Input
                     id="priceInput"
-                    placeholder="500" />
+                    placeholder="500"
+                    required="true" />
 
                 <Label
                     text="Almacenamiento"
@@ -74,12 +77,12 @@
                 justifyContent="End"
             >
                 <Button
-                    text="Limpiar"
+                    text="{i18n>InventoryControlCleanProduct}"
                     type="Emphasized"
                     icon="sap-icon://not-editable"
                 />
                 <Button
-                    text="Agregar"
+                    text="{i18n>InventoryControlAddProduct}"
                     class="sapUiTinyMarginBegin"
                     type="Accept"
                     icon="sap-icon://write-new-document"
