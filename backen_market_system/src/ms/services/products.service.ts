@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ProductsEntity } from '../entities/products.entity.js';
 import { ProductDto } from '../dto/products-dto.js';
+import {InventoryService} from './invenotory.service.js'
 
 @Injectable()
 export class ProductService {
