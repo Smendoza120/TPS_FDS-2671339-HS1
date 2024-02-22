@@ -13,75 +13,103 @@ export class CustomerService {
   ) {}
 
   async create(dto: CustomerDto): Promise<CustomerEntity> {
-    const user = await this.userService.getUserById(dto.userId);
-    if (!user) {
-      throw new Error(`User with ID ${dto.userId} not found`);
+    try {
+      const user = await this.userService.getUserById(dto.userId);
+      if (!user) {
+        throw new Error(`User with ID ${dto.userId} not found`);
+      }
+      
+      const customer = new CustomerEntity();
+      customer.user = user; 
+      
+      await this.iCustomerEntity.save(customer);
+      
+      return customer;
+    } catch (error) {
+      throw new Error(`Failed to create customer: ${error.message}`);
     }
-    
-    const customer = new CustomerEntity();
-    customer.user = user; 
-    
-    await this.iCustomerEntity.save(customer);
-    
-    return customer;
   }
   
   async update(id: string, dto: CustomerDto): Promise<CustomerEntity> {
-    const customer = await this.findOne(id);
-    if (!customer) {
-      throw new Error(`Customer with ID ${id} not found`);
-    }
+    try {
+      const customer = await this.findOne(id);
+      if (!customer) {
+        throw new Error(`Customer with ID ${id} not found`);
+      }
 
-    const user = await this.userService.getUserById(dto.userId);
-    if (!user) {
-      throw new Error(`User with ID ${dto.userId} not found`);
+      const user = await this.userService.getUserById(dto.userId);
+      if (!user) {
+        throw new Error(`User with ID ${dto.userId} not found`);
+      }
+      
+      customer.user = user;
+      
+      await this.iCustomerEntity.save(customer);
+      
+      return customer;
+    } catch (error) {
+      throw new Error(`Failed to update customer: ${error.message}`);
     }
-    
-    customer.user = user;
-    
-    await this.iCustomerEntity.save(customer);
-    
-    return customer;
   }
   
   async findOne(id: string): Promise<CustomerEntity> {
-    const customer = await this.iCustomerEntity.findOne({where: {idCustomer: id}});
-    if (!customer) {
-      throw new Error(`Customer with ID ${id} not found`);
+    try {
+      const customer = await this.iCustomerEntity.findOne({where: {idCustomer: id}});
+      if (!customer) {
+        throw new Error(`Customer with ID ${id} not found`);
+      }
+      return customer;
+    } catch (error) {
+      throw new Error(`Failed to find customer: ${error.message}`);
     }
-    return customer;
   }
   
   async find(): Promise<CustomerEntity[]> {
-    return await this.iCustomerEntity.find();
+    try {
+      return await this.iCustomerEntity.find();
+    } catch (error) {
+      throw new Error(`Failed to find customers: ${error.message}`);
+    }
   }
   
   async delete(id: string): Promise<void> {
-    const customer = await this.findOne(id);
-    if (!customer) {
-      throw new Error(`Customer with ID ${id} not found`);
+    try {
+      const customer = await this.findOne(id);
+      if (!customer) {
+        throw new Error(`Customer with ID ${id} not found`);
+      }
+      await this.userService.delete(customer.user.idUser);
+      await this.iCustomerEntity.delete(id);
+    } catch (error) {
+      throw new Error(`Failed to delete customer: ${error.message}`);
     }
-    await this.userService.delete(customer.user.idUser);
-    await this.iCustomerEntity.delete(id);
   }
   
   async findByEmail(email: string): Promise<CustomerEntity> {
-    const user = await this.userService.getUserByEmail(email);
-    if (!user) {
-      throw new Error(`User with email ${email} not found`);
+    try {
+      const user = await this.userService.getUserByEmail(email);
+      if (!user) {
+        throw new Error(`User with email ${email} not found`);
+      }
+      const customer = await this.iCustomerEntity.findOne({ where: { idCustomer: user.idUser } });
+      if (!customer) {
+        throw new Error(`Customer with user ID ${user.idUser} not found`);
+      }
+      return customer;
+    } catch (error) {
+      throw new Error(`Failed to find customer by email: ${error.message}`);
     }
-    const customer = await this.iCustomerEntity.findOne({ where: { idCustomer: user.idUser } });
-    if (!customer) {
-      throw new Error(`Customer with user ID ${user.idUser} not found`);
-    }
-    return customer;
   }
   
   async findById(id: string): Promise<CustomerEntity> {
-    const customer = await this.iCustomerEntity.findOne({ where: { idCustomer: id } });
-    if (!customer) {
-      throw new Error(`Customer with ID ${id} not found`);
+    try {
+      const customer = await this.iCustomerEntity.findOne({ where: { idCustomer: id } });
+      if (!customer) {
+        throw new Error(`Customer with ID ${id} not found`);
+      }
+      return customer;
+    } catch (error) {
+      throw new Error(`Failed to find customer by ID: ${error.message}`);
     }
-    return customer;
   }
 }

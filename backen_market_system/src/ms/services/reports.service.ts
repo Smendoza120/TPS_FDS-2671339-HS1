@@ -13,48 +13,69 @@ export class ReportService {
   ) {}
 
   async createDailyReport(date: string): Promise<ReportsSalesEntity> {
-    // Convert the date string to a Date object
-    const reportDate = new Date(date);
-    reportDate.setHours(0, 0, 0, 0);
+    try {
+      // Split the date string into components
+      const [year, month, day] = date.split('-').map(Number);
   
-    // Generate the sales report for the day
-    const salesReportData = await this.salesService.generateDailyReport(reportDate);
+      // Create a new Date object with Date.UTC
+      const reportDate = new Date(Date.UTC(year, month - 1, day));
   
-    // Create a SalesEntity object
-    const salesEntity = new SalesEntity();
-    salesEntity.quantity = salesReportData.quantity;
-    // set other properties...
+      // Create an endDate that is the end of reportDate
+      const endDate = new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999));
   
-    // Save the sales in the database
-    const savedSales = await this.salesService.saveSales(salesEntity);
+      // Find all sales for the given date
+      const salesForDate = await this.salesService.findSalesByDate(reportDate, endDate);
   
-    // Create a new report and add the sales to it
-    const report = new ReportsSalesEntity();
-    report.date = reportDate.toISOString().split('T')[0]; // Assign the date to the report
-    report.sales = [savedSales]; // Wrap savedSales in an array
+      // Create a new report and add the sales to it
+      const report = new ReportsSalesEntity();
+      report.date = date; // Assign the date to the report
+      report.sales = salesForDate;
   
-    // Save the report in the database
-    await this.iReportsSalesEntity.save(report);
+      // Save the report in the database
+      await this.iReportsSalesEntity.save(report);
   
-    return report;
+      return report;
+    } catch (error) {
+      throw new Error(`Failed to create daily report: ${error.message}`);
+    }
   }
 
-async getReport(id: string): Promise<ReportsSalesEntity> {
-  return this.iReportsSalesEntity.findOne({ 
-    where: { idReportSales: id },
-    relations: ['sales', 'sales.products'] 
-  });
-}
+  async getReport(id: string): Promise<ReportsSalesEntity> {
+    try {
+      return this.iReportsSalesEntity.findOne({ 
+        where: { idReportSales: id },
+        relations: ['sales', 'sales.product'] 
+      });
+    } catch (error) {
+      throw new Error(`Failed to get report: ${error.message}`);
+    }
+  }
 
+  async getAllReports(): Promise<ReportsSalesEntity[]> {
+    try {
+      return this.iReportsSalesEntity.find({ relations: ['sales', 'sales.product'] });
+    } catch (error) {
+      throw new Error(`Failed to get all reports: ${error.message}`);
+    }
+  }
+  
   async updateReport(
     id: string,
     report: ReportsSalesEntity,
   ): Promise<ReportsSalesEntity> {
-    await this.iReportsSalesEntity.update(id, report);
-    return this.iReportsSalesEntity.findOne({ where: { idReportSales: id } });
+    try {
+      await this.iReportsSalesEntity.update(id, report);
+      return this.iReportsSalesEntity.findOne({ where: { idReportSales: id } });
+    } catch (error) {
+      throw new Error(`Failed to update report: ${error.message}`);
+    }
   }
 
   async deleteReport(id: string): Promise<void> {
-    await this.iReportsSalesEntity.delete(id);
+    try {
+      await this.iReportsSalesEntity.delete(id);
+    } catch (error) {
+      throw new Error(`Failed to delete report: ${error.message}`);
+    }
   }
 }

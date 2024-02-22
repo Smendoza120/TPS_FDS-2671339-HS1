@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { BillsEntity } from '../entities/bills.entity';
 import { ReportsSalesEntity } from '../entities/reports.entity';
@@ -37,247 +37,276 @@ export class SharingService {
 
 
   async shareBill(shareBillDto: ShareBillDto) {
-    const { billId, email } = shareBillDto;
-    const bill = await this.billsService.findBillById(billId, { relations: ['sales', 'sales.customer', 'sales.product'] });
-    if (bill.sales && bill.sales.length > 0) {
-      const salesRepresentation = bill.sales.map(sale => ({
-        product: sale.product,
-        quantity: sale.quantity,
-        total: sale.product.price * sale.quantity
-      }));
-      await this.shareByEmail(email, bill, salesRepresentation);
+    try {
+      const { billId, email } = shareBillDto;
+      const bill = await this.billsService.findBillById(billId, { relations: ['sales', 'sales.customer', 'sales.product'] });
+      if (!bill) {
+        throw new NotFoundException(`Bill with ID ${billId} not found`);
+      }
+      if (bill.sales && bill.sales.length > 0) {
+        const salesRepresentation = bill.sales.map(sale => ({
+          product: sale.product,
+          quantity: sale.quantity,
+          total: sale.product.price * sale.quantity
+        }));
+        await this.shareByEmail(email, bill, salesRepresentation);
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
 
   async shareInventory(shareInventoryDto: ShareInventoryDto) {
-    const { inventoryId, email } = shareInventoryDto;
-    const inventory = await this.inventoryService.findById(inventoryId);
-    await this.shareInventoryReportByEmail(email, inventory);
+    try {
+      const { inventoryId, email } = shareInventoryDto;
+      const inventory = await this.inventoryService.findById(inventoryId);
+      if (!inventory) {
+        throw new NotFoundException(`Inventory with ID ${inventoryId} not found`);
+      }
+      await this.shareInventoryReportByEmail(email, inventory);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async shareByEmail(email: string, bill: BillsEntity, sales: { product: ProductsEntity, quantity: number, total: number }[]) {
-    Object.defineProperty(pdfMake, 'vfs', {
-      value: pdfFonts.pdfMake.vfs,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    });
-
-    let tableBody = [
-      ['Product Name', 'Quantity', 'Unit Price', 'Total']
-    ];
-
-    sales.forEach(sale => {
-      tableBody.push([
-        sale.product.productName, 
-        sale.quantity.toString(), 
-        sale.product.price.toString(), 
-        sale.total.toString()
-      ]);
-    });
-
-    let currentDate = new Date();
-
-    let docDefinition = {
-      content: [
-        'Esta es tu factura:',
-        '\n',
-        `Nombre del cliente: ${bill.sales[0].customer.user.firstName} ${bill.sales[0].customer.user.lastName}`,
-        '\n',
-        {
-          table: {
-            headerRows: 1,
-            widths: ['*', '*', '*', '*'],
-            body: tableBody
-          }
-        },
-        '\nFecha de la compra: ' + bill.date,
-        'Valor total: ' + bill.total,
-        '\nFecha de generación de la factura: ' + currentDate.toLocaleString()
-      ]
-    };
-
-    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-
-    pdfDocGenerator.getBase64(async (base64) => {
-      let attachment = Buffer.from(base64, 'base64');
-
-      const mailOptions = {
-        from: process.env.API_EMAIL,
-        to: email,
-        subject: 'Your Bill',
-        text: 'Please find attached your bill.',
-        attachments: [{
-          filename: 'bill.pdf',
-          content: attachment
-        }]
+    try {
+      Object.defineProperty(pdfMake, 'vfs', {
+        value: pdfFonts.pdfMake.vfs,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
+  
+      let tableBody = [
+        ['Product Name', 'Quantity', 'Unit Price', 'Total']
+      ];
+  
+      sales.forEach(sale => {
+        tableBody.push([
+          sale.product.productName, 
+          sale.quantity.toString(), 
+          sale.product.price.toString(), 
+          sale.total.toString()
+        ]);
+      });
+  
+      let currentDate = new Date();
+  
+      let docDefinition = {
+        content: [
+          'Esta es tu factura:',
+          '\n',
+          `Nombre del cliente: ${bill.sales[0].customer.user.firstName} ${bill.sales[0].customer.user.lastName}`,
+          '\n',
+          {
+            table: {
+              headerRows: 1,
+              widths: ['*', '*', '*', '*'],
+              body: tableBody
+            }
+          },
+          '\nFecha de la compra: ' + bill.date,
+          'Valor total: ' + bill.total,
+          '\nFecha de generación de la factura: ' + currentDate.toLocaleString()
+        ]
       };
-
-      await this.transporter.sendMail(mailOptions);
-    });
+  
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+  
+      pdfDocGenerator.getBase64(async (base64) => {
+        let attachment = Buffer.from(base64, 'base64');
+  
+        const mailOptions = {
+          from: process.env.API_EMAIL,
+          to: email,
+          subject: 'Your Bill',
+          text: 'Please find attached your bill.',
+          attachments: [{
+            filename: 'bill.pdf',
+            content: attachment
+          }]
+        };
+  
+        await this.transporter.sendMail(mailOptions);
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
-
-  // async shareByWhatsApp(number: string, bill: BillsEntity) {
-  //   await this.twilioClient.messages.create({
-  //     body: `Here is your bill: ${JSON.stringify(bill)}`,
-  //     from: 'whatsapp:' + process.env.TWILIO_PHONE_NUMBER,
-  //     to: 'whatsapp:' + number,
-  //   });
-  // }
 
   async shareInventoryReportByEmail(email: string, inventory: InventoryEntitie) {
-    Object.defineProperty(pdfMake, 'vfs', {
-      value: pdfFonts.pdfMake.vfs,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    });
+    try {
+      Object.defineProperty(pdfMake, 'vfs', {
+        value: pdfFonts.pdfMake.vfs,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
   
-    let tableBody = [
-      ['Product Name', 'Quantity', 'Price', 'Total']
-    ];
+      let tableBody = [
+        ['Product Name', 'Quantity', 'Price', 'Total']
+      ];
   
-    let total = 0;
+      let total = 0;
   
-    inventory.products.forEach(product => {
-      let productTotal = product.quantity * product.price;
-      total += productTotal;
-      tableBody.push([
-        product.productName, 
-        product.quantity.toString(), 
-        product.price.toString(), 
-        productTotal.toString()
-      ]);
-    });
+      inventory.products.forEach(product => {
+        let productTotal = product.quantity * product.price;
+        total += productTotal;
+        tableBody.push([
+          product.productName, 
+          product.quantity.toString(), 
+          product.price.toString(), 
+          productTotal.toString()
+        ]);
+      });
   
-    tableBody.push(['', '', 'Total', total.toString()]);
+      tableBody.push(['', '', 'Total', total.toString()]);
   
-    let currentDate = new Date();
+      let currentDate = new Date();
   
-    let docDefinition = {
-      content: [
-        'Here is your inventory report:',
-        '\n',
-        {
-          table: {
-            headerRows: 1,
-            widths: ['*', '*', '*', '*'],
-            body: tableBody
-          }
-        },
-        '\nFecha de generación de inventario: ' + currentDate.toLocaleString()
-      ]
-    };
-  
-    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-  
-    pdfDocGenerator.getBase64(async (base64) => {
-      let attachment = Buffer.from(base64, 'base64');
-  
-      const mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
-        subject: 'Your Inventory Report',
-        attachments: [{
-          filename: 'inventory_report.pdf',
-          content: attachment
-        }]
+      let docDefinition = {
+        content: [
+          'Here is your inventory report:',
+          '\n',
+          {
+            table: {
+              headerRows: 1,
+              widths: ['*', '*', '*', '*'],
+              body: tableBody
+            }
+          },
+          '\nFecha de generación de inventario: ' + currentDate.toLocaleString()
+        ]
       };
   
-      await this.transporter.sendMail(mailOptions);
-    });
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+  
+      pdfDocGenerator.getBase64(async (base64) => {
+        let attachment = Buffer.from(base64, 'base64');
+  
+        const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: 'Your Inventory Report',
+          attachments: [{
+            filename: 'inventory_report.pdf',
+            content: attachment
+          }]
+        };
+  
+        await this.transporter.sendMail(mailOptions);
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
-
-  // async shareInventoryReportByWhatsApp(
-  //   number: string,
-  //   inventory: InventoryEntitie,
-  // ) {
-  //   await this.twilioClient.messages.create({
-  //     body: `Here is your inventory report: ${JSON.stringify(inventory)}`,
-  //     from: 'whatsapp:' + process.env.TWILIO_PHONE_NUMBER,
-  //     to: 'whatsapp:' + number,
-  //   });
-  // }
 
   async shareSalesReportByEmail(email: string, salesReport: ReportsSalesEntity, sales: SalesEntity[]) {
-    // Define the vfs property on pdfMake
-    Object.defineProperty(pdfMake, 'vfs', {
-      value: pdfFonts.pdfMake.vfs,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    });
+    try {
+      // Define the vfs property on pdfMake
+      Object.defineProperty(pdfMake, 'vfs', {
+        value: pdfFonts.pdfMake.vfs,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
   
-    // Initialize the table body with the headers
-    let tableBody = [
-      ['Product Name', 'Quantity', 'Unit Price', 'Total']
-    ];
+      // Create an object to hold the quantities and totals of each product
+      let productData = {};
   
-    // Iterate over each sale
-    sales.forEach(sale => {
-      // For each sale, get its product
-      let product = sale.product;
-      // Calculate the total for the product
-      let total = product.quantity * product.price;
-      // Add the product data to the table body
-      tableBody.push([
-        product.productName, 
-        product.quantity.toString(), 
-        product.price.toString(), 
-        total.toString()
-      ]);
-    });
+      // Initialize the grand total
+      let grandTotal = 0;
   
-    // Get the current date
-    let currentDate = new Date();
+      // Iterate over each sale
+      sales.forEach(sale => {
+        // For each sale, get its product
+        let product = sale.product;
   
-    // Define the document structure for the PDF
-    let docDefinition = {
-      content: [
-        'Here is your sales report:',
-        '\n',
-        {
-          table: {
-            headerRows: 1,
-            widths: ['*', '*', '*', '*'],
-            body: tableBody
+        // Check if product is not null
+        if (product) {
+          // If this product has not been seen before, initialize its data
+          if (!productData[product.productName]) {
+            productData[product.productName] = {
+              quantity: 0,
+              total: 0,
+              price: product.price
+            };
           }
-        },
-        '\nFecha de las ventas: ' + salesReport.date,
-        '\nFecha de generación del informe: ' + currentDate.toLocaleString()
-      ]
-    };
   
-    // Create the PDF
-    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+          // Update the quantity and total for this product
+          productData[product.productName].quantity += sale.quantity;
+          productData[product.productName].total += sale.quantity * product.price;
   
-    // Get the base64 representation of the PDF
-    pdfDocGenerator.getBase64(async (base64) => {
-      // Convert the base64 string to a Buffer
-      let attachment = Buffer.from(base64, 'base64');
+          // Add the total for this product to the grand total
+          grandTotal += sale.quantity * product.price;
+        }
+      });
   
-      // Define the mail options
-      const mailOptions = {
-        from: process.env.API_EMAIL,
-        to: email,
-        subject: 'Your Sales Report',
-        text: 'Please find attached your sales report.',
-        attachments: [{
-          filename: 'sales_report.pdf',
-          content: attachment
-        }]
+      // Initialize the table body with the headers
+      let tableBody = [
+        ['Product Name', 'Quantity', 'Unit Price', 'Total']
+      ];
+  
+      // Iterate over each product in productData to create the table body
+      for (let productName in productData) {
+        let data = productData[productName];
+        tableBody.push([
+          productName,
+          data.quantity.toString(),
+          data.price.toString(),
+          data.total.toString()
+        ]);
+      }
+  
+      // Add the grand total to the table body
+      tableBody.push(['', '', 'Grand Total', grandTotal.toString()]);
+  
+      // Get the current date
+      let currentDate = new Date();
+  
+      // Define the document structure for the PDF
+      let docDefinition = {
+        content: [
+          'Here is your sales report:',
+          '\n',
+          {
+            table: {
+              headerRows: 1,
+              widths: ['*', '*', '*', '*'],
+              body: tableBody
+            }
+          },
+          '\nFecha de las ventas: ' + salesReport.date,
+          '\nFecha de generación del informe: ' + currentDate.toLocaleString()
+        ]
       };
   
-      // Send the email with the PDF attachment
-      await this.transporter.sendMail(mailOptions);
-    });
+      // Create the PDF
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+  
+      // Get the base64 representation of the PDF
+      pdfDocGenerator.getBase64(async (base64) => {
+        // Convert the base64 string to a Buffer
+        let attachment = Buffer.from(base64, 'base64');
+  
+        // Define the mail options
+        const mailOptions = {
+          from: process.env.API_EMAIL,
+          to: email,
+          subject: 'Your Sales Report',
+          text: 'Please find attached your sales report.',
+          attachments: [{
+            filename: 'sales_report.pdf',
+            content: attachment
+          }]
+        };
+  
+        // Send the email with the PDF attachment
+        await this.transporter.sendMail(mailOptions);
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
-
-  // async shareSalesReportByWhatsApp(number: string, report: ReportsSalesEntity) {
-  //   await this.twilioClient.messages.create({
-  //     body: `Here is your sales report: ${JSON.stringify(report)}`,
-  //     from: 'whatsapp:' + process.env.TWILIO_PHONE_NUMBER,
-  //     to: 'whatsapp:' + number,
-  //   });
-  // }
 }
