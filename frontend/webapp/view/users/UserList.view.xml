@@ -38,6 +38,15 @@
                         visible="false"
                         press=".onCancelChanges"
                     />
+
+                    <Button
+                        id="deleteWorkers"
+                        icon="sap-icon://delete"
+                        text="{i18n>userListDeleteWorkers}"
+                        type="Negative"
+                        visible="false"
+                        press=".onDeleteSelectedWorkers"
+                    />
                 </contentRight>
             </Bar>
         </headerContent>
@@ -60,14 +69,14 @@
                 />
             </HBox>
             <table:Table
+                id="tableWorkers"
                 selectionMode="MultiToggle"
                 rows="{oWorkers>/}"
-                id="tableWorkers"
                 busyIndicatorDelay="0"
             >
                 <table:extension>
                     <Bar>
-                        <contentRight class="sapUiSmallMarginBottom">
+                        <contentRight >
                             <SearchField width="250px" />
                         </contentRight>
                     </Bar>
@@ -201,7 +210,10 @@
                     >
                         <Label text="{i18n>UserListInventory}" />
                         <table:template>
-                            <Button icon="sap-icon://delete" />
+                            <Button
+                                icon="sap-icon://delete"
+                                press=".onDeleteWorker"
+                            />
                         </table:template>
                     </table:Column>
                 </table:columns>
