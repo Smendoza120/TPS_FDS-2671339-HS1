@@ -55,6 +55,7 @@ export default class UserList extends Base {
 
       const oWorkerModel = this.getView()?.getModel("oWorkers") as JSONModel;
       oWorkerModel.setData(workerList);
+      
       this.updateTableWorker();
     } catch (error) {
       MessageBox.error(

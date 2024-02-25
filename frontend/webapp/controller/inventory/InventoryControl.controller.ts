@@ -1,9 +1,10 @@
 import MessageBox from "sap/m/MessageBox";
-import { getListStorage, listStorage } from "../../model/models";
+
 import Base from "../Base.controller";
 import Select from "sap/m/Select";
 import Input from "sap/m/Input";
 import BusyIndicator from "sap/ui/core/BusyIndicator";
+import JSONModel from "sap/ui/model/json/JSONModel";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -11,9 +12,33 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 export default class InventoryControl extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    this.getView()?.setModel(getListStorage(), "oListStorage");
+    this.getView()?.setModel(new JSONModel([]), "oListStorage");
+    this.getView()?.setModel(new JSONModel([]), "dataSelectStorage");
 
-    listStorage();
+    this.setDataSelectStorage();
+  }
+
+  onAfterRendering(): void {
+    this.setDataSelectStorage();
+  }
+
+  async setDataSelectStorage(): Promise<void> {
+    const selectStorageModel = this.getView()?.getModel(
+      "dataSelectStorage"
+    ) as JSONModel;
+
+    const dataStoage = [
+      {
+        key: "1",
+        text: "Almacen",
+      },
+      {
+        key: "2",
+        text: "Bodega",
+      },
+    ];
+
+    selectStorageModel.setData(dataStoage);
   }
 
   public createInventory(inventoryData: any): Promise<string> {
