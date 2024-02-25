@@ -34,6 +34,14 @@ export class ReportsController {
   }
 
   @ApiOperation({
+    description: 'Get all reports',
+  })
+  @Get()
+  async findAll(): Promise<ReportsSalesEntity[]> {
+    return this.reportService.getAllReports();
+  }
+
+  @ApiOperation({
     description: 'Update report',
   })
   @Put(':id')
