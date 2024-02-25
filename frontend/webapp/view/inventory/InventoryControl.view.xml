@@ -61,11 +61,11 @@
                 <Select
                     id="storageComboBox"
                     width="100%"
-                    items="{oListStorage>/}"
+                    items="{dataSelectStorage>/}"
                 >
                     <core:Item
-                        key="{oListStorage>id}"
-                        text="{oListStorage>storage}"
+                        key="{dataSelectStorage>id}"
+                        text="{dataSelectStorage>text}"
                     />
                 </Select>
             </VBox>

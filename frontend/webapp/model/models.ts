@@ -9,7 +9,6 @@ const oWorker = new JSONModel([]);
 
 const oListPostion = new JSONModel();
 const oInventoryControl = new JSONModel([]);
-const oListStorage = new JSONModel();
 
 export function createDeviceModel() {
   const model = new JSONModel(Device);
@@ -33,39 +32,5 @@ export function getInventoryControl(): JSONModel {
   return oInventoryControl;
 }
 
-export function getListStorage(): JSONModel {
-  return oListStorage;
-}
 
-export function structureInventory(): Inventory {
-  const addInventory: Inventory = {
-    product: "Doritos",
-    quantity: 2,
-    unitPrice: 500,
-    storage: {
-      id: "1",
-      storage: "Almacen",
-    },
-    expirationDate: new Date(),
-    isEdit: false,
-  };
 
-  oInventoryControl.setData([addInventory]);
-  return addInventory;
-}
-
-export function listStorage(): Storage[] {
-  const storage: Storage[] = [
-    {
-      id: "1",
-      storage: "Almacen",
-    },
-    {
-      id: "2",
-      storage: "Bodega",
-    },
-  ];
-
-  oListStorage.setData(storage);
-  return storage;
-}

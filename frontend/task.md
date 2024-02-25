@@ -13,3 +13,4 @@
     - [] Validacion de campos erroneos (Cada uno individual)
 - [] Si el producto esta deshabilitar los campos y mostrar un popup informando que vaya al listado de productos
 - [] Hacer la lista del inventario
+- [] Para eliminar un inventario primero hay que borrar el producto
