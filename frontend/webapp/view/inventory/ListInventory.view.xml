@@ -29,6 +29,7 @@
                         visible="false"
                         press=".aceptChanges"
                     />
+
                     <Button
                         id="cancelChanges"
                         icon="sap-icon://cancel"
@@ -36,6 +37,24 @@
                         text="{i18n>ListInventoryCancelChanges}"
                         visible="false"
                         press=".cancelChanges"
+                    />
+
+                    <Button
+                        id="deleteProducts"
+                        icon="sap-icon://delete"
+                        type="Negative"
+                        text="{i18n>ListInventoryDeleteProducts}"
+                        visible="false"
+                        press=".onDeleteSelectedProducts"
+                    />
+
+                    <Button
+                        id="sendReportInventory"
+                        icon="sap-icon://paper-plane"
+                        type="Emphasized"
+                        text="{i18n>ListInventorySendReport}"
+                        visible="true"
+                        press=".showEmailInputDialog"
                     />
                 </contentRight>
             </Bar>
@@ -69,7 +88,7 @@
                 <table:extension>
                     <Bar>
                         <contentRight>
-                            <SearchField width="250px" />
+                            <SearchField width="250px" search=".handleSearch" />
                         </contentRight>
                     </Bar>
                 </table:extension>
@@ -77,12 +96,10 @@
                     <table:Column width="10rem">
                         <Label text="{i18n>ListInventoryDateOfStart}" />
                         <table:template>
-                            <!-- <DateTimePicker
-                                editable="{oVisibility>/isEditable}"
+                            <Input
                                 value="{oListStorage>purchaseDate}"
-                            /> -->
-                            <Input value="{oListStorage>purchaseDate}"
-                              editable="{oVisibility>/isEditable}"/>
+                                editable="false"
+                            />
                         </table:template>
                     </table:Column>
 

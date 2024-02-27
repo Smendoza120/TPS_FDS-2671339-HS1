@@ -6,6 +6,13 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import MessageBox from "sap/m/MessageBox";
 import Table from "sap/ui/table/Table";
 import Column from "sap/ui/table/Column";
+import Dialog from "sap/m/Dialog";
+import Text from "sap/m/Text";
+import Label from "sap/m/Label";
+import Input from "sap/m/Input";
+import Core from "sap/ui/core/Core";
+import FlexBox from "sap/m/FlexBox";
+import SearchField from "sap/m/SearchField";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -76,7 +83,7 @@ export default class ListInventory extends Base {
 
     if (productId) {
       try {
-        alert(`productId ${JSON.stringify(productId.idProduct)}`);
+        // alert(`productId ${JSON.stringify(productId.idProduct)}`);
         await this.oDeleteProduct(productId.idProduct);
       } catch (error) {
         MessageBox.error(
@@ -108,13 +115,76 @@ export default class ListInventory extends Base {
 
       MessageBox.success("Producto eliminado correctamente");
     } catch (error) {
-      alert(`Error: ${productId}`);
+      alert(`Error: ${JSON.stringify(error)}`);
       MessageBox.error(
         `Error al eliminar el producto: ${JSON.stringify(error)}`
       );
     } finally {
       BusyIndicator.hide();
     }
+  }
+
+  public async onDeleteMultipleProducts(
+    selectedProducts: any[]
+  ): Promise<void> {
+    const productId = selectedProducts.map((product) => product.idProduct);
+
+    try {
+      alert(productId);
+      alert(`Aqui estoy: ${productId}`);
+      await Promise.all(
+        productId.map(async (productId) => this.oDeleteProduct(productId))
+      );
+    } catch (error) {
+      MessageBox.error(
+        `Error al eliminar los productos: ${JSON.stringify(error)}`
+      );
+    }
+  }
+
+  public onDeleteSelectedProducts(): void {
+    const oTable = this.getView()?.byId("productsTable") as Table;
+    const aSelectedIndices = oTable.getSelectedIndices();
+    const aSelectedProducts: any[] = [];
+
+    aSelectedIndices.forEach((index: number) => {
+      const oContext = oTable.getContextByIndex(index);
+      if (oContext) {
+        const oProduct = oContext.getObject();
+        aSelectedProducts.push(oProduct);
+      }
+    });
+
+    if (aSelectedProducts.length === 0) {
+      MessageBox.warning("No se han seleccionado productos para eliminar.");
+      return;
+    }
+
+    const dialog = new Dialog({
+      title: "Eliminar Productos",
+      type: "Message",
+      content: new Text({
+        text: `¿Está seguro de que desea eliminar ${aSelectedProducts.length} productos seleccionados?`,
+      }),
+      beginButton: new Button({
+        text: "Aceptar",
+        press: () => {
+          this.onDeleteMultipleProducts(aSelectedProducts);
+          dialog.close();
+        },
+      }),
+      endButton: new Button({
+        text: "Cancelar",
+        press: () => {
+          dialog.close();
+        },
+      }),
+      afterClose: () => {
+        dialog.destroy();
+      },
+    });
+
+    dialog.open();
   }
 
   private async loadInventoryData(): Promise<void> {
@@ -132,7 +202,6 @@ export default class ListInventory extends Base {
 
       inventoryModel.setData(productsList);
     } catch (error) {
-      alert(`Error al cargar los datos de inventario: ${error}`);
     } finally {
       BusyIndicator.hide();
     }
@@ -142,30 +211,30 @@ export default class ListInventory extends Base {
     const editButton = this.getView()?.byId("editList") as Button;
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+    const deleteProducts = this.getView()?.byId("deleteProducts") as Button;
     const deleteColumn = this.getView()?.byId("deleteColumn") as Column;
     const visibilityModel = this.getView()?.getModel(
       "oVisibility"
     ) as JSONModel;
 
-    // Copia de seguridad
     const originalVisibilityState = visibilityModel.getData();
     const backupVisibilityState = { ...originalVisibilityState };
     visibilityModel.setData(backupVisibilityState);
 
-    // Cambiar el estado de edición
     const isEditable = visibilityModel.getProperty("/isEditable");
     visibilityModel.setProperty("/isEditable", !isEditable);
 
-    // Cambiar la visibilidad de los botones y la columna de eliminación
     if (editButton.getVisible() === true) {
       editButton.setVisible(false);
       aceptChangesButton.setVisible(true);
       cancelChangesButton.setVisible(true);
+      deleteProducts.setVisible(true);
       deleteColumn.setVisible(true);
     } else {
       editButton.setVisible(true);
       aceptChangesButton.setVisible(false);
       cancelChangesButton.setVisible(false);
+      deleteProducts.setVisible(false);
       deleteColumn.setVisible(false);
     }
   }
@@ -183,10 +252,6 @@ export default class ListInventory extends Base {
 
           const price = parseFloat(product.price);
           const quantity = parseInt(product.quantity);
-          const date = product.purchaseDate
-
-          alert(date)
-
 
           if (isNaN(price) || isNaN(quantity)) {
             throw new Error(
@@ -199,10 +264,6 @@ export default class ListInventory extends Base {
             price: price,
             quantity: quantity,
           };
-
-          alert(productId)
-          alert(JSON.stringify(product));
-          alert(JSON.stringify(updatedProduct));
 
           await this.callAjax({
             url: `/products/${productId}`,
@@ -235,10 +296,12 @@ export default class ListInventory extends Base {
       const cancelChangesButton = this.getView()?.byId(
         "cancelChanges"
       ) as Button;
+      const deleteProducts = this.getView()?.byId("deleteProducts") as Button;
       const deleteColumn = this.getView()?.byId("deleteColumn") as Column;
 
       editButton.setVisible(true);
       aceptChangesButton.setVisible(false);
+      deleteProducts.setVisible(false);
       cancelChangesButton.setVisible(false);
       deleteColumn.setVisible(false);
     } catch (error) {
@@ -254,19 +317,132 @@ export default class ListInventory extends Base {
     ) as JSONModel;
     const originalVisibilityState = visibilityModel.getData();
 
-    // Restaurar el estado original
     originalVisibilityState.isEditable = false;
     visibilityModel.setData(originalVisibilityState);
 
-    // Restaurar la visibilidad de los botones y la columna de eliminación
     const editButton = this.getView()?.byId("editList") as Button;
     const aceptChangesButton = this.getView()?.byId("aceptChanges") as Button;
     const cancelChangesButton = this.getView()?.byId("cancelChanges") as Button;
+    const deleteProducts = this.getView()?.byId("deleteProducts") as Button;
     const deleteColumn = this.getView()?.byId("deleteColumn") as Column;
 
     editButton.setVisible(true);
     aceptChangesButton.setVisible(false);
     cancelChangesButton.setVisible(false);
+    deleteProducts.setVisible(false);
     deleteColumn.setVisible(false);
+  }
+
+  public showEmailInputDialog() {
+    const dialog = new Dialog({
+      title: "Agrega el Electronico para enviarte el reporte",
+      content: new FlexBox({
+        justifyContent: "Center",
+        alignItems: "Center",
+        width: "100%",
+        // height: "100%",
+        items: [
+          new Label({ text: "Correo Electronico" }),
+          new Input("inputEmail", { width: "100%" }),
+        ],
+        direction: "Column",
+      }),
+      beginButton: new Button({
+        text: "Enviar",
+        press: () => {
+          const inputEmail: Input = Core.byId("inputEmail") as Input;
+          const email: string = inputEmail.getValue();
+
+          const validationResult = this.ValidateEmail(email);
+
+          if (!validationResult.valid) {
+            MessageBox.error(validationResult.message);
+            return;
+          }
+
+          const inventoryId: string = "183167d8-9834-45f4-b2fa-70a087551ad2";
+
+          this.sendReport(inventoryId, email);
+
+          dialog.close();
+        },
+      }),
+      endButton: new Button({
+        text: "Cancelar",
+        press: () => {
+          dialog.close();
+        },
+      }),
+      afterClose: () => {
+        dialog.destroy();
+      },
+    });
+
+    dialog.open();
+  }
+
+  public async sendReport(inventoryId: string, email: string): Promise<void> {
+    try {
+      await this.callAjax({
+        type: "POST",
+        url: "/sharing/share-inventory",
+        contentType: "application/json",
+        data: JSON.stringify({ inventoryId: inventoryId, email: email }),
+      });
+      MessageBox.success("El reporte se ha enviado correctamente.");
+    } catch (error) {
+      MessageBox.error(`Error al enviar el reporte: ${JSON.stringify(error)}`);
+    }
+  }
+
+  public ValidateEmail(email: string) {
+    if (!email) {
+      return {
+        valid: false,
+        message: "Por favor, ingrese su correo electrónico.",
+      };
+    }
+
+    const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return {
+        valid: false,
+        message: "Por favor, ingrese un correo electrónico válido.",
+      };
+    }
+
+    return {
+      valid: true,
+      message: "",
+    };
+  }
+
+  public async handleSearch(oEvent: any): Promise<void> {
+    const oSearchField = oEvent.getSource() as SearchField;
+    const searchTerm: string = oSearchField.getValue();
+    const oTable = this.getView()?.byId("productsTable") as Table;
+    const oListStorageModel = this.getView()?.getModel("oListStorage") as  JSONModel;
+
+    try {
+      let response;
+      if (!isNaN(parseFloat(searchTerm))) {
+        response = await this.callAjax({
+          url: `/products/price/${searchTerm}`,
+          method: "GET",
+        });
+      } else {
+        response = await this.callAjax({
+          url: `/products/name/${searchTerm}`,
+          method: "GET",
+        });
+      }
+
+      alert(JSON.stringify(response));
+      
+      oTable.setModel(new JSONModel(response));
+    } catch (error) {
+      oSearchField.setValue("");
+      // oTable.setModel(oListStorageModel);
+    }
   }
 }
