@@ -28,13 +28,6 @@
                         press=".onListInventory"
                     />
 
-                    <StandardListItem
-                        title="{i18n>InventorySplitPageReportInventory}"
-                        icon="sap-icon://manager-insight"
-                        type="Navigation"
-                        selected="false"
-                        press=".onReportInventory"
-                    />
                 </List>
             </Page>
         </masterPages>
@@ -47,11 +40,6 @@
             <mvc:XMLView
                 id="listInventory"
                 viewName="com.marketsystem.marketsystem.view.inventory.ListInventory"
-            />
-
-            <mvc:XMLView
-                id="reportInventory"
-                viewName="com.marketsystem.marketsystem.view.inventory.ReportInventory"
             />
         </detailPages>
     </SplitApp>
