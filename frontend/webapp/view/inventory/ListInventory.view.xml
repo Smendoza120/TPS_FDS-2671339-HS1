@@ -84,6 +84,7 @@
                 id="productsTable"
                 selectionMode="MultiToggle"
                 rows="{oListStorage>/}"
+                items="{path: 'oNewModel>/'}"
             >
                 <table:extension>
                     <Bar>

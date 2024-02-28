@@ -421,10 +421,13 @@ export default class ListInventory extends Base {
     const oSearchField = oEvent.getSource() as SearchField;
     const searchTerm: string = oSearchField.getValue();
     const oTable = this.getView()?.byId("productsTable") as Table;
-    const oListStorageModel = this.getView()?.getModel("oListStorage") as  JSONModel;
+    const oListStorageModel = this.getView()?.getModel(
+      "oListStorage"
+    ) as JSONModel;
 
     try {
       let response;
+
       if (!isNaN(parseFloat(searchTerm))) {
         response = await this.callAjax({
           url: `/products/price/${searchTerm}`,
@@ -437,12 +440,30 @@ export default class ListInventory extends Base {
         });
       }
 
+      if (response.length === 0) {
+        MessageBox.information(
+          "No se encontraron resultados para la búsqueda."
+        );
+        return;
+      }
+
       alert(JSON.stringify(response));
-      
-      oTable.setModel(new JSONModel(response));
+      const oNewModel = new JSONModel(response);
+      this.getView()?.setModel(oNewModel, "oNewModel");
+
+      oTable.setModel(oNewModel);
+      oTable.bindRows({
+        path: "/"
+      })
+
+      const prueba = (
+        this.getView()?.getModel("oNewModel") as JSONModel
+      ).getData();
+      alert(JSON.stringify(prueba));
     } catch (error) {
       oSearchField.setValue("");
-      // oTable.setModel(oListStorageModel);
+      MessageBox.error(`Error al buscar productos: ${error}`);
+      oTable.setModel(oListStorageModel);
     }
   }
 }
