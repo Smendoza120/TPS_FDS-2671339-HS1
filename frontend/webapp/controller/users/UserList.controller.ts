@@ -216,6 +216,20 @@ export default class UserList extends Base {
     oWorkersBackupModel.setData([]);
   }
 
+  public setSwitchIds() {
+    const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
+    const workersData = oWorkersModel.getProperty("/");
+
+    workersData.forEach((worker: any) => {
+      worker.billsSwitchId = "billsSwitch_" + worker.id;
+      worker.usersSwitchId = "usersSwitch_" + worker.id;
+      worker.salesSwitchId = "salesSwitch_" + worker.id;
+      worker.inventorySwitchId = "inventorySwitch_" + worker.id;
+    });
+
+    oWorkersModel.setProperty("/", workersData);
+  }
+
   public async onAceptChanges() {
     const oWorkersModel = this.getView()?.getModel("oWorkers") as JSONModel;
     const updatedData = oWorkersModel.getData();
