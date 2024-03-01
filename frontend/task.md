@@ -13,7 +13,29 @@
     - [X] Validacion de campos erroneos (Cada uno individual)
 - [X] Hacer la lista del inventario
 - [X] Para eliminar un inventario primero hay que borrar el producto
+- [X] Mostrar un mensaje por si el producto no esta
+- [] Arreglar el error de la creacion de inventario
+- [] Realizar la visualizacion del filtro en la tabla
+- [] Traer el dato de Almacen o Bodega
 - [] Si el producto esta deshabilitar los campos y mostrar un popup informando que vaya al listado de productos
-- [] Realizar la visualizacion del filtro
+### Ideas para logica 
+- Podria agregar el tipo de almacenamiento en el producto, para que solo el invetario se encargue de la fecha del inventario y que esta cambie cada mes y se pueda hacer una implementacion que se envie por fechas o por el contenido.
+
+# Ventas Diarias
+- [] Realizar una actualización al diseño UI/UX de la sección de control de ventas
+- [] Realizar una actualizacion al diseño UI/UX de la seccion del listado de ventas
+ 
+### Ideas para logica 
+- Para realizar una venta necesitamos los siguientes datos:
+- Cantidad
+- Fecha de venta (Esta se consigue con el metodo Date)
+- CustomerId (para poder tomar ese ID necesitamos crear al customer) (pero este dato solo se solicitaria para la factura)
+- Para el product ID, debemos realizar la misma funcionalidad de filtro de productos para traer el ID del producto.
+
+# Control facturación
+- [] Realizar la maquetación 
+- [] Realizar logica
+
+
 
 Podria agregar el tipo de almacenamiento en el producto, para que solo el invetario se encargue de la fecha del inventario y que esta cambie cada mes y se pueda hacer una implementacion que se envie por fechas o por el contenido.
