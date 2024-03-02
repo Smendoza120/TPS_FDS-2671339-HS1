@@ -20,6 +20,10 @@ export class ProductDto {
 
     @ApiProperty()
     @IsString()
+    storage: string;
+
+    @ApiProperty()
+    @IsString()
     inventory_id: string;
 }
 

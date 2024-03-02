@@ -35,6 +35,13 @@ export class ProductsEntity {
   })
   purchaseDate: string;
 
+  @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'storage'
+  })
+  storage: string;
+
   @ManyToOne(() => InventoryEntitie, inventory => inventory.products)
   @JoinColumn({ name: 'inventory_id' }) // Esta es la columna de clave foránea
   inventory: InventoryEntitie;

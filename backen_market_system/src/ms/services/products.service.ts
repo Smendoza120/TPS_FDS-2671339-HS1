@@ -78,6 +78,14 @@ export class ProductService {
     }
   }
 
+  async findByStorage(storage: string): Promise<ProductsEntity[]> {
+    try {
+      return await this.iProductsEntity.find({ where: { storage: storage } });
+    } catch (error) {
+      throw new Error(`Failed to find products by storage: ${error.message}`);
+    }
+  }
+
   async delete(id: string): Promise<void> {
     try {
       const product = await this.iProductsEntity.findOneOrFail({where: {idProduct: id}});

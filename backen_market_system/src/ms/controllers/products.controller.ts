@@ -99,4 +99,17 @@ export class ProductController {
       throw new NotFoundException('Product not found');
     }
   }
+
+  @ApiOperation({
+    description: 'Get products by storage',
+  })
+  @Get('storage/:storage')
+  async findByStorage(@Param('storage') storage: string) {
+    try {
+      const products = await this.productService.findByStorage(storage);
+      return products;
+    } catch (e) {
+      throw new NotFoundException('Products not found');
+    }
+  }
 }
