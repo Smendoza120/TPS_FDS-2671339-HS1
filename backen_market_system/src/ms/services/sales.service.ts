@@ -23,13 +23,15 @@ export class SalesService {
     try {
       dto.salesDate = new Date(dto.salesDate).toISOString();
       const sale = this.salesRepository.create(dto);
-
-      const customer = await this.iCustomerService.findById(dto.customerId);
-      if (!customer) {
-        throw new Error(`Customer with ID ${dto.customerId} not found`);
+  
+      if (dto.customerId) {
+        const customer = await this.iCustomerService.findById(dto.customerId);
+        if (!customer) {
+          throw new Error(`Customer with ID ${dto.customerId} not found`);
+        }
+        sale.customer = customer;
       }
-      sale.customer = customer;
-
+  
       const product = await this.iProductService.findById(dto.productId);
       if (!product) {
         throw new Error(`Product with ID ${dto.productId} not found`);
@@ -39,11 +41,11 @@ export class SalesService {
       }
       sale.product = product;
       sale.quantity = dto.quantity; // Añade esta línea para establecer la cantidad
-
+  
       await this.iProductService.updateQuantity(dto.productId, dto.quantity);
-
+  
       await this.salesRepository.save(sale);
-
+  
       return sale;
     } catch (error) {
       throw new HttpException(
@@ -56,6 +58,7 @@ export class SalesService {
       );
     }
   }
+  
   async update(id: string, dto: SalesDto): Promise<SalesEntity> {
     const sale = await this.salesRepository.findOne({ where: { idSales: id } });
     if (!sale) {

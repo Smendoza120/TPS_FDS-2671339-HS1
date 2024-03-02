@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsInt, IsUUID, IsString } from "class-validator";
+import { IsInt, IsUUID, IsString, IsOptional } from "class-validator";
 
 export class SalesDto {
   @ApiProperty()
@@ -12,7 +12,8 @@ export class SalesDto {
 
   @ApiProperty()
   @IsUUID()
-  customerId: string;
+  @IsOptional()
+  customerId?: string;
 
   @ApiProperty() // Asume que el ID del producto es un string
   @IsString() // Valida que el ID es un UUID v4

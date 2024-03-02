@@ -5,6 +5,7 @@ import { ProductsEntity } from "./products.entity";
 import { CustomerEntity } from './customers.entity';
 import { ReportsSalesEntity } from './reports.entity';
 import { BillsEntity } from './bills.entity'
+import { IsOptional } from 'class-validator';
 
 @Entity({name: 'sales'})
 export class SalesEntity {
