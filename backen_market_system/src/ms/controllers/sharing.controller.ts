@@ -5,6 +5,7 @@ import { SalesService } from '../services/sales.service';
 import { ShareBillDto } from '../dto/share-bill.dto';
 import { ShareInventoryDto } from '../dto/share-inventory.dto';
 import { ShareSalesReportDto } from '../dto/share-sales-report.dto';
+import { ShareStorageReportDto } from '../dto/sharing-products-storage.dto';
 import {ApiOperation, ApiTags} from "@nestjs/swagger";
 
 
@@ -37,5 +38,13 @@ export class SharingController {
     const salesReport = await this.reportsSalesService.getReport(shareSalesReportDto.reportId);
     const sales = await this.salesService.getSalesByReportId(shareSalesReportDto.reportId);
     return this.sharingService.shareSalesReportByEmail(shareSalesReportDto.email, salesReport, sales);
+  }
+
+  @ApiOperation({
+    description: 'Share a storage report',
+  })
+  @Post('share-storage-report')
+  async shareStorageReport(@Body() shareStorageReportDto: ShareStorageReportDto ) {
+    return this.sharingService.shareStorageReportByEmail(shareStorageReportDto.email, shareStorageReportDto.storage);
   }
 }

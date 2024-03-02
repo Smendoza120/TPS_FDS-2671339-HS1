@@ -11,6 +11,7 @@ import { BillsService } from './bills.service';
 import { SalesEntity } from '../entities/sales.entity';
 import { InventoryService } from './invenotory.service';
 import { ReportService } from './reports.service';
+import { ProductService } from './products.service';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
@@ -23,7 +24,8 @@ export class SharingService {
 
   constructor(    private billsService: BillsService,
     private inventoryService: InventoryService,
-    private reportService: ReportService,) {
+    private reportService: ReportService,
+    private ProductService: ProductService) {
     this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -298,6 +300,80 @@ export class SharingService {
           text: 'Please find attached your sales report.',
           attachments: [{
             filename: 'sales_report.pdf',
+            content: attachment
+          }]
+        };
+  
+        // Send the email with the PDF attachment
+        await this.transporter.sendMail(mailOptions);
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async shareStorageReportByEmail(email: string, storage: string) {
+    try {
+      // Get products by storage
+      const products = await this.ProductService.findByStorage(storage);
+  
+      // Define the vfs property on pdfMake
+      Object.defineProperty(pdfMake, 'vfs', {
+        value: pdfFonts.pdfMake.vfs,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
+  
+      // Initialize the table body with the headers
+      let tableBody = [
+        ['Product Name', 'Quantity']
+      ];
+  
+      // Iterate over each product to create the table body
+      products.forEach(product => {
+        tableBody.push([
+          product.productName,
+          product.quantity.toString()
+        ]);
+      });
+  
+      // Get the current date
+      let currentDate = new Date();
+  
+      // Define the document structure for the PDF
+      let docDefinition = {
+        content: [
+          'Here is your storage report:',
+          '\n',
+          {
+            table: {
+              headerRows: 1,
+              widths: ['*', '*'],
+              body: tableBody
+            }
+          },
+          '\nStorage: ' + storage,
+          '\nReport generation date: ' + currentDate.toLocaleString()
+        ]
+      };
+  
+      // Create the PDF
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+  
+      // Get the base64 representation of the PDF
+      pdfDocGenerator.getBase64(async (base64) => {
+        // Convert the base64 string to a Buffer
+        let attachment = Buffer.from(base64, 'base64');
+  
+        // Define the mail options
+        const mailOptions = {
+          from: process.env.API_EMAIL,
+          to: email,
+          subject: 'Your Storage Report',
+          text: 'Please find attached your storage report.',
+          attachments: [{
+            filename: 'storage_report.pdf',
             content: attachment
           }]
         };
