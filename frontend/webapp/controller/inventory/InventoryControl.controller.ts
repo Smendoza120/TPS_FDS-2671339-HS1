@@ -69,6 +69,19 @@ export default class InventoryControl extends Base {
     });
   }
 
+  private async getOrCreateInventory(): Promise<void> {
+    try {
+      const existingInventory = await this.callAjax({
+        type: "GET",
+        url: "/inventory"
+      })
+
+      return existingInventory[0].idInventory
+    } catch (error) {
+      throw new Error(`Error al obtener o crear el inventario: ${JSON.stringify(error)}`);
+    }
+  }
+
   public createProduct(productData: any): void {
     BusyIndicator.show(0);
 
@@ -104,6 +117,14 @@ export default class InventoryControl extends Base {
   }
 
   public async onCreateProduct(): Promise<void> {
+
+    try {
+      const productNameInput = this.getView()?.byId("productNameInput") 
+      const quantityInput = this.getView()?.byId("quantityInput")
+    } catch (error) {
+      MessageBox.error(`Error al crear el producto: ${error}`);
+    }
+    /* 
     try {
       const storageComboBox = this.getView()?.byId("storageComboBox") as Select;
       const selectedItem = storageComboBox.getSelectedItem();
@@ -148,5 +169,7 @@ export default class InventoryControl extends Base {
     } catch (error) {
       MessageBox.error(`Error al crear el producto: ${error}`);
     }
+
+    */
   }
 }
