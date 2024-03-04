@@ -84,7 +84,6 @@
                 id="productsTable"
                 selectionMode="MultiToggle"
                 rows="{oListStorage>/}"
-                items="{path: 'oNewModel>/'}"
             >
                 <table:extension>
                     <Bar>
@@ -138,10 +137,12 @@
                         <Label text="{i18n>ListInventoryStorage}" />
                         <table:template>
                             <Select
+                                id="storage"
                                 width="100%"
                                 items="{dataSelectStorage>/}"
                                 editable="{oVisibility>/isEditable}"
-                                selectedKey="{oInventoryControl/storage}"
+                                selectedKey="{oListStorage>storage}"
+                                change="onStorageChange"
                             >
                                 <core:Item
                                     key="{dataSelectStorage>id}"

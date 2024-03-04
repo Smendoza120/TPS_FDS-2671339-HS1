@@ -25,6 +25,7 @@
 - [X] Hacer la lista del inventario
 - [X] Para eliminar un inventario primero hay que borrar el producto
 - [X] Mostrar un mensaje por si el producto no esta
+- [] Arreglar la seleccion del select
 - [] Realizar la visualizacion del filtro en la tabla
 - [] Traer el dato de Almacen o Bodega
 - [] Si el producto esta deshabilitar los campos y mostrar un popup informando que vaya al listado de productos
