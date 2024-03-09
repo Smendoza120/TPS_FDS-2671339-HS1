@@ -80,9 +80,9 @@
             <table:Table >
                 <table:columns>
                     <table:Column >
-                        <Label text="Texto"/>
+                        <Label text="Texto de prueba"/>
                         <table:template>
-                            <Input value="Texto"/>
+                            <Input value="Texto de prueba"/>
                         </table:template>
                     </table:Column>
                 </table:columns>
