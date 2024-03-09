@@ -69,7 +69,22 @@ export default class InventoryControl extends Base {
     });
   }
 
-  public createProduct(productData: any): void {
+  private async getInventory(): Promise<void> {
+    try {
+      const existingInventory = await this.callAjax({
+        type: "GET",
+        url: "/inventory",
+      });
+
+      return existingInventory[0].idInventory;
+    } catch (error) {
+      throw new Error(
+        `Error al obtener o crear el inventario: ${JSON.stringify(error)}`
+      );
+    }
+  }
+
+  public async createProduct(productData: any): Promise<void> {
     BusyIndicator.show(0);
 
     this.callAjax({
@@ -78,7 +93,7 @@ export default class InventoryControl extends Base {
       contentType: "application/json",
       data: JSON.stringify(productData),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response) {
           MessageBox.success("Producto creado exitosamente");
         } else {
@@ -105,45 +120,33 @@ export default class InventoryControl extends Base {
 
   public async onCreateProduct(): Promise<void> {
     try {
-      const storageComboBox = this.getView()?.byId("storageComboBox") as Select;
-      const selectedItem = storageComboBox.getSelectedItem();
-
-      if (!selectedItem) {
-        MessageBox.error("Seleccione un almacenamiento");
-        return;
-      }
-
-      const selectedText = selectedItem.getText();
-
-      const productNameInput = (
-        this.getView()?.byId("productNameInput") as Input
-      ).getValue();
+      const productNameInput = this.getView()?.byId(
+        "productNameInput"
+      ) as Input;
       const quantityInput = this.getView()?.byId("quantityInput") as Input;
-      const priceInput = this.getView()?.byId("priceInput") as Input;
+      const princeInput = this.getView()?.byId("priceInput") as Input;
+      const storageSelect = this.getView()?.byId("storageComboBox") as Select;
 
+      const productName = productNameInput.getValue();
       const quantity = parseInt(quantityInput.getValue());
-      const price = parseFloat(priceInput.getValue());
+      const price = parseFloat(princeInput.getValue());
+      const storage = storageSelect.getSelectedItem()?.getText();
 
       const currentDate = new Date();
-
       const purchaseDate = currentDate.toISOString().slice(0, 10);
 
-      const inventoryIdWithQuotes = await this.createInventory({
-        storage: selectedText,
-      });
-
-      const inventoryId = inventoryIdWithQuotes.replace(/^"|"$/g, "");
+      const inventory_id = await this.getInventory();
 
       const newProduct = {
-        productName: productNameInput,
+        productName: productName,
         price: price,
         quantity: quantity,
         purchaseDate: purchaseDate,
-        inventory_id: inventoryId,
+        storage: storage,
+        inventory_id: inventory_id,
       };
 
       this.createProduct(newProduct);
-
       this.clearFormFields();
     } catch (error) {
       MessageBox.error(`Error al crear el producto: ${error}`);

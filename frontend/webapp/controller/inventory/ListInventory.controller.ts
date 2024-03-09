@@ -13,6 +13,7 @@ import Input from "sap/m/Input";
 import Core from "sap/ui/core/Core";
 import FlexBox from "sap/m/FlexBox";
 import SearchField from "sap/m/SearchField";
+import Select from "sap/m/Select";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -68,11 +69,26 @@ export default class ListInventory extends Base {
   }
 
   public prueba(): any {
-    const prueba = (
-      this.getView()?.getModel("oVisibility") as JSONModel
-    ).getData();
+    // const prueba = (
+    //   this.getView()?.getModel("oListStorage") as JSONModel
+    // ).getData();
 
-    alert(JSON.stringify(prueba));
+    // alert(JSON.stringify(prueba));
+
+    interface funcion {
+      numero: number;
+      palabra: string;
+    }
+
+    const prueba: funcion = {
+      numero: 123,
+      palabra: "aasd",
+    };
+
+    const { numero, palabra } = prueba;
+
+    alert(numero)
+    alert(palabra)
   }
 
   public async onDeleteProductFromRow(oEvent: any): Promise<void> {
@@ -83,7 +99,6 @@ export default class ListInventory extends Base {
 
     if (productId) {
       try {
-        // alert(`productId ${JSON.stringify(productId.idProduct)}`);
         await this.oDeleteProduct(productId.idProduct);
       } catch (error) {
         MessageBox.error(
@@ -421,10 +436,13 @@ export default class ListInventory extends Base {
     const oSearchField = oEvent.getSource() as SearchField;
     const searchTerm: string = oSearchField.getValue();
     const oTable = this.getView()?.byId("productsTable") as Table;
-    const oListStorageModel = this.getView()?.getModel("oListStorage") as  JSONModel;
+    const oListStorageModel = this.getView()?.getModel(
+      "oListStorage"
+    ) as JSONModel;
 
     try {
       let response;
+
       if (!isNaN(parseFloat(searchTerm))) {
         response = await this.callAjax({
           url: `/products/price/${searchTerm}`,
@@ -437,12 +455,42 @@ export default class ListInventory extends Base {
         });
       }
 
+      if (response.length === 0) {
+        MessageBox.information(
+          "No se encontraron resultados para la búsqueda."
+        );
+        return;
+      }
+
       alert(JSON.stringify(response));
-      
-      oTable.setModel(new JSONModel(response));
+      const oNewModel = new JSONModel(response);
+      this.getView()?.setModel(oNewModel, "oNewModel");
+
+      oTable.setModel(oNewModel);
+      oTable.bindRows({
+        path: "/",
+      });
+
+      const prueba = (
+        this.getView()?.getModel("oNewModel") as JSONModel
+      ).getData();
+      alert(JSON.stringify(prueba));
     } catch (error) {
       oSearchField.setValue("");
-      // oTable.setModel(oListStorageModel);
+      MessageBox.error(`Error al buscar productos: ${error}`);
+      oTable.setModel(oListStorageModel);
+    }
+  }
+
+  public onStorageChange(): any {
+    let oListStorageModel = this.getView()?.getModel(
+      "oListStorage"
+    ) as JSONModel;
+    let defaultStorageId = oListStorageModel.getProperty("/storage");
+
+    let oSelect = this.getView()?.byId("storage") as Select; // Reemplaza "idDelSelect" con el ID de tu Select
+    if (oSelect) {
+      oSelect.setSelectedKey(defaultStorageId);
     }
   }
 }

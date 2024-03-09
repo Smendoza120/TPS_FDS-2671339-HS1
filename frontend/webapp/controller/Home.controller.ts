@@ -24,7 +24,7 @@ export default class Home extends Base {
   }
 
   public loadUserPermissions(): void {
-    const idWorker = "b0b74f37-8d3a-45ad-9317-1bf76c60c0c0"; //Falta traer el id del trabajador con el endpoint
+    const idWorker = "6f22b097-78d3-4c24-b41e-519570dd82df"; //Falta traer el id del trabajador con el endpoint
 
     this.callWorkerEndPoint(idWorker)
       .then((workerData: any) => {
