@@ -10,6 +10,8 @@ import MessageBox from "sap/m/MessageBox";
  * @namespace com.marketsystem.marketsystem.controller
  */
 export default class DailySales extends Base {
+  private customerId: string | null = null;
+
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {}
 
