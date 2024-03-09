@@ -6,7 +6,7 @@
 >
     <Page>
         <content>
-            <Text text="Lista de ventas" />
+            <Text text="Lista de ventas 2" />
         </content>
     </Page>
 </mvc:View>
