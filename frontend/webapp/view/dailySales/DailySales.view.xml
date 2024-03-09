@@ -32,22 +32,28 @@
                 >
                     <VBox>
                         <Label text="{i18n>DailySalesQuantity}" />
-                        <Input placeholder="10" />
+                        <Input
+                            id="quantityId"
+                            placeholder="10" />
                     </VBox>
 
                     <VBox>
                         <Label text="{i18n>DailySalesProduct}" />
-                        <Input placeholder="Doritos" />
+                        <Input
+                            id="productId"
+                            placeholder="Doritos" />
                     </VBox>
 
                     <VBox
                         alignContent="Center"
                         justifyContent="End"
                     >
+                    <!-- Se encarga de crear la lista de ventas y agregar productos si esta lista esta creada por usuario -->
                         <Button
                             text="{i18n>DailySalesAddProduct}"
                             type="Emphasized"
                             icon="sap-icon://create-form"
+                            press=".onConfirmSaleClick"
                         />
                     </VBox>
                 </HBox>
@@ -62,7 +68,11 @@
                         justifyContent="End"
                         alignItems="End"
                     >
-                        <Button text="{i18n>DailySalesCreateCustomer}" />
+                    <!-- Nos encargamos de la creacion del usuario, abrimos una ventana emergente y ahi lo creamos -->
+                        <Button
+                            id="createCustomer"
+                            text="{i18n>DailySalesCreateCustomer}"
+                            press=".createCustomerDialog" />
                     </VBox>
                     <VBox
                         justifyContent="End"
@@ -77,12 +87,26 @@
                 </HBox>
             </HBox>
 
-            <table:Table >
+            <table:Table>
                 <table:columns>
-                    <table:Column >
-                        <Label text="Texto de prueba"/>
+                    <table:Column>
+                        <Label text="Producto" />
                         <table:template>
-                            <Input value="Texto de prueba"/>
+                            <Input value="Texto de prueba" />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="Cantidad" />
+                        <table:template>
+                            <Input value="Texto de prueba" />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="Precio" />
+                        <table:template>
+                            <Input value="Texto de prueba" />
                         </table:template>
                     </table:Column>
                 </table:columns>

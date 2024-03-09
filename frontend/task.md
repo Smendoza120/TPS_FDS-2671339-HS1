@@ -43,6 +43,25 @@
 - CustomerId (para poder tomar ese ID necesitamos crear al customer) (pero este dato solo se solicitaria para la factura)
 - Para el product ID, debemos realizar la misma funcionalidad de filtro de productos para traer el ID del producto.
 
+- Para poder tener una venta lo que tenemos que hacer es capturar todos los datos, pero a su vez debemos tomar el id del customer para que vaya asociada la venta con el customer que creamos, pero si queremos realizar otra venta diaria con otro usuario debemos registrar otro y seguir la cadena, pero como mantenemos ese id del customer mientras hacemos esa venta y posteriormente borramos ese historico del id y generamos otra compra a otro producto
+
+- Si se creo un usuario para esa venta, se deshabilita el boton para que no se cree otro usuario
+
+- Necesito crear una sola venta e ir agregandole productos, cuando hagamos una nueva venta deseo crear otro producto, es decir si tengo al usuario 1 y el pide mas de 3 cosas deseo que se agreguen a la misma venta, lo que no quiero es que al agregar otro producto me genere otra venta.
+
+- Cuando se agrega el primer producto a la venta:
+
+Se crea una nueva venta en el sistema.
+Se asigna el cliente a esa venta.
+Se agrega el producto a la lista de productos de esa venta.
+Cuando se agregan productos adicionales a la misma venta:
+
+Se busca la venta existente asociada al cliente.
+Se agrega el producto a la lista de productos de esa venta.
+Cuando se completa la venta:
+
+Se envía la venta completa al servidor para su procesamiento y registro en la base de datos.
+
 # Control facturación
 - [] Realizar la maquetación 
 - [] Realizar logica
