@@ -29,7 +29,7 @@
 - [] Realizar la visualizacion del filtro en la tabla
 - [] Traer el dato de Almacen o Bodega
 - [] Si el producto esta deshabilitar los campos y mostrar un popup informando que vaya al listado de productos
-## Ideas para logica 
+### Ideas para logica 
 - Podria agregar el tipo de almacenamiento en el producto, para que solo el invetario se encargue de la fecha del inventario y que esta cambie cada mes y se pueda hacer una implementacion que se envie por fechas o por el contenido.
 
 # Ventas Diarias
