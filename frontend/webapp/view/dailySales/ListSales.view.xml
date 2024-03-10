@@ -1,12 +1,72 @@
 <mvc:View
+    xmlns:table="sap.ui.table"
     controllerName="com.marketsystem.marketsystem.controller.dailySales.ListSales"
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
     xmlns="sap.m"
 >
-    <Page>
-        <content>
-            <Text text="Lista de ventas 2" />
-        </content>
+    <Page
+        backgroundDesign="List"
+        showHeader="true"
+    >
+        <headerContent>
+            <Bar>
+                <contentRight>
+                    <Button />
+                </contentRight>
+            </Bar>
+        </headerContent>
+        <ScrollContainer>
+            <HBox
+                width="100%"
+                alignItems="Center"
+                justifyContent="Center"
+            >
+                <Title
+                    level="H2"
+                    titleStyle="H2"
+                    text="{i18n>DailyListSalesTitle}"
+                />
+            </HBox>
+
+            <table:Table>
+                <table:extension>
+                    <Bar>
+                        <contentRight>
+                            <SearchField />
+                        </contentRight>
+                    </Bar>
+                </table:extension>
+                <table:columns>
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesProduct}"/>
+                        <table:template>
+                            <Input />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesQuantity}"/>
+                        <table:template>
+                            <Input />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesPrice}"/>
+                        <table:template>
+                            <Input />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesDateOfSale}"/>
+                        <table:template>
+                            <Input />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </ScrollContainer>
     </Page>
 </mvc:View>
