@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { ProductsEntity } from '../entities/products.entity.js';
 import { ProductDto } from '../dto/products-dto.js';
 import {InventoryService} from './invenotory.service.js'
+import { log } from 'console';
 
 @Injectable()
 export class ProductService {
@@ -34,7 +35,7 @@ export class ProductService {
 
   async updateQuantity(id: string, quantity: number): Promise<ProductsEntity> {
     try {
-      const product = await this.iProductsEntity.findOne({ where: { idProduct: id } });
+      let product = await this.iProductsEntity.findOne({ where: { idProduct: id } });
       if (!product) {
         throw new Error(`Product with ID ${id} not found`);
       }

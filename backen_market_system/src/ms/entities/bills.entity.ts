@@ -3,10 +3,12 @@ import {
   PrimaryGeneratedColumn,
   BeforeInsert,
   OneToMany,
-  Column
+  Column,
+  ManyToOne
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
+import { v4 as uuidv4 } from 'uuid';
 import { SalesEntity } from './sales.entity';
+import { CustomerEntity } from './customers.entity'; // Asegúrate de que este es el nombre correcto de tu entidad de clientes
 
 @Entity({ name: 'bills' })
 export class BillsEntity {
@@ -29,9 +31,11 @@ export class BillsEntity {
 
   @BeforeInsert()
   addId() {
-      // Genera un UUID utilizando uuidv4 y lo asigna a idUser
       this.idBills = uuidv4();
   }
+
+  @ManyToOne(() => CustomerEntity, customer => customer.bills)
+customer: CustomerEntity;
 
   @OneToMany(() => SalesEntity, (sale) => sale.bills)
   sales: SalesEntity[];

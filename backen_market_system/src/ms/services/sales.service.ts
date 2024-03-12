@@ -17,21 +17,13 @@ export class SalesService {
     private iInventoryService: InventoryService,
     private iCustomerService: CustomerService,
     private iProductService: ProductService,
-  ) {}
+  ) { }
 
   async create(dto: SalesDto): Promise<SalesEntity> {
     try {
       dto.salesDate = new Date(dto.salesDate).toISOString();
       const sale = this.salesRepository.create(dto);
-  
-      if (dto.customerId) {
-        const customer = await this.iCustomerService.findById(dto.customerId);
-        if (!customer) {
-          throw new Error(`Customer with ID ${dto.customerId} not found`);
-        }
-        sale.customer = customer;
-      }
-  
+
       const product = await this.iProductService.findById(dto.productId);
       if (!product) {
         throw new Error(`Product with ID ${dto.productId} not found`);
@@ -41,11 +33,15 @@ export class SalesService {
       }
       sale.product = product;
       sale.quantity = dto.quantity; // Añade esta línea para establecer la cantidad
-  
+
       await this.iProductService.updateQuantity(dto.productId, dto.quantity);
-  
+
+      // Update the product quantity in the sale entity
+      product.quantity -= dto.quantity;
+      sale.product = product;
+
       await this.salesRepository.save(sale);
-  
+
       return sale;
     } catch (error) {
       throw new HttpException(
@@ -58,7 +54,7 @@ export class SalesService {
       );
     }
   }
-  
+
   async update(id: string, dto: SalesDto): Promise<SalesEntity> {
     const sale = await this.salesRepository.findOne({ where: { idSales: id } });
     if (!sale) {
@@ -71,14 +67,14 @@ export class SalesService {
 
   async find(): Promise<SalesEntity[]> {
     return await this.salesRepository.find({
-      relations: ['product', 'customer'],
+      relations: ['product'],
     });
   }
 
   async findById(id: string): Promise<SalesEntity> {
     const sale = await this.salesRepository.findOne({
       where: { idSales: id },
-      relations: ['product', 'customer'],
+      relations: ['product'],
     });
     if (!sale) {
       throw new Error(`Sale with ID ${id} not found`);
@@ -176,7 +172,6 @@ export class SalesService {
     const customerEntity = await this.iCustomerService.findOne(customerId);
     const sales = await this.salesRepository.find({
       where: {
-        customer: customerEntity,
         salesDate: Between(startString, endString),
       },
       relations: ['product'], // Changed 'products' to 'product'
@@ -240,7 +235,7 @@ export class SalesService {
       where: {
         salesDate: Between(startDate.toISOString(), endDate.toISOString()),
       },
-      relations: ['product', 'customer'],
+      relations: ['product'],
     });
     if (!sales) {
       throw new Error(`No sales found between ${startDate} and ${endDate}`);

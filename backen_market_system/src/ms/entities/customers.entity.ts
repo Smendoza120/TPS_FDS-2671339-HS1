@@ -2,10 +2,11 @@ import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert, One
 import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid para generar UUIDs
 import { UserEntity } from './users.entity';
 import { SalesEntity } from './sales.entity';
+import { BillsEntity } from './bills.entity';
 
 @Entity({ name: 'customers' })
 export class CustomerEntity {
-  @PrimaryGeneratedColumn('uuid',{
+  @PrimaryGeneratedColumn('uuid', {
     name: 'id_customer',
   })
   idCustomer: string;
@@ -16,12 +17,12 @@ export class CustomerEntity {
     this.idCustomer = uuidv4();
   }
 
-  @OneToMany(() => SalesEntity, sale => sale.customer)
-  sales: SalesEntity[];
-
   @OneToOne(() => UserEntity, { cascade: true, eager: true })
   @JoinColumn({
     name: 'id_user',
   })
   user: UserEntity;
+
+  @OneToMany(() => BillsEntity, bill => bill.customer)
+  bills: BillsEntity[];
 }

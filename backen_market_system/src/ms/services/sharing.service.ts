@@ -41,7 +41,7 @@ export class SharingService {
   async shareBill(shareBillDto: ShareBillDto) {
     try {
       const { billId, email } = shareBillDto;
-      const bill = await this.billsService.findBillById(billId, { relations: ['sales', 'sales.customer', 'sales.product'] });
+      const bill = await this.billsService.findBillById(billId, { relations: ['sales' ,'customer.user','sales.product'] });
       if (!bill) {
         throw new NotFoundException(`Bill with ID ${billId} not found`);
       }
@@ -99,7 +99,7 @@ export class SharingService {
         content: [
           'Esta es tu factura:',
           '\n',
-          `Nombre del cliente: ${bill.sales[0].customer.user.firstName} ${bill.sales[0].customer.user.lastName}`,
+          bill.customer ? `Nombre del cliente: ${bill.customer.user.firstName} ${bill.customer.user.lastName}` : 'Nombre del cliente: No disponible',
           '\n',
           {
             table: {

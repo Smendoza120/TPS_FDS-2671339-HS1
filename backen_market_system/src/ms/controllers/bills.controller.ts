@@ -5,7 +5,8 @@ import {
   Get,
   Put,
   Param,
-  Delete
+  Delete,
+  Query
 } from '@nestjs/common';
 import { BillsEntity } from '../entities/bills.entity';
 import { BillsService } from '../services/bills.service';
@@ -22,7 +23,7 @@ export class BillsController {
   })
   @Post()
   async create(@Body() createBillDto: CreateBillDto): Promise<BillsEntity> {
-    return this.billsService.createBillForCustomerOnDate(createBillDto);
+    return this.billsService.createBillForCustomerAndSalesOnDate(createBillDto);
   }
 
   @ApiOperation({
@@ -50,5 +51,27 @@ export class BillsController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<void> {
     return this.billsService.deleteBill(id);
+  }
+
+  @ApiOperation({
+    description: 'Get products by customer and date',
+  })
+  @Get('products')
+  async getProductsByCustomerAndDate(
+    @Query('customerId') customerId: string,
+    @Query('date') date: string,
+  ) {
+    return this.billsService.getProductsByCustomerAndDate(customerId, date);
+  }
+
+  @ApiOperation({
+    description: 'Get sales by customer and date',
+  })
+  @Get('sales')
+  async getSalesByCustomerAndDate(
+    @Query('customerId') customerId: string,
+    @Query('date') date: string,
+  ) {
+    return this.billsService.getSalesByCustomerAndDate(customerId, date);
   }
 }
