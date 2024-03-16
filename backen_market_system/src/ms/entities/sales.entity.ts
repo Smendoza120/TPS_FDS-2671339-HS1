@@ -1,11 +1,8 @@
-// En SalesEntity
 import { Entity, PrimaryGeneratedColumn, BeforeInsert, Column, ManyToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { ProductsEntity } from "./products.entity";
-import { CustomerEntity } from './customers.entity';
 import { ReportsSalesEntity } from './reports.entity';
 import { BillsEntity } from './bills.entity'
-import { IsOptional } from 'class-validator';
 
 @Entity({name: 'sales'})
 export class SalesEntity {
@@ -25,9 +22,6 @@ export class SalesEntity {
         name: 'sales_date'
     })
     salesDate: string;
-
-    @ManyToOne(() => CustomerEntity, customer => customer.sales, { cascade: true, eager: true })
-    customer: CustomerEntity;
 
     @ManyToOne(() => ReportsSalesEntity, report => report.sales, { cascade: true, eager: true })
     report: ReportsSalesEntity;

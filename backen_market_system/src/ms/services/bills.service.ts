@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { BillsEntity } from '../entities/bills.entity';
 import { SalesService } from './sales.service';
 import { SalesEntity } from '../entities/sales.entity';
@@ -18,43 +18,40 @@ export class BillsService {
     private iCustomerService: CustomerService,
   ) {}
 
-  async createBillForCustomerOnDate(
+  async createBillForCustomerAndSalesOnDate(
     createBillDto: CreateBillDto,
   ): Promise<BillsEntity> {
     try {
-      const { customerId, date } = createBillDto;
-      const report = await this.salesService.getSalesForCustomerOnDate(
-        customerId,
-        date,
-      );
+      const { customerId, salesIds, date } = createBillDto;
   
-      if (report.total === 0) {
-        throw new Error('The customer did not buy anything on the given date');
+      const customer = await this.iCustomerService.findOne(customerId);
+      if (!customer) {
+        throw new Error('Cliente no encontrado');
       }
   
-      const customerEntity = await this.iCustomerService.findOne(customerId);
       const sales = await this.salesRepository.find({
         where: {
-          customer: customerEntity,
+          idSales: In(salesIds), // usa el nombre correcto de la columna aquí
           salesDate: date,
         },
         relations: ['product'],
       });
   
       if (!sales.length) {
-        throw new Error('Sales not found for the given customer and date');
+        throw new Error('No se encontraron ventas para los ID de ventas y la fecha dados');
       }
   
       const bill = new BillsEntity();
       bill.sales = sales;
       bill.date = date;
+      bill.customer = customer; // Include the customer in the bill
       bill.total = sales.reduce((total, sale) => total + sale.quantity * sale.product.price, 0);
   
       await this.billsRepository.save(bill);
   
       return bill;
     } catch (error) {
-      throw new Error(`Failed to create bill: ${error.message}`);
+      throw new Error(`Error al crear la factura: ${error.message}`);
     }
   }
 
@@ -73,29 +70,31 @@ export class BillsService {
   async getProductsByCustomerAndDate(customerId: string, date: string): Promise<{product: ProductsEntity, quantity: number}[]> {
     try {
       const customerEntity = await this.iCustomerService.findOne(customerId);
-      const sales = await this.salesRepository.find({
+      const bills = await this.billsRepository.find({
         where: {
           customer: customerEntity,
-          salesDate: date,
+          date: date,
         },
-        relations: ['product'],
+        relations: ['sales', 'sales.product'],
       });
-
-      if (!sales.length) {
-        throw new Error('Sales not found for the given customer and date');
+  
+      if (!bills.length) {
+        throw new Error('Bills not found for the given customer and date');
       }
-
+  
       let products: {product: ProductsEntity, quantity: number}[] = [];
-      sales.forEach(sale => {
-        const product = sale.product;
-        const productIndex = products.findIndex(p => p.product.idProduct === product.idProduct);
-        if (productIndex !== -1) {
-          products[productIndex].quantity += sale.quantity;
-        } else {
-          products.push({product: product, quantity: sale.quantity});
-        }
+      bills.forEach(bill => {
+        bill.sales.forEach(sale => {
+          const product = sale.product;
+          const productIndex = products.findIndex(p => p.product.idProduct === product.idProduct);
+          if (productIndex !== -1) {
+            products[productIndex].quantity += sale.quantity;
+          } else {
+            products.push({product: product, quantity: sale.quantity});
+          }
+        });
       });
-
+  
       return products;
     } catch (error) {
       throw new Error(`Failed to get products: ${error.message}`);
@@ -107,7 +106,7 @@ export class BillsService {
       const customerEntity = await this.iCustomerService.findOne(customerId);
       const sales = await this.salesRepository.find({
         where: {
-          customer: customerEntity,
+          // customer: customerEntity,
           salesDate: date,
         },
         relations: ['product'],
@@ -135,6 +134,4 @@ export class BillsService {
   async deleteBill(id: string): Promise<void> {
     await this.billsRepository.delete(id);
   }
-
-  
 }
