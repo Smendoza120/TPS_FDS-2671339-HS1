@@ -46,7 +46,7 @@ export class AuthService {
     };
   }
 
-  async createPasswordResetToken(email: string): Promise<void> {
+  async createPasswordResetToken(email: string): Promise<string> {
     // Obtener el trabajador por ID
     const worker = await this.iWorkersService.getWorkerByEmail(email);
   
@@ -64,6 +64,9 @@ export class AuthService {
     worker.passwordResetExpires = expires;
   
     await this.iWorkersService.save(worker);
+  
+    // Devuelve el token
+    return token;
   }
 
   async resetPassword(token: string, resetPasswordDto: ResetPasswordDto): Promise<void> {
