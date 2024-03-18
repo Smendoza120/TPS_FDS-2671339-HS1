@@ -53,7 +53,7 @@
                             text="{i18n>DailySalesAddProduct}"
                             type="Emphasized"
                             icon="sap-icon://create-form"
-                            press=".onConfirmSaleClick"
+                            press=".onConfirmSaleCLick"
                         />
                     </VBox>
                 </HBox>

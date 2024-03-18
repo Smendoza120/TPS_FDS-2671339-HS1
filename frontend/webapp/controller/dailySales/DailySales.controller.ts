@@ -123,28 +123,21 @@ export default class DailySales extends Base {
         return;
       }
 
-      if (!this.customerId) {
-        MessageBox.error("Primero debe crear un cliente.");
-        return;
-      }
-
-      await this.createSale(this.customerId, productName, quantity);
+      await this.createSale(productName, quantity);
     } catch (error) {
       MessageBox.error(`Error al crear la venta: ${error}`);
     }
   }
 
-  public async createSale(
-    customerId: string,
-    productName: string,
-    quantity: number
-  ) {
+  public async createSale(productName: string, quantity: number) {
     try {
-      const sale = await this.createSaleForCustomer(customerId);
+      const {idProduct, quantity} = await this.checkProductExist(productName, quantity);
 
-      const product = await this.checkProductExist(productName, quantity);
+      // alert(`Product: ${JSON.stringify(product)}`);
+      alert(`ProductId AQUI: ${JSON.stringify(idProduct)}`);
+      alert(`Quantity AQUI: ${JSON.stringify(quantity)}`);
 
-      await this.addProductToSale(sale.id, product.id, quantity);
+      await this.addProductToSale(idProduct, quantity);
 
       MessageBox.success("Producto agregado a la venta exitosamente.");
     } catch (error) {
@@ -189,6 +182,8 @@ export default class DailySales extends Base {
         );
       }
 
+      alert(`productResponse: ${JSON.stringify(productResponse)}`)
+
       return productResponse;
     } catch (error) {
       throw new Error(
@@ -198,13 +193,12 @@ export default class DailySales extends Base {
   }
 
   private async addProductToSale(
-    saleId: string,
     productId: string,
     quantity: number
   ): Promise<void> {
     try {
       await this.callAjax({
-        url: `/sales/${saleId}/products`,
+        url: `/sales`,
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify({ productId, quantity }),
