@@ -144,6 +144,7 @@ export default class DailySales extends Base {
       MessageBox.error(`Error al crear la venta: ${error}`);
       throw error;
     }
+    
   }
 
   private async createSaleForCustomer(customerId: string): Promise<void> {
