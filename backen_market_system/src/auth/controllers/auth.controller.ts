@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express'; //
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger';
@@ -33,23 +33,24 @@ export class AuthController {
   @ApiOperation({
     description: 'Reset password for email',
   })
-  @Post('reset-password') // Decorador 'Post' que especifica que este método maneja las solicitudes POST a la ruta 'reset-password'
+  @Post('reset-password')
   async requestPasswordReset(@Body() resetPasswordDto: EmailResetDto) {
-    // Método asíncrono llamado 'requestPasswordReset' que toma un 'email' de tipo string
-  
-    // Delega la generación del token de restablecimiento de contraseña y su almacenamiento en la base de datos al servicio AuthService
     const token = await this.iAuthService.createPasswordResetToken(resetPasswordDto.email);
   
-    const resetLink = `https://tuapp.com/reset-password/${token}`; // Crea un enlace de restablecimiento de contraseña utilizando el token generado
+    // Verifica que el token se haya generado correctamente
+    if (!token) {
+      throw new BadRequestException('Error generating password reset token');
+    }
   
-    await this.iEmailService.sendPasswordResetEmail(resetPasswordDto, resetLink); // Usa el método 'sendPasswordResetEmail' del servicio EmailService para enviar el correo electrónico de restablecimiento de contraseña
+    const resetLink = `https://tuapp.com/reset-password/${token}`;
+  
+    await this.iEmailService.sendPasswordResetEmail(resetPasswordDto, resetLink);
   
     return {
-      message:
-        'Se ha enviado un correo electrónico para restablecer la contraseña.',
-    }; // Devuelve un objeto con un mensaje indicando que el correo electrónico de restablecimiento de contraseña ha sido enviado
+      message: 'Se ha enviado un correo electrónico para restablecer la contraseña.',
+      token: token
+    };
   }
-
   @ApiOperation({
     description: 'Reset password',
   })
