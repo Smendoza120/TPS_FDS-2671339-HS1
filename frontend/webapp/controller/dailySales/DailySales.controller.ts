@@ -6,4 +6,5 @@ import Base from "../Base.controller";
 export default class DailySales extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {}
+  
 }
