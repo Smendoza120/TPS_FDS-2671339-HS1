@@ -16,57 +16,63 @@
                 </contentRight>
             </Bar>
         </headerContent>
-        <ScrollContainer>
-            <HBox
-                width="100%"
-                alignItems="Center"
-                justifyContent="Center"
-            >
-                <Title
-                    level="H2"
-                    titleStyle="H2"
-                    text="{i18n>DailyListSalesTitle}"
-                />
-            </HBox>
 
-            <table:Table>
+        <FlexBox
+            alignItems="Center"
+            justifyContent="Center"
+            width="100%"
+            height="100%"
+            direction="Column"
+        >
+            <Title
+                level="H2"
+                titleStyle="H2"
+                text="{i18n>DailyListSalesTitle}"
+            />
+
+            <table:Table rows="{salesData>/}">
                 <table:extension>
                     <Bar>
                         <contentRight>
-                            <SearchField />
+                            <SearchField width="30%" />
+                            <Button
+                                icon="sap-icon://create-form"
+                                type="Emphasized"
+                                text="{i18n>DailyListSalesReport}"
+                                press="" />
                         </contentRight>
                     </Bar>
                 </table:extension>
                 <table:columns>
                     <table:Column>
-                        <Label text="{i18n>DailyListSalesProduct}"/>
+                        <Label text="{i18n>DailyListSalesProduct}" />
                         <table:template>
-                            <Input />
+                            <Input editable="false" value="{salesData>product/productName}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
-                        <Label text="{i18n>DailyListSalesQuantity}"/>
+                        <Label text="{i18n>DailyListSalesQuantity}" />
                         <table:template>
-                            <Input />
+                            <Input editable="false" value="{salesData>quantity}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
-                        <Label text="{i18n>DailyListSalesPrice}"/>
+                        <Label text="{i18n>DailyListSalesPrice}" />
                         <table:template>
-                            <Input />
+                            <Input editable="false" value="{salesData>product/price}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
-                        <Label text="{i18n>DailyListSalesDateOfSale}"/>
+                        <Label text="{i18n>DailyListSalesDateOfSale}" />
                         <table:template>
-                            <Input />
+                            <Input editable="false" value="{salesData>salesDate}" />
                         </table:template>
                     </table:Column>
                 </table:columns>
             </table:Table>
-        </ScrollContainer>
+        </FlexBox>
     </Page>
 </mvc:View>

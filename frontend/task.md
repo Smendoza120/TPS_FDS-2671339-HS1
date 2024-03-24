@@ -35,6 +35,7 @@
 # Ventas Diarias
 - [] Realizar una actualización al diseño UI/UX de la sección de control de ventas
 - [] Realizar una actualizacion al diseño UI/UX de la seccion del listado de ventas
+- [] Falta agregar una tabla temporal la cual se encarga de almacenar los datos de las ventas diaras, posterior a ello se pasan a la base de datos de las ventas totales y se limpia la tabla de ventas diarias.
  
 ## Ideas para logica 
 - Para realizar una venta necesitamos los siguientes datos:
@@ -65,6 +66,12 @@ Se envía la venta completa al servidor para su procesamiento y registro en la b
 - Se crea el usuario al momento de generar la factura, de lo contrario se generara el producto en la lista de compras porque se quitara el id del customer 
 
 - Necesito crear un modelo el cual almacenara las ultimas ventas realizadas, cuando se envie la factura o se complete la venta, este modelo volvera a estar vacio, para cuando volvamos a crear una venta esta se pueda llenar nuevamente
+
+# Lista de Ventas Diarias
+
+- [X] Agregar la data al modelo
+- [X] Agregar la data del modelo a la tabla
+- [] Faltaria agregar un rango de fechas para poder hacer un filtro a los reportes
 
 # Control facturación
 - [] Realizar la maquetación 
