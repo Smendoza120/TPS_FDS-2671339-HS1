@@ -28,15 +28,6 @@
                         selected="false"
                         press=".onListSales"
                     />
-
-                    <!-- Reporte de ventas -->
-                    <StandardListItem
-                        title="{i18n>DailySalesReportName}"
-                        icon="sap-icon://manager-insight"
-                        type="Navigation"
-                        selected="false"
-                        press=".onReportSales"
-                    />
                 </List>
             </Page>
         </masterPages>
@@ -49,11 +40,6 @@
             <mvc:XMLView
                 id="listSales"
                 viewName="com.marketsystem.marketsystem.view.dailySales.ListSales"
-            />
-
-            <mvc:XMLView
-                id="salesReport"
-                viewName="com.marketsystem.marketsystem.view.dailySales.SalesReport"
             />
         </detailPages>
     </SplitApp>

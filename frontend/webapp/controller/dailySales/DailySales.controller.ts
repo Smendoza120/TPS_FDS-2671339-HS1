@@ -5,6 +5,7 @@ import Input from "sap/m/Input";
 import Dialog from "sap/m/Dialog";
 import Button from "sap/m/Button";
 import MessageBox from "sap/m/MessageBox";
+import JSONModel from "sap/ui/model/json/JSONModel";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -13,7 +14,9 @@ export default class DailySales extends Base {
   private customerId: string | null = null;
 
   /*eslint-disable @typescript-eslint/no-empty-function*/
-  public onInit(): void {}
+  public onInit(): void {
+    this.getView()?.setModel(new JSONModel([]), "dailySales");
+  }
 
   public createCustomerDialog() {
     const oForm = new SimpleForm({
@@ -109,6 +112,12 @@ export default class DailySales extends Base {
     }
   }
 
+  private clearFields() {
+    (this.getView()?.byId("productId") as Input).setValue("");
+
+    (this.getView()?.byId("quantityId") as Input).setValue("");
+  }
+
   public async onConfirmSaleCLick() {
     try {
       const productName = (
@@ -123,29 +132,84 @@ export default class DailySales extends Base {
         return;
       }
 
-      await this.createSale(productName, quantity);
+      const productInfo = await this.checkProductExist(productName, quantity);
+      const idProduct = productInfo.idProduct;
+      const productQuantity = productInfo.quantity;
+
+      const today = new Date().toISOString().slice(0, 10);
+
+      const dailySalesModel = this.getView()?.getModel(
+        "dailySales"
+      ) as JSONModel;
+      const salesData: any[] = dailySalesModel.getProperty("/") || [];
+
+      const sale = {
+        productId: idProduct,
+        quantity: productQuantity,
+        salesDate: today,
+      };
+
+      salesData.push(sale);
+      dailySalesModel.setProperty("/", salesData);
+
+      alert(JSON.stringify(dailySalesModel.getData()));
+
+      this.clearFields();
     } catch (error) {
       MessageBox.error(`Error al crear la venta: ${error}`);
     }
   }
 
-  public async createSale(productName: string, quantity: number) {
+  public async completeSale() {
     try {
-      const {idProduct, quantity} = await this.checkProductExist(productName, quantity);
+      const dailySalesModel = this.getView()?.getModel(
+        "dailySales"
+      ) as JSONModel;
+      const salesData: any[] = dailySalesModel.getProperty("/") || [];
 
-      // alert(`Product: ${JSON.stringify(product)}`);
-      alert(`ProductId AQUI: ${JSON.stringify(idProduct)}`);
-      alert(`Quantity AQUI: ${JSON.stringify(quantity)}`);
+      await this.addProductsToSales(salesData);
 
-      await this.addProductToSale(idProduct, quantity);
+      dailySalesModel.setProperty("/", []);
 
-      MessageBox.success("Producto agregado a la venta exitosamente.");
+      MessageBox.success("Venta completada exitosamente.");
     } catch (error) {
-      MessageBox.error(`Error al crear la venta: ${error}`);
-      throw error;
+      MessageBox.error(`Error al completar la venta: ${error}`);
     }
-    
   }
+
+  private async addProductsToSales(salesData: any[]) {
+    try {
+      for (const sale of salesData) {
+        const { idProduct, quantity } = await this.checkProductExist(
+          sale.idProduct,
+          sale.quantity
+        );
+
+        const today = new Date().toISOString().slice(0, 10);
+
+        await this.addProductToSale(idProduct, quantity, today);
+      }
+    } catch (error) {
+      throw new Error("Error al agregar los productos a la venta.");
+    }
+  }
+
+  // public async createSale(productName: string, quantity: number) {
+  //   try {
+  //     const productInfo = await this.checkProductExist(productName, quantity);
+  //     const idProduct = productInfo.idProduct;
+  //     const productQuantity = productInfo.quantity;
+  //     const date = new Date();
+  //     const today = date.toISOString().slice(0, 10);
+
+  //     await this.addProductToSale(idProduct, productQuantity, today);
+
+  //     MessageBox.success("Producto agregado a la venta exitosamente.");
+  //   } catch (error) {
+  //     MessageBox.error(`Error al crear la venta: ${error}`);
+  //     throw error;
+  //   }
+  // }
 
   private async createSaleForCustomer(customerId: string): Promise<void> {
     try {
@@ -165,7 +229,7 @@ export default class DailySales extends Base {
   private async checkProductExist(
     productName: string,
     quantity: number
-  ): Promise<void> {
+  ): Promise<{ idProduct: string; quantity: number }> {
     try {
       const productResponse = await this.callAjax({
         url: `/products/name/${productName}`,
@@ -178,12 +242,14 @@ export default class DailySales extends Base {
 
       const availableQuantity = productResponse.quantity;
       if (availableQuantity < quantity) {
-        throw new Error(
+        MessageBox.error(
           "No hay suficiente cantidad disponible del producto en el inventario."
         );
+      } else {
+        MessageBox.success("Producto agregado a la venta exitosamente.");
       }
 
-      alert(`productResponse: ${JSON.stringify(productResponse)}`)
+      alert(`productResponse: ${JSON.stringify(productResponse)}`);
 
       return productResponse;
     } catch (error) {
@@ -195,17 +261,24 @@ export default class DailySales extends Base {
 
   private async addProductToSale(
     productId: string,
-    quantity: number
+    quantity: number,
+    salesDate: string
   ): Promise<void> {
     try {
       await this.callAjax({
         url: `/sales`,
         method: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ productId, quantity }),
+        data: JSON.stringify({ productId, quantity, salesDate }),
       });
     } catch (error) {
       throw new Error("Error al agregar el producto a la venta.");
     }
+  }
+
+  public prueba() {
+    const test = this.getView()?.getModel("dailySales") as JSONModel;
+
+    alert(JSON.stringify(test.getData()));
   }
 }

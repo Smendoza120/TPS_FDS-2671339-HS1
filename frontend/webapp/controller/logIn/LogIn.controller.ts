@@ -33,7 +33,7 @@ export default class LogIn extends Base {
       // localStorage.setItem("accessToken", accessToken);
       // alert(`accessToken: ${accessToken}`);
     } else {
-      // alert("No se pudo encontrar el token"); 
+      // alert("No se pudo encontrar el token");
     }
   }
 
@@ -92,6 +92,11 @@ export default class LogIn extends Base {
         setTimeout(async () => {
           await this.extractAndStoreAccessTokenFromCookie();
         }, 1000);
+      } else {
+        alert("Aqui");
+        MessageBox.error(
+          "Credenciales incorrectas. Por favor, inténtelo de nuevo."
+        );
       }
     } catch (error) {
       console.error("Error", error);
@@ -119,25 +124,24 @@ export default class LogIn extends Base {
           localStorage.setItem("sessionId", sessionId);
           // alert(`SessionID: ${sessionId}`);
           const prueba = localStorage.getItem("accessToken");
-          alert(`Esto es una prueba: ${prueba}`);
+          // alert(`Esto es una prueba: ${prueba}`);
           document.cookie = ``;
           return response;
         } else {
-          throw new Error(
-            "Credenciales incorrectas. Por favor, inténtelo de nuevo."
-          );
-        }
-      })
-      .catch((err) => {
-        if (err.status === 404 && err.statusText === "Not Found") {
           MessageBox.error(
             "Credenciales incorrectas. Por favor, inténtelo de nuevo."
           );
+
           this.onCleanForm();
-          throw new Error("Usuario no encontrado");
-        } else {
-          throw new Error("Error en la autenticacion");
+
+          throw new Error("Credenciales incorrectas");
         }
+      })
+      .catch((err) => {
+        MessageBox.error(
+          "Error al autenticar usuario. Por favor, inténtelo de nuevo."
+        );
+        throw err;
       })
       .finally(() => {
         BusyIndicator.hide();

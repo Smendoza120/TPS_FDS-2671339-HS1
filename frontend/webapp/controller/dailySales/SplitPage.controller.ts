@@ -23,10 +23,4 @@ export default class SplitPage extends Base {
 
     splitSales.to(this.createId("listSales") || "", "fade");
   }
-
-  public onReportSales() {
-    const splitSales = this.getView()?.byId("dailySalesSplit") as SplitApp;
-
-    splitSales.to(this.createId("salesReport") || "", "fade");
-  }
 }
