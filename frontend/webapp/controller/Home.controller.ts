@@ -58,7 +58,8 @@ export default class Home extends Base {
         }
       })
       .catch((error: any) => {
-        alert(JSON.stringify(error));
+        // alert(JSON.stringify(error));
+        alert("Error");
       });
   }
 
@@ -70,7 +71,8 @@ export default class Home extends Base {
       });
       return permissionsData;
     } catch (error) {
-      alert(JSON.stringify(error));
+      // alert(JSON.stringify(error));
+      alert("Error2");
     }
   }
 
