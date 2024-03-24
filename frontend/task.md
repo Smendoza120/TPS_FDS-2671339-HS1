@@ -64,6 +64,8 @@ Se envía la venta completa al servidor para su procesamiento y registro en la b
 
 - Se crea el usuario al momento de generar la factura, de lo contrario se generara el producto en la lista de compras porque se quitara el id del customer 
 
+- Necesito crear un modelo el cual almacenara las ultimas ventas realizadas, cuando se envie la factura o se complete la venta, este modelo volvera a estar vacio, para cuando volvamos a crear una venta esta se pueda llenar nuevamente
+
 # Control facturación
 - [] Realizar la maquetación 
 - [] Realizar logica
