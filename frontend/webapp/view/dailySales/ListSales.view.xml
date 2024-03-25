@@ -1,12 +1,78 @@
 <mvc:View
+    xmlns:table="sap.ui.table"
     controllerName="com.marketsystem.marketsystem.controller.dailySales.ListSales"
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
     xmlns="sap.m"
 >
-    <Page>
-        <content>
-            <Text text="Lista de ventas 2" />
-        </content>
+    <Page
+        backgroundDesign="List"
+        showHeader="true"
+    >
+        <headerContent>
+            <Bar>
+                <contentRight>
+                    <Button />
+                </contentRight>
+            </Bar>
+        </headerContent>
+
+        <FlexBox
+            alignItems="Center"
+            justifyContent="Center"
+            width="100%"
+            height="100%"
+            direction="Column"
+        >
+            <Title
+                level="H2"
+                titleStyle="H2"
+                text="{i18n>DailyListSalesTitle}"
+            />
+
+            <table:Table rows="{salesData>/}">
+                <table:extension>
+                    <Bar>
+                        <contentRight>
+                            <SearchField width="30%" />
+                            <Button
+                                icon="sap-icon://create-form"
+                                type="Emphasized"
+                                text="{i18n>DailyListSalesReport}"
+                                press="" />
+                        </contentRight>
+                    </Bar>
+                </table:extension>
+                <table:columns>
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesProduct}" />
+                        <table:template>
+                            <Input editable="false" value="{salesData>product/productName}" />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesQuantity}" />
+                        <table:template>
+                            <Input editable="false" value="{salesData>quantity}" />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesPrice}" />
+                        <table:template>
+                            <Input editable="false" value="{salesData>product/price}" />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column>
+                        <Label text="{i18n>DailyListSalesDateOfSale}" />
+                        <table:template>
+                            <Input editable="false" value="{salesData>salesDate}" />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </FlexBox>
     </Page>
 </mvc:View>

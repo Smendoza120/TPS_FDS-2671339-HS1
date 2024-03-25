@@ -48,12 +48,13 @@
                         alignContent="Center"
                         justifyContent="End"
                     >
-                    <!-- Se encarga de crear la lista de ventas y agregar productos si esta lista esta creada por usuario -->
+                        <!-- Se encarga de crear la lista de ventas y agregar productos si esta
+                        lista esta creada por usuario -->
                         <Button
                             text="{i18n>DailySalesAddProduct}"
                             type="Emphasized"
                             icon="sap-icon://create-form"
-                            press=".onConfirmSaleClick"
+                            press=".onConfirmSaleCLick"
                         />
                     </VBox>
                 </HBox>
@@ -68,7 +69,8 @@
                         justifyContent="End"
                         alignItems="End"
                     >
-                    <!-- Nos encargamos de la creacion del usuario, abrimos una ventana emergente y ahi lo creamos -->
+                        <!-- Nos encargamos de la creacion del usuario, abrimos una ventana
+                        emergente y ahi lo creamos -->
                         <Button
                             id="createCustomer"
                             text="{i18n>DailySalesCreateCustomer}"
@@ -82,31 +84,32 @@
                             text="{i18n>DailySalesGenerateBill}"
                             type="Emphasized"
                             icon=""
+                            press=".prueba"
                         />
                     </VBox>
                 </HBox>
             </HBox>
 
-            <table:Table>
+            <table:Table items="{dailySales>/}">
                 <table:columns>
                     <table:Column>
                         <Label text="Producto" />
                         <table:template>
-                            <Input value="Texto de prueba" />
+                            <Input text="{dailySales>productName}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
                         <Label text="Cantidad" />
                         <table:template>
-                            <Input value="Texto de prueba" />
+                            <Input text="{dailySales>quantity}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
                         <Label text="Precio" />
                         <table:template>
-                            <Input value="Texto de prueba" />
+                            <Input text="{dailySales>salesDate}" />
                         </table:template>
                     </table:Column>
                 </table:columns>
