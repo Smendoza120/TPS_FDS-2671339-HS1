@@ -19,6 +19,8 @@ import { SharingController } from './controllers/sharing.controller';
 import { SharingService } from './services/sharing.service';
 import { Providers } from './providers/providers';
 import { DatabaseModule } from '../database/database.module';
+import { TempSalesController } from './controllers/temp.controller';
+import { TempSalesService } from './services/temp.service';
 
 @Module({
   imports: [DatabaseModule],
@@ -31,7 +33,8 @@ import { DatabaseModule } from '../database/database.module';
     SalesController,
     ReportsController,
     BillsController,
-    SharingController
+    SharingController,
+    TempSalesController,
   ],
   providers: [
     ...Providers,
@@ -43,7 +46,8 @@ import { DatabaseModule } from '../database/database.module';
     SalesService,
     ReportService,
     BillsService,
-    SharingService
+    SharingService,
+    TempSalesService,
   ],
   exports: [
     ...Providers,

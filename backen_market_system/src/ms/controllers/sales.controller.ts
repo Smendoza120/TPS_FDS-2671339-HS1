@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { SalesService } from '../services/sales.service';
 import { SalesDto } from '../dto/sales-dto';
 import {ApiOperation, ApiTags} from "@nestjs/swagger";
@@ -13,8 +13,8 @@ export class SalesController {
     description: 'Create a new sale',
   })
   @Post()
-  async create(@Body() dto: SalesDto) {
-    return await this.salesService.create(dto);
+  async create(@Body() dtos: SalesDto[]) {
+    return await this.salesService.create(dtos);
   }
 
   @ApiOperation({
@@ -71,5 +71,16 @@ export class SalesController {
   @Post('report')
   async saveReport(@Body() report: ReportsSalesEntity) {
     return await this.salesService.saveReport(report);
+  }
+
+  @ApiOperation({
+    description: 'Get sales between start date and end date',
+  })
+  @Get('date-range')
+  async findSalesByDate(
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
+    return await this.salesService.findSalesByDateStarandEnd(new Date(startDate), new Date(endDate));
   }
 }
