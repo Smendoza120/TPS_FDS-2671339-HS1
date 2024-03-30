@@ -7,6 +7,7 @@ import { ProductsEntity } from 'src/ms/entities/products.entity';
 import { SalesEntity } from 'src/ms/entities/sales.entity';
 import { ReportsSalesEntity } from 'src/ms/entities/reports.entity';
 import { BillsEntity } from 'src/ms/entities/bills.entity';
+import { TempSalesEntity } from 'src/ms/entities/TempSales.entity';
 
 export const databaseProviders = [
   {
@@ -28,6 +29,7 @@ export const databaseProviders = [
           SalesEntity,
           ReportsSalesEntity,
           BillsEntity,
+          TempSalesEntity,
         ],
         synchronize: true,
         ssl: process.env.POSTGRES_SSL === 'true',

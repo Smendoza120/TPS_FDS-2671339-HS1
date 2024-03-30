@@ -19,40 +19,46 @@ export class SalesService {
     private iProductService: ProductService,
   ) { }
 
-  async create(dto: SalesDto): Promise<SalesEntity> {
-    try {
-      dto.salesDate = new Date(dto.salesDate).toISOString();
-      const sale = this.salesRepository.create(dto);
-
-      const product = await this.iProductService.findById(dto.productId);
-      if (!product) {
-        throw new Error(`Product with ID ${dto.productId} not found`);
+  async create(dtos: SalesDto[]): Promise<SalesEntity[]> {
+    const sales: SalesEntity[] = [];
+  
+    for (const dto of dtos) {
+      try {
+        dto.salesDate = new Date(dto.salesDate).toISOString();
+        const sale = this.salesRepository.create(dto);
+  
+        const product = await this.iProductService.findById(dto.productId);
+        if (!product) {
+          throw new Error(`Product with ID ${dto.productId} not found`);
+        }
+        if (product.quantity < dto.quantity) {
+          throw new Error('Not enough products in the inventory for the sale');
+        }
+        sale.product = product;
+        sale.quantity = dto.quantity;
+  
+        await this.iProductService.updateQuantity(dto.productId, dto.quantity);
+  
+        // Update the product quantity in the sale entity
+        product.quantity -= dto.quantity;
+        sale.product = product;
+  
+        await this.salesRepository.save(sale);
+  
+        sales.push(sale);
+      } catch (error) {
+        throw new HttpException(
+          {
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+            error: 'There was a problem with your request',
+            message: error.message,
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
-      if (product.quantity < dto.quantity) {
-        throw new Error('Not enough products in the inventory for the sale');
-      }
-      sale.product = product;
-      sale.quantity = dto.quantity; // Añade esta línea para establecer la cantidad
-
-      await this.iProductService.updateQuantity(dto.productId, dto.quantity);
-
-      // Update the product quantity in the sale entity
-      product.quantity -= dto.quantity;
-      sale.product = product;
-
-      await this.salesRepository.save(sale);
-
-      return sale;
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: 'There was a problem with your request',
-          message: error.message,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
     }
+  
+    return sales;
   }
 
   async update(id: string, dto: SalesDto): Promise<SalesEntity> {
@@ -63,6 +69,20 @@ export class SalesService {
     Object.assign(sale, dto);
     await this.salesRepository.save(sale);
     return sale;
+  }
+
+  async findSalesByDateStarandEnd(startDate: Date, endDate: Date): Promise<SalesEntity[]> {
+    const sales = await this.salesRepository.find({
+      where: {
+        salesDate: Between(startDate.toISOString(), endDate.toISOString()),
+      },
+      relations: ['product'],
+    });
+    if (!sales) {
+      throw new Error(`No sales found between ${startDate} and ${endDate}`);
+    }
+  
+    return sales;
   }
 
   async find(): Promise<SalesEntity[]> {
