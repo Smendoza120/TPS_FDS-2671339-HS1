@@ -125,7 +125,7 @@ export default class InventoryControl extends Base {
       ) as Input;
       const quantityInput = this.getView()?.byId("quantityInput") as Input;
       const princeInput = this.getView()?.byId("priceInput") as Input;
-      const storageSelect = this.getView()?.byId("storageComboBox") as Select;
+      const storageSelect = this.getView()?.byId("storageSelect") as Select;
 
       const productName = productNameInput.getValue();
       const quantity = parseInt(quantityInput.getValue());

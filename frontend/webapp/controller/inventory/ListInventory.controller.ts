@@ -24,17 +24,22 @@ export default class ListInventory extends Base {
     this.getView()?.setModel(getInventoryControl(), "oInventoryControl");
     this.getView()?.setModel(new JSONModel([]), "oListStorage");
     this.getView()?.setModel(new JSONModel([]), "oVisibility");
+
     this.getView()?.setModel(new JSONModel([]), "dataSelectStorage");
 
     this.loadInventoryData();
     this.setDataSelectStorage();
     this.setDataVisibleAndEditableModel();
+    this.setDefaultStorageSelection();
+    this.prueba();
   }
 
   onAfterRendering(): void {
     this.loadInventoryData();
     this.setDataSelectStorage();
     this.setDataVisibleAndEditableModel();
+    this.setDefaultStorageSelection();
+    this.prueba();
   }
 
   setDataVisibleAndEditableModel(): void {
@@ -68,27 +73,29 @@ export default class ListInventory extends Base {
     selectStorageModel.setData(dataStoage);
   }
 
-  public prueba(): any {
-    // const prueba = (
-    //   this.getView()?.getModel("oListStorage") as JSONModel
-    // ).getData();
+  private setDefaultStorageSelection(): void {
+    const selectStorage = this.getView()?.byId("storageSelect") as Select;
+    const storageModel = this.getView()?.getModel("oListStorage") as JSONModel;
+    const storageValue = storageModel.getProperty("/storage");
 
-    // alert(JSON.stringify(prueba));
+    if (storageValue) {
+        const dataSelectStorage = this.getView()?.getModel("dataSelectStorage") as JSONModel;
+        const storageItems = dataSelectStorage.getProperty("/");
 
-    interface funcion {
-      numero: number;
-      palabra: string;
+        // Buscar el ítem en dataSelectStorage que coincida con storageValue
+        const selectedItem = storageItems.find((item: any) => item.key === storageValue);
+
+        if (selectedItem) {
+            // Establecer el ítem encontrado como seleccionado por defecto en el Select
+            selectStorage.setSelectedKey(selectedItem.key);
+        }
     }
+  }
 
-    const prueba: funcion = {
-      numero: 123,
-      palabra: "aasd",
-    };
+  public prueba(): any {
+    const model = this.getView()?.getModel("oListStorage") as JSONModel;
 
-    const { numero, palabra } = prueba;
-
-    alert(numero)
-    alert(palabra)
+    alert(JSON.stringify(model.getData()))
   }
 
   public async onDeleteProductFromRow(oEvent: any): Promise<void> {
@@ -274,10 +281,15 @@ export default class ListInventory extends Base {
             );
           }
 
+          const selectedStorage = product.storage;
+          const selectedStorageText =
+            this.getTextSelectStorage(selectedStorage).text;
+
           const updatedProduct = {
             ...product,
             price: price,
             quantity: quantity,
+            storage: selectedStorageText,
           };
 
           await this.callAjax({
@@ -320,10 +332,20 @@ export default class ListInventory extends Base {
       cancelChangesButton.setVisible(false);
       deleteColumn.setVisible(false);
     } catch (error) {
-      MessageBox.error(
-        `No se pudieron realizar los cambios: ${JSON.stringify(error)}`
-      );
+      MessageBox.error(`No se pudieron realizar los cambios: ${error}`);
     }
+  }
+
+  public getTextSelectStorage(storageId: string): string {
+    const dataSelectStorage = this.getView()?.getModel(
+      "dataSelectStorage"
+    ) as JSONModel;
+    const storageData = dataSelectStorage.getData();
+
+    const selectedStorage = storageData.find(
+      (item: any) => item.key === storageId
+    );
+    return selectedStorage;
   }
 
   public cancelChanges() {
@@ -355,7 +377,6 @@ export default class ListInventory extends Base {
         justifyContent: "Center",
         alignItems: "Center",
         width: "100%",
-        // height: "100%",
         items: [
           new Label({ text: "Correo Electronico" }),
           new Input("inputEmail", { width: "100%" }),
