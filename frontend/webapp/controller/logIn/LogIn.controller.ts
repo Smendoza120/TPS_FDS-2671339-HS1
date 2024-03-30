@@ -86,12 +86,7 @@ export default class LogIn extends Base {
 
       if (response) {
         this.goToHomePage();
-
-        // await this.extractAndStoreAccessTokenFromCookie();
-
-        setTimeout(async () => {
-          await this.extractAndStoreAccessTokenFromCookie();
-        }, 1000);
+        await this.extractAndStoreAccessTokenFromCookie();
       } else {
         alert("Aqui");
         MessageBox.error(
@@ -121,11 +116,9 @@ export default class LogIn extends Base {
       .then((response) => {
         if (response) {
           const sessionId = response.status;
-          localStorage.setItem("sessionId", sessionId);
-          // alert(`SessionID: ${sessionId}`);
           const prueba = localStorage.getItem("accessToken");
-          // alert(`Esto es una prueba: ${prueba}`);
           document.cookie = ``;
+          
           return response;
         } else {
           MessageBox.error(
