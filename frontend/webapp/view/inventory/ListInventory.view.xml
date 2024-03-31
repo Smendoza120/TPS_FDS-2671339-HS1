@@ -152,16 +152,6 @@
                         </table:template>
                     </table:Column>
 
-                    <table:Column width="11rem">
-                        <Label text="{i18n>ListInventoryStorage}" />
-                        <table:template>
-                            <Input
-                                value="{oListStorage>storage}"
-                                editable="{oVisibility>/isEditable}"
-                            />
-                        </table:template>
-                    </table:Column>
-
                     <table:Column
                         id="deleteColumn"
                         width="11rem"

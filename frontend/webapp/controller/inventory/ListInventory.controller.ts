@@ -14,6 +14,7 @@ import Core from "sap/ui/core/Core";
 import FlexBox from "sap/m/FlexBox";
 import SearchField from "sap/m/SearchField";
 import Select from "sap/m/Select";
+import Row from "sap/ui/table/Row";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -40,6 +41,44 @@ export default class ListInventory extends Base {
     this.setDataVisibleAndEditableModel();
     this.setDefaultStorageSelection();
     this.prueba();
+  }
+
+  private setDefaultStorageSelection(): void {
+    const table = this.getView()?.byId("productsTable") as Table;
+    const rowsBinding = table.getBinding("rows");
+
+    if (rowsBinding) {
+      rowsBinding.attachEventOnce("dataReceived", () => {
+        const rows = table.getRows();
+
+        rows.forEach((row: any) => {
+          const cells = row.getCells();
+
+          const productId = cells[0].getValue(); // Ajusta el índice según la columna que contenga el ID del producto
+          const storageValue = this.getStorageValue(productId);
+
+          if (storageValue) {
+            const select = cells[4].getContent()[0] as Select; // Ajusta el índice según la columna que contiene el Select
+            const selectItems = select.getItems();
+            const selectedItem = selectItems.find(
+              (item) => item.getKey() === storageValue
+            );
+
+            if (selectedItem) {
+              select.setSelectedKey(selectedItem.getKey());
+            }
+          }
+        });
+      });
+    }
+  }
+
+  private getStorageValue(productId: string): string | undefined {
+    const storageModel = this.getView()?.getModel("oListStorage") as JSONModel;
+    const productsData = storageModel.getData();
+    const product = productsData.find((p: any) => p.idProduct === productId);
+
+    return product?.storage;
   }
 
   setDataVisibleAndEditableModel(): void {
@@ -73,29 +112,8 @@ export default class ListInventory extends Base {
     selectStorageModel.setData(dataStoage);
   }
 
-  private setDefaultStorageSelection(): void {
-    const selectStorage = this.getView()?.byId("storageSelect") as Select;
-    const storageModel = this.getView()?.getModel("oListStorage") as JSONModel;
-    const storageValue = storageModel.getProperty("/storage");
-
-    if (storageValue) {
-        const dataSelectStorage = this.getView()?.getModel("dataSelectStorage") as JSONModel;
-        const storageItems = dataSelectStorage.getProperty("/");
-
-        // Buscar el ítem en dataSelectStorage que coincida con storageValue
-        const selectedItem = storageItems.find((item: any) => item.key === storageValue);
-
-        if (selectedItem) {
-            // Establecer el ítem encontrado como seleccionado por defecto en el Select
-            selectStorage.setSelectedKey(selectedItem.key);
-        }
-    }
-  }
-
   public prueba(): any {
     const model = this.getView()?.getModel("oListStorage") as JSONModel;
-
-    alert(JSON.stringify(model.getData()))
   }
 
   public async onDeleteProductFromRow(oEvent: any): Promise<void> {
@@ -137,7 +155,6 @@ export default class ListInventory extends Base {
 
       MessageBox.success("Producto eliminado correctamente");
     } catch (error) {
-      alert(`Error: ${JSON.stringify(error)}`);
       MessageBox.error(
         `Error al eliminar el producto: ${JSON.stringify(error)}`
       );
@@ -152,8 +169,6 @@ export default class ListInventory extends Base {
     const productId = selectedProducts.map((product) => product.idProduct);
 
     try {
-      alert(productId);
-      alert(`Aqui estoy: ${productId}`);
       await Promise.all(
         productId.map(async (productId) => this.oDeleteProduct(productId))
       );
@@ -385,7 +400,7 @@ export default class ListInventory extends Base {
       }),
       beginButton: new Button({
         text: "Enviar",
-        press: () => {
+        press: async () => {
           const inputEmail: Input = Core.byId("inputEmail") as Input;
           const email: string = inputEmail.getValue();
 
@@ -396,11 +411,26 @@ export default class ListInventory extends Base {
             return;
           }
 
-          const inventoryId: string = "183167d8-9834-45f4-b2fa-70a087551ad2";
+          try {
+            const response = this.callAjax({
+              type: "GET",
+              url: "/inventory",
+            });
 
-          this.sendReport(inventoryId, email);
+            const inventoryId = response;
 
-          dialog.close();
+            inventoryId.then((response) => {
+              const idInventory = response[0].idInventory;
+
+              this.sendReport(idInventory, email);
+            });
+
+            dialog.close();
+          } catch (error) {
+            MessageBox.error("Error al obtener la información del inventario.");
+            alert(error);
+            alert("AQUI2");
+          }
         },
       }),
       endButton: new Button({
@@ -483,7 +513,6 @@ export default class ListInventory extends Base {
         return;
       }
 
-      alert(JSON.stringify(response));
       const oNewModel = new JSONModel(response);
       this.getView()?.setModel(oNewModel, "oNewModel");
 
@@ -491,11 +520,6 @@ export default class ListInventory extends Base {
       oTable.bindRows({
         path: "/",
       });
-
-      const prueba = (
-        this.getView()?.getModel("oNewModel") as JSONModel
-      ).getData();
-      alert(JSON.stringify(prueba));
     } catch (error) {
       oSearchField.setValue("");
       MessageBox.error(`Error al buscar productos: ${error}`);
