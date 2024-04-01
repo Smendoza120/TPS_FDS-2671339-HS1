@@ -83,9 +83,9 @@ Se envía la venta completa al servidor para su procesamiento y registro en la b
 - [X] Agregar la data del modelo a la tabla
 - [X] Filtro por fecha
 - [X] Faltaria agregar un rango de fechas para poder hacer un filtro a los reportes
-- [] Filtro por nombre
-- [] Filtro por precio
-- [] Filtro por cantidad
+- [X] Filtro por nombre
+- [X] Filtro por precio
+- [X] Filtro por cantidad
 
 # Control facturación
 - [] Realizar la maquetación 

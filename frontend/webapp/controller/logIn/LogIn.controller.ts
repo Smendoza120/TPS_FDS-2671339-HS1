@@ -4,6 +4,8 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import MessageBox from "sap/m/MessageBox";
 import { ValueState } from "sap/ui/core/library";
 import Text from "sap/m/Text";
+// import {JwtPayload, jwtDecode} from "jwt-decode";
+// import { JwtPayload, jwtDecode } from "jwt-decode";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -19,23 +21,13 @@ export default class LogIn extends Base {
     this.getRouter().navTo("RouteHome");
   }
 
-  private async extractAndStoreAccessTokenFromCookie(): Promise<void> {
-    const cookieValue = document.cookie.replace(
-      /(?:(?:^|.*;\s*)j\s*=\s*([^;]*).*$)|^.*$/,
-      "$1"
-    );
+  // private async extractAndStoreAccessTokenFromCookie(
+  //   token: string
+  // ): Promise<JwtPayload> {
+  //   const decodedToken = jwtDecode<JwtPayload>(token);
 
-    const cookieData = JSON.parse(decodeURIComponent(cookieValue));
-
-    const accessToken = cookieData;
-
-    if (accessToken) {
-      // localStorage.setItem("accessToken", accessToken);
-      // alert(`accessToken: ${accessToken}`);
-    } else {
-      // alert("No se pudo encontrar el token");
-    }
-  }
+  //   return decodedToken;
+  // }
 
   public async onLogIn(): Promise<void> {
     const mailInput = this.getView()?.byId("mail") as Input;
@@ -86,7 +78,6 @@ export default class LogIn extends Base {
 
       if (response) {
         this.goToHomePage();
-        await this.extractAndStoreAccessTokenFromCookie();
       } else {
         alert("Aqui");
         MessageBox.error(
@@ -95,7 +86,6 @@ export default class LogIn extends Base {
       }
     } catch (error) {
       console.error("Error", error);
-      // alert(JSON.stringify(error));
     }
   }
 
@@ -113,12 +103,29 @@ export default class LogIn extends Base {
       contentType: "application/json",
       data: JSON.stringify({ email, password }),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response) {
-          const sessionId = response.status;
-          const prueba = localStorage.getItem("accessToken");
-          document.cookie = ``;
-          
+          const sessionToken = response.jwt.access_token;
+
+          // const getUserToken = await this.extractAndStoreAccessTokenFromCookie(
+          //   sessionToken
+          // );
+
+          // alert(getUserToken);
+
+          localStorage.setItem("token", sessionToken);
+
+          const currentTime = Math.floor(Date.now() / 1000);
+
+          //!Pendiente.
+          // if (expirationTimeInSeconds < currentTimeInSeconds) {
+          //   console.log("El token ha expirado");
+          // } else {
+          //   console.log("El token aún es válido");
+          // }
+
+          alert(currentTime);
+
           return response;
         } else {
           MessageBox.error(

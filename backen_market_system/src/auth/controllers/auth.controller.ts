@@ -27,7 +27,7 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const jwt = await this.iAuthService.generateJWT(req.user as WorkerEntity);
     res.cookie('jwt', jwt, { httpOnly: true });
-    return { status: 'success' };
+    return { status: 'success', jwt };
   }
 
   @ApiOperation({
