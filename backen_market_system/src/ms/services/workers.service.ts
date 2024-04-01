@@ -251,4 +251,56 @@ export class WorkersService {
       throw new InternalServerErrorException(`Error changing password`);
     }
   }
+
+  async getWorkerByFirstName(firstName: string): Promise<WorkerEntity> {
+    try {
+      const worker = await this.iWorkerEntity.createQueryBuilder("worker")
+        .innerJoinAndSelect("worker.user", "user")
+        .where("user.name = :firstName", { firstName })
+        .getOne();
+  
+      if (!worker) {
+        throw new NotFoundException(`Worker with firstName ${firstName} not found`);
+      }
+  
+      return worker;
+    } catch (error) {
+      throw new InternalServerErrorException(`Error retrieving worker by firstName`);
+    }
+  }
+  
+  async getWorkerByLastName(lastName: string): Promise<WorkerEntity> {
+    try {
+      const worker = await this.iWorkerEntity.createQueryBuilder("worker")
+        .innerJoinAndSelect("worker.user", "user")
+        .where("user.last_name = :lastName", { lastName })
+        .getOne();
+  
+      if (!worker) {
+        throw new NotFoundException(`Worker with lastName ${lastName} not found`);
+      }
+  
+      return worker;
+    } catch (error) {
+      throw new InternalServerErrorException(`Error retrieving worker by lastName`);
+    }
+  }
+  
+  async getWorkerByPhone(phone: string): Promise<WorkerEntity> {
+    try {
+      const worker = await this.iWorkerEntity.createQueryBuilder("worker")
+        .innerJoinAndSelect("worker.user", "user")
+        .where("user.phone = :phone", { phone })
+        .getOne();
+  
+      if (!worker) {
+        throw new NotFoundException(`Worker with phone ${phone} not found`);
+      }
+  
+      return worker;
+    } catch (error) {
+      throw new InternalServerErrorException(`Error retrieving worker by phone`);
+    }
+  }
+
 }

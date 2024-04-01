@@ -263,4 +263,43 @@ export class SalesService {
 
     return sales;
   }
+
+  async findSalesByProductName(productName: string): Promise<SalesEntity[]> {
+    const sales = await this.salesRepository.createQueryBuilder('sales')
+      .innerJoinAndSelect('sales.product', 'product')
+      .where('product.product_name = :name', { name: productName })
+      .getMany();
+  
+    if (!sales) {
+      throw new Error(`No sales found for product with name ${productName}`);
+    }
+  
+    return sales;
+  }
+
+  async findSalesByQuantity(quantity: number): Promise<SalesEntity[]> {
+    const sales = await this.salesRepository.createQueryBuilder('sales')
+      .innerJoinAndSelect('sales.product', 'product')
+      .where('sales.quantity = :quantity', { quantity })
+      .getMany();
+  
+    if (!sales) {
+      throw new Error(`No sales found with quantity ${quantity}`);
+    }
+  
+    return sales;
+  }
+
+  async findSalesByPrice(price: number): Promise<SalesEntity[]> {
+    const sales = await this.salesRepository.createQueryBuilder('sales')
+      .innerJoinAndSelect('sales.product', 'product')
+      .where('product.price = :price', { price })
+      .getMany();
+  
+    if (!sales) {
+      throw new Error(`No sales found for product with price ${price}`);
+    }
+  
+    return sales;
+  }
 }

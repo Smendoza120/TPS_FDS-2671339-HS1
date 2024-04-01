@@ -83,4 +83,28 @@ export class SalesController {
   ) {
     return await this.salesService.findSalesByDateStarandEnd(new Date(startDate), new Date(endDate));
   }
+
+  @ApiOperation({
+    description: 'Get sales by product name',
+  })
+  @Get('product/:name')
+  async findSalesByProductName(@Param('name') name: string) {
+    return await this.salesService.findSalesByProductName(name);
+  }
+
+  @ApiOperation({
+    description: 'Get sales by quantity',
+  })
+  @Get('quantity/:quantity')
+  async findSalesByQuantity(@Param('quantity') quantity: number) {
+    return await this.salesService.findSalesByQuantity(quantity);
+  }
+  
+  @ApiOperation({
+    description: 'Get sales by product price',
+  })
+  @Get('price/:price')
+  async findSalesByPrice(@Param('price') price: number) {
+    return await this.salesService.findSalesByPrice(price);
+  }
 }

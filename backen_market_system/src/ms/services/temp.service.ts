@@ -2,6 +2,7 @@ import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { Between, Repository } from 'typeorm';
 import { TempSalesEntity } from '../entities/TempSales.entity';
 import { SalesDto } from '../dto/sales-dto';
+import { UpdateTempSalesDto } from '../dto/update-temp.dto'
 import { InventoryService } from './invenotory.service';
 import { CustomerService } from './customer.service';
 import { ProductService } from './products.service';
@@ -36,6 +37,47 @@ export class TempSalesService { // Change the service name
       }
       sale.product = product;
       sale.quantity = dto.quantity;
+  
+      await this.tempSalesRepository.save(sale);
+  
+      return sale;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'There was a problem with your request',
+          message: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async update(id: string, dto: UpdateTempSalesDto): Promise<TempSalesEntity> {
+    try {
+      const sale = await this.tempSalesRepository.findOne({ where: { idSales: id } });
+      if (!sale) {
+        throw new Error(`Sale with ID ${id} not found`);
+      }
+  
+      if (dto.productId) {
+        const product = await this.iProductService.findById(dto.productId);
+        if (!product) {
+          throw new Error(`Product with ID ${dto.productId} not found`);
+        }
+        if (product.quantity < dto.quantity) {
+          throw new Error('Not enough products in the inventory for the sale');
+        }
+        sale.product = product;
+      }
+  
+      if (dto.quantity) {
+        sale.quantity = dto.quantity;
+      }
+  
+      if (dto.salesDate) {
+        sale.salesDate = new Date(dto.salesDate).toISOString();
+      }
   
       await this.tempSalesRepository.save(sale);
   

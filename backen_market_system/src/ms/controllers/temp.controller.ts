@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Put } from '@nestjs/common';
 import { TempSalesService } from '../services/temp.service';
 import { SalesDto } from '../dto/sales-dto';
+import { UpdateTempSalesDto } from '../dto/update-temp.dto'
 import {ApiOperation, ApiTags} from "@nestjs/swagger";
 import { TempSalesEntity} from '../entities/TempSales.entity'
 import { SalesEntity } from '../entities/sales.entity';
@@ -16,6 +17,14 @@ export class TempSalesController {
   @Post()
   async create(@Body() dto: SalesDto): Promise<TempSalesEntity> {
     return await this.tempSalesService.create(dto);
+  }
+
+  @ApiOperation({
+    description: 'Update a temporary sale by id',
+  })
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() dto: UpdateTempSalesDto): Promise<TempSalesEntity> {
+    return await this.tempSalesService.update(id, dto);
   }
 
   @ApiOperation({

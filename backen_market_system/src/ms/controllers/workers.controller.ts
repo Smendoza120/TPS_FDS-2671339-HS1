@@ -72,4 +72,28 @@ export class WorkersController {
   ) {
     return await this.workersService.changePassword(id, changePasswordDto);
   }
+
+  @ApiOperation({
+    description: 'Get worker by firstName',
+  })
+  @Get('firstName/:firstName')
+  async getWorkerByFirstName(@Param('firstName') firstName: string) {
+    return await this.workersService.getWorkerByFirstName(firstName);
+  }
+  
+  @ApiOperation({
+    description: 'Get worker by lastName',
+  })
+  @Get('lastName/:lastName')
+  async getWorkerByLastName(@Param('lastName') lastName: string) {
+    return await this.workersService.getWorkerByLastName(lastName);
+  }
+  
+  @ApiOperation({
+    description: 'Get worker by phone',
+  })
+  @Get('phone/:phone')
+  async getWorkerByPhone(@Param('phone') phone: string) {
+    return await this.workersService.getWorkerByPhone(phone);
+  }
 }
