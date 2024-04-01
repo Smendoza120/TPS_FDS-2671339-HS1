@@ -14,7 +14,6 @@ import Core from "sap/ui/core/Core";
 import FlexBox from "sap/m/FlexBox";
 import SearchField from "sap/m/SearchField";
 import Select from "sap/m/Select";
-import Row from "sap/ui/table/Row";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller

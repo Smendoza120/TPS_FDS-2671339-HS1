@@ -30,6 +30,7 @@
 - [X] Para eliminar un inventario primero hay que borrar el producto
 - [X] Mostrar un mensaje por si el producto no esta
 - [X] Traer el dato de Almacen o Bodega
+- [X] Arreglar el envio del reporte
 - [] Arreglar la seleccion del select del almacenamiento
 - [] Realizar la visualizacion del filtro en la tabla
 - [] Si el producto esta deshabilitar los campos y mostrar un popup informando que vaya al listado de productos
@@ -38,9 +39,13 @@
 - Podria agregar el tipo de almacenamiento en el producto, para que solo el invetario se encargue de la fecha del inventario y que esta cambie cada mes y se pueda hacer una implementacion que se envie por fechas o por el contenido.
 
 # Ventas Diarias
-- [] Realizar una actualización al diseño UI/UX de la sección de control de ventas
-- [] Realizar una actualizacion al diseño UI/UX de la seccion del listado de ventas
-- [] Falta agregar una tabla temporal la cual se encarga de almacenar los datos de las ventas diaras, posterior a ello se pasan a la base de datos de las ventas totales y se limpia la tabla de ventas diarias.
+- [X] Realizar una actualización al diseño UI/UX de la sección de control de ventas
+- [X] Realizar una actualizacion al diseño UI/UX de la seccion del listado de ventas
+- [X] Falta agregar una tabla temporal la cual se encarga de almacenar los datos de las ventas diaras, posterior a ello se pasan a la base de datos de las ventas totales y se limpia la tabla de ventas diarias.
+- [] Enviar la factura al cliente
+- [] Realizar el envio de la informacion a la tabla de ventas
+- [] Eliminar toda la informacion de los productos de la tabla ventas diarias
+- [] Realizar la actualizacion de los datos
  
 ## Ideas para logica 
 - Para realizar una venta necesitamos los siguientes datos:
@@ -77,10 +82,10 @@ Se envía la venta completa al servidor para su procesamiento y registro en la b
 - [X] Agregar la data al modelo
 - [X] Agregar la data del modelo a la tabla
 - [X] Filtro por fecha
+- [X] Faltaria agregar un rango de fechas para poder hacer un filtro a los reportes
 - [] Filtro por nombre
 - [] Filtro por precio
 - [] Filtro por cantidad
-- [] Faltaria agregar un rango de fechas para poder hacer un filtro a los reportes
 
 # Control facturación
 - [] Realizar la maquetación 

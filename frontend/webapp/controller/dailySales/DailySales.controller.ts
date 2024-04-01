@@ -6,6 +6,9 @@ import Dialog from "sap/m/Dialog";
 import Button from "sap/m/Button";
 import MessageBox from "sap/m/MessageBox";
 import JSONModel from "sap/ui/model/json/JSONModel";
+import Column from "sap/ui/table/Column";
+import Table from "sap/ui/table/Table";
+import Text from "sap/m/Text";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -16,6 +19,27 @@ export default class DailySales extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
     this.getView()?.setModel(new JSONModel([]), "dailySales");
+    this.getView()?.setModel(new JSONModel([]), "oVisibility");
+
+    this.getProductsOnTemporalTable();
+    this.setDataVisibleAndEditableModel();
+  }
+
+  onAfterRendering(): void {
+    this.getProductsOnTemporalTable();
+    this.setDataVisibleAndEditableModel();
+  }
+
+  setDataVisibleAndEditableModel(): void {
+    const visibilityModel = this.getView()?.getModel(
+      "oVisibility"
+    ) as JSONModel;
+    const structureModel = {
+      isVisible: false,
+      isEditable: false,
+    };
+
+    visibilityModel.setData(structureModel);
   }
 
   public createCustomerDialog() {
@@ -46,15 +70,10 @@ export default class DailySales extends Base {
           const email = (oForm.getContent()[5] as Input).getValue();
           const phone = (oForm.getContent()[7] as Input).getValue();
 
-          const customerId = this.createCustomer(
-            firstName,
-            lastName,
-            email,
-            phone
-          );
+          const userData = this.createUser(firstName, lastName, email, phone);
 
-          if (customerId) {
-            this.customerId = customerId;
+          if (userData) {
+            this.customerId = userData;
             oDialog.close();
           }
         },
@@ -72,7 +91,7 @@ export default class DailySales extends Base {
     oDialog.open();
   }
 
-  public async createCustomer(
+  public async createUser(
     firstName: string,
     lastName: string,
     email: string,
@@ -99,6 +118,9 @@ export default class DailySales extends Base {
 
       if (createdUser) {
         MessageBox.success("Cliente creado exitosamente.");
+
+        await this.createCustomer(createdUser.idUser);
+
         return createdUser.idUser;
       } else {
         throw new Error("Error al crear el usuario.");
@@ -107,8 +129,21 @@ export default class DailySales extends Base {
       MessageBox.error(
         "Error al crear el cliente. Por favor, inténtelo de nuevo."
       );
-      console.error("Error al crear el cliente:", error);
+      alert(error);
       throw error;
+    }
+  }
+
+  private async createCustomer(userId: string): Promise<void> {
+    try {
+      await this.callAjax({
+        type: "POST",
+        url: "/customers",
+        contentType: "application/json",
+        data: JSON.stringify({ userId }),
+      });
+    } catch (error) {
+      throw new Error("Error al crear el cliente.");
     }
   }
 
@@ -132,27 +167,14 @@ export default class DailySales extends Base {
         return;
       }
 
-      const productInfo = await this.checkProductExist(productName, quantity);
-      const idProduct = productInfo.idProduct;
-      const productQuantity = productInfo.quantity;
-
       const today = new Date().toISOString().slice(0, 10);
 
-      const dailySalesModel = this.getView()?.getModel(
-        "dailySales"
-      ) as JSONModel;
-      const salesData: any[] = dailySalesModel.getProperty("/") || [];
+      const productInfo = await this.checkProductExist(productName, quantity);
+      const idProduct = productInfo.idProduct;
 
-      const sale = {
-        productId: idProduct,
-        quantity: productQuantity,
-        salesDate: today,
-      };
+      await this.addProductToTempSales(idProduct, quantity, today);
 
-      salesData.push(sale);
-      dailySalesModel.setProperty("/", salesData);
-
-      alert(JSON.stringify(dailySalesModel.getData()));
+      this.getProductsOnTemporalTable();
 
       this.clearFields();
     } catch (error) {
@@ -160,69 +182,20 @@ export default class DailySales extends Base {
     }
   }
 
-  public async completeSale() {
+  private async addProductToTempSales(
+    productId: string,
+    quantity: number,
+    salesDate: string
+  ): Promise<void> {
     try {
-      const dailySalesModel = this.getView()?.getModel(
-        "dailySales"
-      ) as JSONModel;
-      const salesData: any[] = dailySalesModel.getProperty("/") || [];
-
-      await this.addProductsToSales(salesData);
-
-      dailySalesModel.setProperty("/", []);
-
-      MessageBox.success("Venta completada exitosamente.");
-    } catch (error) {
-      MessageBox.error(`Error al completar la venta: ${error}`);
-    }
-  }
-
-  private async addProductsToSales(salesData: any[]) {
-    try {
-      for (const sale of salesData) {
-        const { idProduct, quantity } = await this.checkProductExist(
-          sale.idProduct,
-          sale.quantity
-        );
-
-        const today = new Date().toISOString().slice(0, 10);
-
-        await this.addProductToSale(idProduct, quantity, today);
-      }
-    } catch (error) {
-      throw new Error("Error al agregar los productos a la venta.");
-    }
-  }
-
-  // public async createSale(productName: string, quantity: number) {
-  //   try {
-  //     const productInfo = await this.checkProductExist(productName, quantity);
-  //     const idProduct = productInfo.idProduct;
-  //     const productQuantity = productInfo.quantity;
-  //     const date = new Date();
-  //     const today = date.toISOString().slice(0, 10);
-
-  //     await this.addProductToSale(idProduct, productQuantity, today);
-
-  //     MessageBox.success("Producto agregado a la venta exitosamente.");
-  //   } catch (error) {
-  //     MessageBox.error(`Error al crear la venta: ${error}`);
-  //     throw error;
-  //   }
-  // }
-
-  private async createSaleForCustomer(customerId: string): Promise<void> {
-    try {
-      const resposne = await this.callAjax({
-        url: "/sales",
+      await this.callAjax({
+        url: "/temp-sales",
         method: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ customerId }),
+        data: JSON.stringify({ productId, quantity, salesDate }),
       });
-
-      return resposne.sale;
     } catch (error) {
-      throw new Error("Error al crear la venta para el cliente.");
+      throw new Error("Error al agregar el producto a la venta.");
     }
   }
 
@@ -249,8 +222,6 @@ export default class DailySales extends Base {
         MessageBox.success("Producto agregado a la venta exitosamente.");
       }
 
-      alert(`productResponse: ${JSON.stringify(productResponse)}`);
-
       return productResponse;
     } catch (error) {
       throw new Error(
@@ -259,26 +230,206 @@ export default class DailySales extends Base {
     }
   }
 
-  private async addProductToSale(
+  public async getProductsOnTemporalTable() {
+    try {
+      const response = await this.callAjax({
+        url: "/temp-sales",
+        method: "GET",
+      });
+
+      const dailySalesModel = this.getView()?.getModel(
+        "dailySales"
+      ) as JSONModel;
+
+      dailySalesModel.setData(response);
+    } catch (error) {
+      throw new Error("Error al agregar el producto al modelo");
+    }
+  }
+
+  public async onDeleteProductFromRow(oEvent: any): Promise<void> {
+    const productId = oEvent
+      .getSource()
+      .getBindingContext("dailySales")
+      .getObject();
+
+    if (productId) {
+      try {
+        this.deleteProductFromSale(productId.idSales);
+      } catch (error) {
+        MessageBox.error("No se pudo obtener el ID del producto.");
+      }
+    }
+  }
+
+  private async deleteProductFromSale(productId: string): Promise<void> {
+    try {
+      await this.callAjax({
+        url: `/temp-sales/${productId}`,
+        method: "DELETE",
+      });
+
+      MessageBox.success("Producto eliminado exitosamente de la venta.");
+      this.getProductsOnTemporalTable();
+    } catch (error) {
+      throw new Error(`Error al eliminar el producto de la venta: ${error}`);
+    }
+  }
+
+  public editInformation(): void {
+    const editList = this.getView()?.byId("editList") as Button;
+    const aceptChanges = this.getView()?.byId("aceptChanges") as Button;
+    const cancelChanges = this.getView()?.byId("cancelChanges") as Button;
+    const deleteProducts = this.getView()?.byId("deleteProducts") as Button;
+    const deleteColumn = this.getView()?.byId("deleteColumn") as Column;
+    const visibilityModel = this.getView()?.getModel(
+      "oVisibility"
+    ) as JSONModel;
+
+    const originalVisibilityState = visibilityModel.getData();
+    const backupVisibilityState = { ...originalVisibilityState };
+    visibilityModel.setData(backupVisibilityState);
+
+    const isEditable = visibilityModel.getProperty("/isEditable");
+    visibilityModel.setProperty("/isEditable", !isEditable);
+
+    if (editList.getVisible()) {
+      editList.setVisible(false);
+      aceptChanges.setVisible(true);
+      cancelChanges.setVisible(true);
+      deleteProducts.setVisible(true);
+      deleteColumn.setVisible(true);
+    } else {
+      editList.setVisible(true);
+      aceptChanges.setVisible(false);
+      cancelChanges.setVisible(false);
+      deleteProducts.setVisible(false);
+      deleteColumn.setVisible(false);
+    }
+  }
+
+  public cancelChanges() {
+    const visibilityModel = this.getView()?.getModel(
+      "oVisibility"
+    ) as JSONModel;
+    const originalVisibilityState = visibilityModel.getData();
+
+    originalVisibilityState.isEditable = false;
+    visibilityModel.setData(originalVisibilityState);
+
+    const editList = this.getView()?.byId("editList") as Button;
+    const aceptChanges = this.getView()?.byId("aceptChanges") as Button;
+    const cancelChanges = this.getView()?.byId("cancelChanges") as Button;
+    const deleteProducts = this.getView()?.byId("deleteProducts") as Button;
+    const deleteColumn = this.getView()?.byId("deleteColumn") as Column;
+
+    editList.setVisible(true);
+    aceptChanges.setVisible(false);
+    cancelChanges.setVisible(false);
+    deleteProducts.setVisible(false);
+    deleteColumn.setVisible(false);
+  }
+
+  public onDeleteSelectedProducts(): void {
+    const oTable = this.getView()?.byId("productsTable") as Table;
+    const aSelectedIndices = oTable.getSelectedIndices();
+    const aSelectedProducts: any[] = [];
+
+    aSelectedIndices.forEach((index: number) => {
+      const oContext = oTable.getContextByIndex(index);
+
+      if (oContext) {
+        const oProduct = oContext.getObject();
+        aSelectedProducts.push(oProduct);
+      }
+    });
+
+    if (aSelectedProducts.length === 0) {
+      MessageBox.warning("No se han seleccionado productos para eliminar.");
+      return;
+    }
+
+    const dialog = new Dialog({
+      title: "Eliminar Productos",
+      type: "Message",
+      content: new Text({
+        text: `¿Está seguro de que desea eliminar ${aSelectedProducts.length} productos seleccionados?`,
+      }),
+      beginButton: new Button({
+        text: "Aceptar",
+        press: async () => {
+          try {
+            await this.deleteMultipleProducts(aSelectedProducts);
+            dialog.close();
+          } catch (error) {
+            MessageBox.error(
+              `Error al eliminar los productos: ${JSON.stringify(error)}`
+            );
+          }
+        },
+      }),
+      endButton: new Button({
+        text: "Cancelar",
+        press: () => {
+          dialog.close();
+        },
+      }),
+      afterClose: () => {
+        dialog.destroy();
+      },
+    });
+
+    dialog.open();
+  }
+
+  private async deleteMultipleProducts(products: any[]): Promise<void> {
+    try {
+      const deletePromises = products.map(async (product) => {
+        await this.deleteProductFromSale(product.idSales);
+      });
+
+      await Promise.all(deletePromises);
+      this.getProductsOnTemporalTable();
+    } catch (error) {
+      throw new Error(`Error al eliminar los productos: ${error}`);
+    }
+  }
+
+  //!Pendiente
+  public async aceptChanges() {
+    try {
+      const dailySalesModel = this.getView()?.getModel(
+        "dailySales"
+      ) as JSONModel;
+      const updatedData = dailySalesModel.getData();
+      alert("prueba");
+      await Promise.all(
+        updatedData.map(async (sale: any) => {
+          alert(sale);
+          const salesId = sale.idSales;
+
+          const product = sale.product;
+        })
+      );
+    } catch (error) {
+      MessageBox.error(`No se pudieron realizar los cambios: ${error}`);
+    }
+  }
+
+  private async updateProduct(
     productId: string,
     quantity: number,
     salesDate: string
   ): Promise<void> {
     try {
       await this.callAjax({
-        url: `/sales`,
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ productId, quantity, salesDate }),
+        url: "",
       });
+
+      MessageBox.success("Datos del producto actualizados exitosamente.");
+      this.getProductsOnTemporalTable();
     } catch (error) {
-      throw new Error("Error al agregar el producto a la venta.");
+      throw new Error(`Error al actualizar los datos del producto: ${error}`);
     }
-  }
-
-  public prueba() {
-    const test = this.getView()?.getModel("dailySales") as JSONModel;
-
-    alert(JSON.stringify(test.getData()));
   }
 }
