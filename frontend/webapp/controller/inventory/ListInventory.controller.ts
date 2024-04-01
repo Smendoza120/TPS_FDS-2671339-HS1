@@ -24,17 +24,60 @@ export default class ListInventory extends Base {
     this.getView()?.setModel(getInventoryControl(), "oInventoryControl");
     this.getView()?.setModel(new JSONModel([]), "oListStorage");
     this.getView()?.setModel(new JSONModel([]), "oVisibility");
+
     this.getView()?.setModel(new JSONModel([]), "dataSelectStorage");
 
     this.loadInventoryData();
     this.setDataSelectStorage();
     this.setDataVisibleAndEditableModel();
+    this.setDefaultStorageSelection();
+    this.prueba();
   }
 
   onAfterRendering(): void {
     this.loadInventoryData();
     this.setDataSelectStorage();
     this.setDataVisibleAndEditableModel();
+    this.setDefaultStorageSelection();
+    this.prueba();
+  }
+
+  private setDefaultStorageSelection(): void {
+    const table = this.getView()?.byId("productsTable") as Table;
+    const rowsBinding = table.getBinding("rows");
+
+    if (rowsBinding) {
+      rowsBinding.attachEventOnce("dataReceived", () => {
+        const rows = table.getRows();
+
+        rows.forEach((row: any) => {
+          const cells = row.getCells();
+
+          const productId = cells[0].getValue(); // Ajusta el índice según la columna que contenga el ID del producto
+          const storageValue = this.getStorageValue(productId);
+
+          if (storageValue) {
+            const select = cells[4].getContent()[0] as Select; // Ajusta el índice según la columna que contiene el Select
+            const selectItems = select.getItems();
+            const selectedItem = selectItems.find(
+              (item) => item.getKey() === storageValue
+            );
+
+            if (selectedItem) {
+              select.setSelectedKey(selectedItem.getKey());
+            }
+          }
+        });
+      });
+    }
+  }
+
+  private getStorageValue(productId: string): string | undefined {
+    const storageModel = this.getView()?.getModel("oListStorage") as JSONModel;
+    const productsData = storageModel.getData();
+    const product = productsData.find((p: any) => p.idProduct === productId);
+
+    return product?.storage;
   }
 
   setDataVisibleAndEditableModel(): void {
@@ -69,26 +112,7 @@ export default class ListInventory extends Base {
   }
 
   public prueba(): any {
-    // const prueba = (
-    //   this.getView()?.getModel("oListStorage") as JSONModel
-    // ).getData();
-
-    // alert(JSON.stringify(prueba));
-
-    interface funcion {
-      numero: number;
-      palabra: string;
-    }
-
-    const prueba: funcion = {
-      numero: 123,
-      palabra: "aasd",
-    };
-
-    const { numero, palabra } = prueba;
-
-    alert(numero)
-    alert(palabra)
+    const model = this.getView()?.getModel("oListStorage") as JSONModel;
   }
 
   public async onDeleteProductFromRow(oEvent: any): Promise<void> {
@@ -130,7 +154,6 @@ export default class ListInventory extends Base {
 
       MessageBox.success("Producto eliminado correctamente");
     } catch (error) {
-      alert(`Error: ${JSON.stringify(error)}`);
       MessageBox.error(
         `Error al eliminar el producto: ${JSON.stringify(error)}`
       );
@@ -145,8 +168,6 @@ export default class ListInventory extends Base {
     const productId = selectedProducts.map((product) => product.idProduct);
 
     try {
-      alert(productId);
-      alert(`Aqui estoy: ${productId}`);
       await Promise.all(
         productId.map(async (productId) => this.oDeleteProduct(productId))
       );
@@ -274,10 +295,15 @@ export default class ListInventory extends Base {
             );
           }
 
+          const selectedStorage = product.storage;
+          const selectedStorageText =
+            this.getTextSelectStorage(selectedStorage).text;
+
           const updatedProduct = {
             ...product,
             price: price,
             quantity: quantity,
+            storage: selectedStorageText,
           };
 
           await this.callAjax({
@@ -320,10 +346,20 @@ export default class ListInventory extends Base {
       cancelChangesButton.setVisible(false);
       deleteColumn.setVisible(false);
     } catch (error) {
-      MessageBox.error(
-        `No se pudieron realizar los cambios: ${JSON.stringify(error)}`
-      );
+      MessageBox.error(`No se pudieron realizar los cambios: ${error}`);
     }
+  }
+
+  public getTextSelectStorage(storageId: string): string {
+    const dataSelectStorage = this.getView()?.getModel(
+      "dataSelectStorage"
+    ) as JSONModel;
+    const storageData = dataSelectStorage.getData();
+
+    const selectedStorage = storageData.find(
+      (item: any) => item.key === storageId
+    );
+    return selectedStorage;
   }
 
   public cancelChanges() {
@@ -355,7 +391,6 @@ export default class ListInventory extends Base {
         justifyContent: "Center",
         alignItems: "Center",
         width: "100%",
-        // height: "100%",
         items: [
           new Label({ text: "Correo Electronico" }),
           new Input("inputEmail", { width: "100%" }),
@@ -364,7 +399,7 @@ export default class ListInventory extends Base {
       }),
       beginButton: new Button({
         text: "Enviar",
-        press: () => {
+        press: async () => {
           const inputEmail: Input = Core.byId("inputEmail") as Input;
           const email: string = inputEmail.getValue();
 
@@ -375,11 +410,26 @@ export default class ListInventory extends Base {
             return;
           }
 
-          const inventoryId: string = "183167d8-9834-45f4-b2fa-70a087551ad2";
+          try {
+            const response = this.callAjax({
+              type: "GET",
+              url: "/inventory",
+            });
 
-          this.sendReport(inventoryId, email);
+            const inventoryId = response;
 
-          dialog.close();
+            inventoryId.then((response) => {
+              const idInventory = response[0].idInventory;
+
+              this.sendReport(idInventory, email);
+            });
+
+            dialog.close();
+          } catch (error) {
+            MessageBox.error("Error al obtener la información del inventario.");
+            alert(error);
+            alert("AQUI2");
+          }
         },
       }),
       endButton: new Button({
@@ -462,7 +512,6 @@ export default class ListInventory extends Base {
         return;
       }
 
-      alert(JSON.stringify(response));
       const oNewModel = new JSONModel(response);
       this.getView()?.setModel(oNewModel, "oNewModel");
 
@@ -470,11 +519,6 @@ export default class ListInventory extends Base {
       oTable.bindRows({
         path: "/",
       });
-
-      const prueba = (
-        this.getView()?.getModel("oNewModel") as JSONModel
-      ).getData();
-      alert(JSON.stringify(prueba));
     } catch (error) {
       oSearchField.setValue("");
       MessageBox.error(`Error al buscar productos: ${error}`);

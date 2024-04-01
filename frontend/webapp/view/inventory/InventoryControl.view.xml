@@ -59,12 +59,12 @@
                     required="true"
                 />
                 <Select
-                    id="storageComboBox"
+                    id="storageSelect"
                     width="100%"
                     items="{dataSelectStorage>/}"
                 >
                     <core:Item
-                        key="{dataSelectStorage>id}"
+                        key="{dataSelectStorage>key}"
                         text="{dataSelectStorage>text}"
                     />
                 </Select>

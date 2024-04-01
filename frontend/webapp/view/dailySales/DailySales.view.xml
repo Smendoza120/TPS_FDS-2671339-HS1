@@ -6,6 +6,43 @@
     xmlns="sap.m"
 >
     <Page backgroundDesign="List">
+        <headerContent>
+            <Bar>
+                <contentRight>
+                    <Button
+                        id="editList"
+                        text="{i18n>ListInventoryEdit}"
+                        icon="sap-icon://edit"
+                        type="Accept"
+                        press=".editInformation"
+                    />
+                    <Button
+                        id="aceptChanges"
+                        icon="sap-icon://accept"
+                        type="Accept"
+                        text="{i18n>ListInventoryAceptChanges}"
+                        visible="false"
+                        press=".aceptChanges"
+                    />
+                    <Button
+                        id="cancelChanges"
+                        icon="sap-icon://cancel"
+                        type="Negative"
+                        text="{i18n>ListInventoryCancelChanges}"
+                        visible="false"
+                        press=".cancelChanges"
+                    />
+                    <Button
+                        id="deleteProducts"
+                        icon="sap-icon://delete"
+                        type="Negative"
+                        text="{i18n>ListInventoryDeleteProducts}"
+                        visible="false"
+                        press=".onDeleteSelectedProducts"
+                    />
+                </contentRight>
+            </Bar>
+        </headerContent>
         <FlexBox
             alignItems="Center"
             justifyContent="Center"
@@ -84,32 +121,59 @@
                             text="{i18n>DailySalesGenerateBill}"
                             type="Emphasized"
                             icon=""
-                            press=".prueba"
+                            press="."
                         />
                     </VBox>
                 </HBox>
             </HBox>
 
-            <table:Table items="{dailySales>/}">
+            <table:Table
+                id="productsTable"
+                rows="{dailySales>/}"
+            >
                 <table:columns>
                     <table:Column>
-                        <Label text="Producto" />
+                        <Label text="{i18n>DailySalesProduct}" />
                         <table:template>
-                            <Input text="{dailySales>productName}" />
+                            <Input editable="{oVisibility>/isVisible}"
+                                value="{dailySales>product/productName}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
-                        <Label text="Cantidad" />
+                        <Label text="{i18n>DailySalesQuantity}" />
                         <table:template>
-                            <Input text="{dailySales>quantity}" />
+                            <Input editable="{oVisibility>/isVisible}" value="{dailySales>quantity}" />
                         </table:template>
                     </table:Column>
 
                     <table:Column>
-                        <Label text="Precio" />
+                        <Label text="{i18n>DailySalesDate}" />
                         <table:template>
-                            <Input text="{dailySales>salesDate}" />
+                            <Input
+                                editable="false"
+                                value="{dailySales>salesDate}"
+                            />
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                        id="deleteColumn"
+                        width="11rem"
+                        visible="{oVisibility>/isVisible}"
+                    >
+                        <Label text="{i18n>DailySalesDeleteProduct}" />
+                        <table:template>
+                            <VBox
+                                justifyContent="Center"
+                                alignItems="Center"
+                            >
+                                <Button
+                                    icon="sap-icon://delete"
+                                    type="Reject"
+                                    press=".onDeleteProductFromRow"
+                                />
+                            </VBox>
                         </table:template>
                     </table:Column>
                 </table:columns>

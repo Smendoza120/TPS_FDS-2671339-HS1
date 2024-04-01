@@ -137,15 +137,15 @@
                         <Label text="{i18n>ListInventoryStorage}" />
                         <table:template>
                             <Select
-                                id="storage"
+                                id="storageSelect"
                                 width="100%"
                                 items="{dataSelectStorage>/}"
                                 editable="{oVisibility>/isEditable}"
                                 selectedKey="{oListStorage>storage}"
-                                change="onStorageChange"
+                                change="."
                             >
                                 <core:Item
-                                    key="{dataSelectStorage>id}"
+                                    key="{dataSelectStorage>key}"
                                     text="{dataSelectStorage>text}"
                                 />
                             </Select>
