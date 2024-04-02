@@ -120,8 +120,8 @@
                         <Button
                             text="{i18n>DailySalesGenerateBill}"
                             type="Emphasized"
-                            icon=""
-                            press="."
+                            icon="sap-icon://receipt"
+                            press=".sendBullToCustomerDialog"
                         />
                     </VBox>
                 </HBox>
@@ -135,7 +135,7 @@
                     <table:Column>
                         <Label text="{i18n>DailySalesProduct}" />
                         <table:template>
-                            <Input editable="{oVisibility>/isVisible}"
+                            <Input editable="false"
                                 value="{dailySales>product/productName}" />
                         </table:template>
                     </table:Column>
