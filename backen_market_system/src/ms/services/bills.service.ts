@@ -31,14 +31,20 @@ export class BillsService {
   
       const sales = await this.salesRepository.find({
         where: {
-          idSales: In(salesIds), // usa el nombre correcto de la columna aquí
+          idSales: In(salesIds), 
           salesDate: date,
         },
-        relations: ['product'],
+        relations: ['product', 'customer'],
       });
   
       if (!sales.length) {
         throw new Error('No se encontraron ventas para los ID de ventas y la fecha dados');
+      }
+  
+      // Verificar si las ventas ya están asignadas a un cliente
+      const assignedSales = sales.filter(sale => sale.customer);
+      if (assignedSales.length) {
+        throw new Error('Algunas ventas ya están asignadas a un cliente');
       }
   
       const bill = new BillsEntity();
@@ -48,6 +54,12 @@ export class BillsService {
       bill.total = sales.reduce((total, sale) => total + sale.quantity * sale.product.price, 0);
   
       await this.billsRepository.save(bill);
+  
+      // Asignar las ventas al cliente
+      for (const sale of sales) {
+        sale.customer = customer;
+        await this.salesRepository.save(sale);
+      }
   
       return bill;
     } catch (error) {
@@ -133,5 +145,53 @@ export class BillsService {
   
   async deleteBill(id: string): Promise<void> {
     await this.billsRepository.delete(id);
+  }
+
+  async generateBillReport(billId: string): Promise<any> {
+    try {
+      // Buscar la factura por ID
+      const bill = await this.billsRepository.findOne({
+        where: { idBills: billId },
+        relations: ['sales', 'sales.product', 'customer']
+      });
+  
+      if (!bill) {
+        throw new Error('Factura no encontrada');
+      }
+  
+      // Crear el cuerpo del reporte
+      let reportBody = [
+        ['ID de venta', 'Nombre del producto', 'Precio del producto', 'Cantidad', 'Total']
+      ];
+  
+      let totalBill = 0;
+  
+      bill.sales.forEach(sale => {
+        let saleTotal = sale.quantity * sale.product.price;
+        totalBill += saleTotal;
+        reportBody.push([
+          sale.idSales, 
+          sale.product.productName, 
+          sale.product.price.toString(), 
+          sale.quantity.toString(), 
+          saleTotal.toString()
+        ]);
+      });
+  
+      reportBody.push(['', '', '', 'Total', totalBill.toString()]);
+  
+      // Crear el reporte
+      let report = {
+        billId: bill.idBills,
+        date: bill.date,
+        customer: bill.customer ? `${bill.customer.user.firstName} ${bill.customer.user.lastName}` : 'No disponible',
+        total: totalBill,
+        details: reportBody
+      };
+  
+      return report;
+    } catch (error) {
+      throw new Error(`Error al generar el reporte de la factura: ${error.message}`);
+    }
   }
 }

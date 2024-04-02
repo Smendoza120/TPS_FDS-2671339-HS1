@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ProductsEntity } from "./products.entity";
 import { ReportsSalesEntity } from './reports.entity';
 import { BillsEntity } from './bills.entity'
+import { CustomerEntity } from './customers.entity';
 
 @Entity({name: 'sales'})
 export class SalesEntity {
@@ -31,6 +32,9 @@ export class SalesEntity {
 
     @ManyToOne(() => ProductsEntity, product => product.sales, { cascade: true, eager: true })
     product: ProductsEntity;
+
+    @ManyToOne(() => CustomerEntity, customer => customer.sales)
+    customer: CustomerEntity;
 
     @BeforeInsert()
     addId() {

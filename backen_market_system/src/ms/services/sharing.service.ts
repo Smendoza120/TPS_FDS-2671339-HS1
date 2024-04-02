@@ -37,27 +37,6 @@ export class SharingService {
     });
   }
 
-
-  async shareBill(shareBillDto: ShareBillDto) {
-    try {
-      const { billId, email } = shareBillDto;
-      const bill = await this.billsService.findBillById(billId, { relations: ['sales' ,'customer.user','sales.product'] });
-      if (!bill) {
-        throw new NotFoundException(`Bill with ID ${billId} not found`);
-      }
-      if (bill.sales && bill.sales.length > 0) {
-        const salesRepresentation = bill.sales.map(sale => ({
-          product: sale.product,
-          quantity: sale.quantity,
-          total: sale.product.price * sale.quantity
-        }));
-        await this.shareByEmail(email, bill, salesRepresentation);
-      }
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
   async shareInventory(shareInventoryDto: ShareInventoryDto) {
     try {
       const { inventoryId, email } = shareInventoryDto;
@@ -71,65 +50,54 @@ export class SharingService {
     }
   }
 
-  async shareByEmail(email: string, bill: BillsEntity, sales: { product: ProductsEntity, quantity: number, total: number }[]) {
+  async shareByEmail(email: string, billId: string) {
     try {
+      // Generar el reporte de la factura
+      const report = await this.billsService.generateBillReport(billId);
+
       Object.defineProperty(pdfMake, 'vfs', {
         value: pdfFonts.pdfMake.vfs,
         writable: true,
         enumerable: true,
         configurable: true
       });
-  
-      let tableBody = [
-        ['Product Name', 'Quantity', 'Unit Price', 'Total']
-      ];
-  
-      sales.forEach(sale => {
-        tableBody.push([
-          sale.product.productName, 
-          sale.quantity.toString(), 
-          sale.product.price.toString(), 
-          sale.total.toString()
-        ]);
-      });
-  
+
       let currentDate = new Date();
-  
+
       let docDefinition = {
         content: [
           'Esta es tu factura:',
           '\n',
-          bill.customer ? `Nombre del cliente: ${bill.customer.user.firstName} ${bill.customer.user.lastName}` : 'Nombre del cliente: No disponible',
+          report.customer,
           '\n',
           {
             table: {
               headerRows: 1,
               widths: ['*', '*', '*', '*'],
-              body: tableBody
+              body: report.details
             }
           },
-          '\nFecha de la compra: ' + bill.date,
-          'Valor total: ' + bill.total,
+          '\nFecha de la compra: ' + report.date,
+          'Valor total: ' + report.total,
           '\nFecha de generación de la factura: ' + currentDate.toLocaleString()
         ]
       };
-  
+
       const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-  
+
       pdfDocGenerator.getBase64(async (base64) => {
         let attachment = Buffer.from(base64, 'base64');
-  
+
         const mailOptions = {
           from: process.env.API_EMAIL,
           to: email,
           subject: 'Your Bill',
-          text: 'Please find attached your bill.',
           attachments: [{
             filename: 'bill.pdf',
             content: attachment
           }]
         };
-  
+
         await this.transporter.sendMail(mailOptions);
       });
     } catch (error) {

@@ -25,4 +25,7 @@ export class CustomerEntity {
 
   @OneToMany(() => BillsEntity, bill => bill.customer)
   bills: BillsEntity[];
+
+  @OneToMany(() => SalesEntity, sales => sales.customer)
+  sales: SalesEntity[];
 }
