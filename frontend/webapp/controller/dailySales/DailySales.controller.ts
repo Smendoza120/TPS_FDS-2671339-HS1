@@ -42,6 +42,28 @@ export default class DailySales extends Base {
     visibilityModel.setData(structureModel);
   }
 
+  public async sendBullToCustomerDialog(): Promise<void> {
+    try {
+      const customerId = await this.getLatestCustomerId();
+
+      if (!customerId) {
+        throw new Error("No se pudo obtener el ID del cliente más reciente.");
+      }
+
+      const salesIds = await this.getAllSalesIds();
+
+      if (salesIds.length === 0) {
+        throw new Error("No se encontraron ventas en la tabla temp-sales.");
+      }
+
+      const currentDate = new Date().toISOString().slice(0, 10);
+
+      await this.sendBillToCustomer(customerId, salesIds, currentDate);
+    } catch (error) {
+      MessageBox.error(`Error al enviar la factura: ${JSON.stringify(error)}`);
+    }
+  }
+
   public createCustomerDialog() {
     const oForm = new SimpleForm({
       content: [
@@ -72,10 +94,10 @@ export default class DailySales extends Base {
 
           const userData = this.createUser(firstName, lastName, email, phone);
 
-          if (userData) {
-            this.customerId = userData;
-            oDialog.close();
-          }
+          // if (userData) {
+          //   this.customerId = userData;
+          // }
+          oDialog.close();
         },
       }),
       endButton: new Button({
@@ -144,6 +166,87 @@ export default class DailySales extends Base {
       });
     } catch (error) {
       throw new Error("Error al crear el cliente.");
+    }
+  }
+
+  public async getLatestCustomerId(): Promise<string | undefined> {
+    try {
+      const customersResponse = await this.callAjax({
+        url: "/customers",
+        method: "GET",
+      });
+
+      if (customersResponse && customersResponse.length > 0) {
+        const latestCustomer = customersResponse.reverse()[0];
+        const latestCustomerId = latestCustomer.idCustomer;
+
+        return latestCustomerId;
+      } else {
+        throw new Error("No se encontraron clientes.");
+      }
+    } catch (error) {
+      throw new Error(`Error al obtener el último cliente: ${error}`);
+    }
+  }
+
+  public async getAllSalesIds(): Promise<string[]> {
+    try {
+      const tempSalesReponse = await this.callAjax({
+        url: "/temp-sales",
+        method: "GET",
+      });
+
+      if (tempSalesReponse && tempSalesReponse.length > 0) {
+        const salesIds = tempSalesReponse.map((sale: any) => sale.idSales);
+        return salesIds;
+      } else {
+        throw new Error("No se encontraron ventas en la tabla temp-sales.");
+      }
+    } catch (error) {
+      throw new Error(`Error al obtener los idSales: ${error}`);
+    }
+  }
+
+  private async confirmTempSales(): Promise<void> {
+    try {
+      await this.callAjax({
+        method: "POST",
+        url: "/temp-sales/confirm",
+        contentType: "application/json",
+      });
+    } catch (error) {
+      throw new Error(`Error al confirmar las ventas temporales: ${error}`);
+    }
+  }
+
+  public async sendBillToCustomer(
+    customerId: string,
+    salesIds: string[],
+    date: string
+  ): Promise<void> {
+    try {
+      const billData = {
+        customerId: customerId,
+        salesIds: salesIds,
+        date: date,
+      };
+
+      const response = await this.callAjax({
+        url: "/bills",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(billData),
+      });
+
+      if (response) {
+        await this.confirmTempSales();
+
+        MessageBox.success("Factura enviada exitosamente.");
+      } else {
+        throw new Error("Error al enviar la factura.");
+      }
+    } catch (error) {
+      MessageBox.error(`Error al enviar la factura: ${JSON.stringify(error)}`);
     }
   }
 
@@ -402,15 +505,28 @@ export default class DailySales extends Base {
         "dailySales"
       ) as JSONModel;
       const updatedData = dailySalesModel.getData();
-      alert("prueba");
+
+      const currentDate = new Date().toISOString().slice(0, 10);
+
+      alert(currentDate);
+
       await Promise.all(
         updatedData.map(async (sale: any) => {
-          alert(sale);
+          // alert(JSON.stringify(sale, null, 2));
           const salesId = sale.idSales;
+          const quantity = sale.quantity;
 
-          const product = sale.product;
+          if (salesId && quantity !== undefined) {
+            await this.updateProduct(salesId, quantity, currentDate);
+          } else {
+            MessageBox.error(
+              `La cantidad ingresada para la venta ${salesId} no es válida.`
+            );
+          }
         })
       );
+
+      MessageBox.success("Datos del producto actualizados exitosamente.");
     } catch (error) {
       MessageBox.error(`No se pudieron realizar los cambios: ${error}`);
     }
@@ -422,14 +538,25 @@ export default class DailySales extends Base {
     salesDate: string
   ): Promise<void> {
     try {
+      const updatedData = {
+        quantity: quantity,
+        salesDate: salesDate,
+      };
+
+      alert(JSON.stringify(updatedData, null, 2));
+
       await this.callAjax({
-        url: "",
+        url: `/temp-sales/${productId}`,
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(updatedData),
       });
 
-      MessageBox.success("Datos del producto actualizados exitosamente.");
       this.getProductsOnTemporalTable();
     } catch (error) {
-      throw new Error(`Error al actualizar los datos del producto: ${error}`);
+      throw new Error(
+        `Error al actualizar los datos del producto: ${JSON.stringify(error)}`
+      );
     }
   }
 }
