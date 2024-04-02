@@ -39,7 +39,7 @@
                                 icon="sap-icon://create-form"
                                 type="Emphasized"
                                 text="{i18n>DailyListSalesReport}"
-                                press="" />
+                                press=".handleReportButtonClick" />
                         </contentRight>
                     </Bar>
                 </table:extension>

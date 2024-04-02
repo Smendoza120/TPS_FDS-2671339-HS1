@@ -86,6 +86,7 @@ Se envía la venta completa al servidor para su procesamiento y registro en la b
 - [X] Filtro por nombre
 - [X] Filtro por precio
 - [X] Filtro por cantidad
+- [] Arreglar la seccion de reporte (organizar la logica)
 
 # Control facturación
 - [] Realizar la maquetación 
