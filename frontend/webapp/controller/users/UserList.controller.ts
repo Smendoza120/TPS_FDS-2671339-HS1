@@ -361,7 +361,7 @@ export default class UserList extends Base {
 
       this.updateTableWorker();
     } catch (error) {
-      alert("Error");
+      // alert("Error");
       alert(JSON.stringify(error));
     }
   }

@@ -79,7 +79,7 @@ export default class LogIn extends Base {
       if (response) {
         this.goToHomePage();
       } else {
-        alert("Aqui");
+        // alert("Aqui");
         MessageBox.error(
           "Credenciales incorrectas. Por favor, inténtelo de nuevo."
         );
@@ -124,7 +124,7 @@ export default class LogIn extends Base {
           //   console.log("El token aún es válido");
           // }
 
-          alert(currentTime);
+          // alert(currentTime);
 
           return response;
         } else {
