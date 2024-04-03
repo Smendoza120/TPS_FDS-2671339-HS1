@@ -48,8 +48,8 @@ export default class ListSales extends Base {
 
       const reportId = await this.getReportId(currentDate);
 
-      alert(reportId);
-      alert(JSON.stringify(reportId));
+      // alert(reportId);
+      // alert(JSON.stringify(reportId));
 
       await this.shareSalesReport(reportId, email);
       MessageBox.success(
@@ -104,8 +104,8 @@ export default class ListSales extends Base {
         data: JSON.stringify({ date }),
       });
 
-      alert(response);
-      alert(JSON.stringify(response));
+      // alert(response);
+      // alert(JSON.stringify(response));
 
       return response.idReportSales;
     } catch (error) {

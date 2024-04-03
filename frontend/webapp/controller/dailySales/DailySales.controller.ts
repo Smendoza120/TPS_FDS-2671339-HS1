@@ -508,8 +508,6 @@ export default class DailySales extends Base {
 
       const currentDate = new Date().toISOString().slice(0, 10);
 
-      alert(currentDate);
-
       await Promise.all(
         updatedData.map(async (sale: any) => {
           // alert(JSON.stringify(sale, null, 2));
@@ -543,7 +541,7 @@ export default class DailySales extends Base {
         salesDate: salesDate,
       };
 
-      alert(JSON.stringify(updatedData, null, 2));
+      // alert(JSON.stringify(updatedData, null, 2));
 
       await this.callAjax({
         url: `/temp-sales/${productId}`,

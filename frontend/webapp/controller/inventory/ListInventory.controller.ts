@@ -297,7 +297,7 @@ export default class ListInventory extends Base {
 
           const selectedStorage = product.storage;
           const selectedStorageText =
-            this.getTextSelectStorage(selectedStorage).text;
+            this.getTextSelectStorage(selectedStorage);
 
           const updatedProduct = {
             ...product,
@@ -359,7 +359,7 @@ export default class ListInventory extends Base {
     const selectedStorage = storageData.find(
       (item: any) => item.key === storageId
     );
-    return selectedStorage;
+    return selectedStorage ? selectedStorage.text : "";
   }
 
   public cancelChanges() {
@@ -427,8 +427,8 @@ export default class ListInventory extends Base {
             dialog.close();
           } catch (error) {
             MessageBox.error("Error al obtener la información del inventario.");
-            alert(error);
-            alert("AQUI2");
+            // alert(error);
+            // alert("AQUI2");
           }
         },
       }),
