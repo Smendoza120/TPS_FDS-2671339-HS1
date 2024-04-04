@@ -54,6 +54,7 @@ export class TempSalesService { // Change the service name
   }
 
   async update(id: string, dto: UpdateTempSalesDto): Promise<TempSalesEntity> {
+    dto.salesDate = new Date(dto.salesDate).toISOString();
     try {
       const sale = await this.tempSalesRepository.findOne({ where: { idSales: id } });
       if (!sale) {

@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber, IsDate } from 'class-validator';
+import { IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class UpdateTempSalesDto {
   @IsOptional()
@@ -6,8 +6,8 @@ export class UpdateTempSalesDto {
   idSales?: string;
 
   @IsOptional()
-  @IsDate()
-  salesDate?: Date;
+  @IsString()
+  salesDate?: string;
 
   @IsOptional()
   @IsString()
@@ -16,5 +16,4 @@ export class UpdateTempSalesDto {
   @IsOptional()
   @IsNumber()
   quantity?: number;
-
 }
