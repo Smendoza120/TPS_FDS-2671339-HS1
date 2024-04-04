@@ -16,6 +16,4 @@ export class TempSalesDto {
   @IsNotEmpty()
   @IsNumber()
   quantity: number;
-
-  // Add any other fields that are specific to your temp sales table
 }
