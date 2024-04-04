@@ -22,7 +22,7 @@ export class EmailService {
           from: 'notificationsr@email.com',
           to: emailDto.email,
           subject: 'Recuperación de contraseña',
-          text: `Haga clic en este enlace para restablecer su contraseña: https://marketsystem01.firebaseapp.com/#/resetPassword?token=${resetLink}`,
+          text: `Haga clic en este enlace para restablecer su contraseña: https://marketsystem01.firebaseapp.com/#/resetPassword?`,
         };
     
         try {
