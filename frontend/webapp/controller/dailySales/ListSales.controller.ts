@@ -5,6 +5,7 @@ import Label from "sap/m/Label";
 import Input from "sap/m/Input";
 import Dialog from "sap/m/Dialog";
 import Button from "sap/m/Button";
+import FlexBox from "sap/m/FlexBox";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -62,12 +63,22 @@ export default class ListSales extends Base {
 
   private async showEmailInputdialog(): Promise<string> {
     return new Promise<string>((resolve, reject) => {
+      const emailInput = new Input({
+        placeholder: "correo@example.com",
+        width: "100%",
+      });
+
+      const flexBox = new FlexBox({
+        justifyContent: "Center",
+        alignItems: "Center",
+        width: "100%",
+        items: [new Label({ text: "Correo electrónico:" }), emailInput],
+        direction: "Column",
+      });
+
       const emailInputDialog = new Dialog({
         title: "Ingrese su correo electrónico",
-        content: [
-          new Label({ text: "Correo electrónico:" }),
-          new Input({ placeholder: "correo@example.com" }),
-        ],
+        content: flexBox,
         beginButton: new Button({
           text: "Enviar",
           press: () => {

@@ -46,11 +46,15 @@ export default class DailySales extends Base {
     try {
       const customerId = await this.getLatestCustomerId();
 
+      alert(customerId);
+
       if (!customerId) {
         throw new Error("No se pudo obtener el ID del cliente más reciente.");
       }
 
       const salesIds = await this.getAllSalesIds();
+
+      alert(salesIds);
 
       if (salesIds.length === 0) {
         throw new Error("No se encontraron ventas en la tabla temp-sales.");
@@ -198,6 +202,9 @@ export default class DailySales extends Base {
 
       if (tempSalesReponse && tempSalesReponse.length > 0) {
         const salesIds = tempSalesReponse.map((sale: any) => sale.idSales);
+//1b9acd09-69e2-4ba2-b67d-9c1cc075c9b7
+        alert(typeof salesIds);
+        alert([...salesIds]);
         return salesIds;
       } else {
         throw new Error("No se encontraron ventas en la tabla temp-sales.");
@@ -246,6 +253,7 @@ export default class DailySales extends Base {
         throw new Error("Error al enviar la factura.");
       }
     } catch (error) {
+      alert("Aqui");
       MessageBox.error(`Error al enviar la factura: ${JSON.stringify(error)}`);
     }
   }
@@ -505,14 +513,12 @@ export default class DailySales extends Base {
         "dailySales"
       ) as JSONModel;
       const updatedData = dailySalesModel.getData();
-
       const currentDate = new Date().toISOString().slice(0, 10);
 
       await Promise.all(
         updatedData.map(async (sale: any) => {
-          // alert(JSON.stringify(sale, null, 2));
           const salesId = sale.idSales;
-          const quantity = sale.quantity;
+          const quantity = parseInt(sale.quantity);
 
           if (salesId && quantity !== undefined) {
             await this.updateProduct(salesId, quantity, currentDate);
@@ -523,6 +529,18 @@ export default class DailySales extends Base {
           }
         })
       );
+
+      const editList = this.getView()?.byId("editList") as Button;
+      const aceptChanges = this.getView()?.byId("aceptChanges") as Button;
+      const cancelChanges = this.getView()?.byId("cancelChanges") as Button;
+      const deleteProducts = this.getView()?.byId("deleteProducts") as Button;
+      const deleteColumn = this.getView()?.byId("deleteColumn") as Column;
+
+      editList.setVisible(true);
+      aceptChanges.setVisible(false);
+      cancelChanges.setVisible(false);
+      deleteProducts.setVisible(false);
+      deleteColumn.setVisible(false);
 
       MessageBox.success("Datos del producto actualizados exitosamente.");
     } catch (error) {
@@ -540,8 +558,6 @@ export default class DailySales extends Base {
         quantity: quantity,
         salesDate: salesDate,
       };
-
-      // alert(JSON.stringify(updatedData, null, 2));
 
       await this.callAjax({
         url: `/temp-sales/${productId}`,

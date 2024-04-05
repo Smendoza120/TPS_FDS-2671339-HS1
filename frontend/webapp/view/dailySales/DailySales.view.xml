@@ -68,25 +68,24 @@
                     justifyContent="SpaceBetween"
                 >
                     <VBox>
+                        <Label text="{i18n>DailySalesProduct}" />
+                        <Input
+                            id="productId"
+                            placeholder="Doritos" />
+                    </VBox>
+                    
+                    <VBox>
                         <Label text="{i18n>DailySalesQuantity}" />
                         <Input
                             id="quantityId"
                             placeholder="10" />
                     </VBox>
 
-                    <VBox>
-                        <Label text="{i18n>DailySalesProduct}" />
-                        <Input
-                            id="productId"
-                            placeholder="Doritos" />
-                    </VBox>
 
                     <VBox
                         alignContent="Center"
                         justifyContent="End"
                     >
-                        <!-- Se encarga de crear la lista de ventas y agregar productos si esta
-                        lista esta creada por usuario -->
                         <Button
                             text="{i18n>DailySalesAddProduct}"
                             type="Emphasized"
