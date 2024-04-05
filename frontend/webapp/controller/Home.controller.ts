@@ -24,7 +24,9 @@ export default class Home extends Base {
   }
 
   public loadUserPermissions(): void {
-    const idWorker = "579b69b7-43fe-4ae6-8e18-3342db28636f"; //Falta traer el id del trabajador con el endpoint
+    const token: string = localStorage.getItem("token") || "";
+
+    const idWorker: string = token;
 
     this.callWorkerEndPoint(idWorker)
       .then((workerData: any) => {
@@ -75,7 +77,10 @@ export default class Home extends Base {
   }
 
   public goFinishSession() {
+    localStorage.removeItem("token");
     this.getRouter().navTo("RouteLogIn");
+
+    window.history.replaceState({}, "", "/index.html#/logIn");
   }
 
   public goToUsersPage() {
