@@ -16,6 +16,10 @@ export default class SendMail extends Base {
     return emailRegex.test(email);
   }
 
+  public onLonIn(): void{
+    this.getRouter().navTo("RouteLogIn");
+  }
+
   public async oSendMail(): Promise<any> {
     const emailInput = this.getView()?.byId("sendMail") as Input;
     const userEmail = emailInput.getValue();

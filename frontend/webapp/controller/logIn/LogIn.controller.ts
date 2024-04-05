@@ -4,8 +4,6 @@ import BusyIndicator from "sap/ui/core/BusyIndicator";
 import MessageBox from "sap/m/MessageBox";
 import { ValueState } from "sap/ui/core/library";
 import Text from "sap/m/Text";
-// import {JwtPayload, jwtDecode} from "jwt-decode";
-// import { JwtPayload, jwtDecode } from "jwt-decode";
 
 /**
  * @namespace com.marketsystem.marketsystem.controller
@@ -13,21 +11,15 @@ import Text from "sap/m/Text";
 export default class LogIn extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
   public onInit(): void {
-    const sessionId = localStorage.getItem("sessionId");
-    // alert(`SessionID: ${sessionId}`);
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .subscribe("onCleanForm", "onCleanForm", this.onCleanForm, this);
   }
 
   public goToHomePage(): void {
     this.getRouter().navTo("RouteHome");
   }
-
-  // private async extractAndStoreAccessTokenFromCookie(
-  //   token: string
-  // ): Promise<JwtPayload> {
-  //   const decodedToken = jwtDecode<JwtPayload>(token);
-
-  //   return decodedToken;
-  // }
 
   public async onLogIn(): Promise<void> {
     const mailInput = this.getView()?.byId("mail") as Input;
@@ -79,7 +71,6 @@ export default class LogIn extends Base {
       if (response) {
         this.goToHomePage();
       } else {
-        // alert("Aqui");
         MessageBox.error(
           "Credenciales incorrectas. Por favor, inténtelo de nuevo."
         );
@@ -105,13 +96,7 @@ export default class LogIn extends Base {
     })
       .then(async (response) => {
         if (response) {
-          const sessionToken = response.jwt.access_token;
-
-          // const getUserToken = await this.extractAndStoreAccessTokenFromCookie(
-          //   sessionToken
-          // );
-
-          // alert(getUserToken);
+          const sessionToken = response.jwt.worker.idWorker;
 
           localStorage.setItem("token", sessionToken);
 
@@ -161,6 +146,7 @@ export default class LogIn extends Base {
   }
 
   public onSendMail() {
+    this.onCleanForm();
     this.getRouter().navTo("RouteSendMail");
   }
 }

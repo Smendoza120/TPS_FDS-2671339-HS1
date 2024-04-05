@@ -24,7 +24,9 @@ export default class Home extends Base {
   }
 
   public loadUserPermissions(): void {
-    const idWorker = "d9dfe8ee-f27d-4486-88c3-915d0b91e54a"; //Falta traer el id del trabajador con el endpoint
+    const token: string = localStorage.getItem("token") || "";
+
+    const idWorker: string = token;
 
     this.callWorkerEndPoint(idWorker)
       .then((workerData: any) => {
@@ -75,7 +77,12 @@ export default class Home extends Base {
   }
 
   public goFinishSession() {
+    sap.ui.getCore().getEventBus().publish("onCleanForm", "onCleanForm");
+
+    localStorage.removeItem("token");
     this.getRouter().navTo("RouteLogIn");
+
+    window.history.replaceState({}, "", "/index.html#/logIn");
   }
 
   public goToUsersPage() {
