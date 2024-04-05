@@ -10,7 +10,12 @@ import Text from "sap/m/Text";
  */
 export default class LogIn extends Base {
   /*eslint-disable @typescript-eslint/no-empty-function*/
-  public onInit(): void {}
+  public onInit(): void {
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .subscribe("onCleanForm", "onCleanForm", this.onCleanForm, this);
+  }
 
   public goToHomePage(): void {
     this.getRouter().navTo("RouteHome");
@@ -141,11 +146,7 @@ export default class LogIn extends Base {
   }
 
   public onSendMail() {
-    const mailInput = this.getView()?.byId("mail") as Input;
-    const passInput = this.getView()?.byId("pass") as Input;
-
-    mailInput.setValue("");
-    passInput.setValue("");
+    this.onCleanForm();
     this.getRouter().navTo("RouteSendMail");
   }
 }

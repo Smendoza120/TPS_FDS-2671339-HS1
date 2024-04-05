@@ -77,6 +77,8 @@ export default class Home extends Base {
   }
 
   public goFinishSession() {
+    sap.ui.getCore().getEventBus().publish("onCleanForm", "onCleanForm");
+
     localStorage.removeItem("token");
     this.getRouter().navTo("RouteLogIn");
 

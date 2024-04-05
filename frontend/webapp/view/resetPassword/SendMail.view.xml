@@ -44,12 +44,22 @@
                             />
                         </VBox>
 
-                        <Button
-                            text="{i18n>SendMailSendCode}"
-                            type="Accept"
-                            icon="sap-icon://email"
-                            press=".oSendMail"
-                        />
+                        <HBox>
+                            <Button
+                                text="{i18n>SendMailSendCode}"
+                                type="Acept"
+                                icon="sap-icon://email"
+                                press=".oSendMail"
+                            />
+
+                            <Button
+                                class="sapUiSmallMarginBegin"
+                                icon="sap-icon://cancel"
+                                text="{i18n>SendMailCancel}"
+                                press=".onLonIn"
+                                type="Negative"
+                            />
+                        </HBox>
                     </VBox>
                 </FlexBox>
             </FlexBox>
