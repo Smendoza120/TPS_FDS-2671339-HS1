@@ -27,19 +27,37 @@ export default class ListInventory extends Base {
 
     this.getView()?.setModel(new JSONModel([]), "dataSelectStorage");
 
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .subscribe(
+        "loadInventoryData",
+        "loadInventoryData",
+        this.loadInventoryData,
+        this
+      );
+
     this.loadInventoryData();
     this.setDataSelectStorage();
     this.setDataVisibleAndEditableModel();
     this.setDefaultStorageSelection();
-    this.prueba();
   }
 
   onAfterRendering(): void {
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .subscribe(
+        "loadInventoryData",
+        "loadInventoryData",
+        this.loadInventoryData,
+        this
+      );
+
     this.loadInventoryData();
     this.setDataSelectStorage();
     this.setDataVisibleAndEditableModel();
     this.setDefaultStorageSelection();
-    this.prueba();
   }
 
   private setDefaultStorageSelection(): void {
@@ -111,29 +129,6 @@ export default class ListInventory extends Base {
     selectStorageModel.setData(dataStoage);
   }
 
-  public prueba(): any {
-    const model = this.getView()?.getModel("oListStorage") as JSONModel;
-  }
-
-  public async onDeleteProductFromRow(oEvent: any): Promise<void> {
-    const productId = oEvent
-      .getSource()
-      .getBindingContext("oListStorage")
-      .getObject();
-
-    if (productId) {
-      try {
-        await this.oDeleteProduct(productId.idProduct);
-      } catch (error) {
-        MessageBox.error(
-          `Error al eliminar el producto: ${JSON.stringify(error)}`
-        );
-      }
-    } else {
-      MessageBox.error("No se pudo obtener el ID del producto.");
-    }
-  }
-
   public async oDeleteProduct(productId: string): Promise<void> {
     try {
       BusyIndicator.show(0);
@@ -152,13 +147,35 @@ export default class ListInventory extends Base {
       oProductModel.setData(productData);
       oProductModel.refresh(true);
 
-      MessageBox.success("Producto eliminado correctamente");
+      // MessageBox.success("Producto eliminado correctamente");
     } catch (error) {
       MessageBox.error(
         `Error al eliminar el producto: ${JSON.stringify(error)}`
       );
     } finally {
       BusyIndicator.hide();
+    }
+  }
+
+  public async onDeleteProductFromRow(oEvent: any): Promise<void> {
+    const productId = oEvent
+      .getSource()
+      .getBindingContext("oListStorage")
+      .getObject().idProduct;
+
+    alert(productId);
+
+    if (productId) {
+      try {
+        await this.oDeleteProduct(productId);
+        MessageBox.success("Producto eliminado correctamente");
+      } catch (error) {
+        MessageBox.error(
+          `Error al eliminar el producto: ${JSON.stringify(error)}`
+        );
+      }
+    } else {
+      MessageBox.error("No se pudo obtener el ID del producto.");
     }
   }
 
@@ -206,6 +223,7 @@ export default class ListInventory extends Base {
         text: "Aceptar",
         press: () => {
           this.onDeleteMultipleProducts(aSelectedProducts);
+          MessageBox.success("Producto eliminado correctamente");
           dialog.close();
         },
       }),

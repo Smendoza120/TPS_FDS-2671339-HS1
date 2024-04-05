@@ -95,6 +95,7 @@ export default class InventoryControl extends Base {
     })
       .then(async (response) => {
         if (response) {
+          this.updateProductModel()
           MessageBox.success("Producto creado exitosamente");
         } else {
           MessageBox.error("La creación del producto falló");
@@ -151,5 +152,14 @@ export default class InventoryControl extends Base {
     } catch (error) {
       MessageBox.error(`Error al crear el producto: ${error}`);
     }
+  }
+
+  private async updateProductModel(): Promise<void> {
+    try {
+      sap.ui
+        .getCore()
+        .getEventBus()
+        .publish("loadInventoryData", "loadInventoryData");
+    } catch (error) {}
   }
 }
