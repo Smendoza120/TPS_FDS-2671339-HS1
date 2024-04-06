@@ -16,6 +16,16 @@ export default class ListSales extends Base {
     this.getView()?.setModel(new JSONModel([]), "salesData");
 
     this.fetchSalesData();
+
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .subscribe(
+        "updateSalesData",
+        "updateSalesData",
+        this.updateSalesData,
+        this
+      );
   }
 
   onAfterRendering(): void {
@@ -41,6 +51,16 @@ export default class ListSales extends Base {
     return response;
   }
 
+  public async updateSalesData(): Promise<void> {
+    try {
+      const salesData = await this.callSalesEndPoint();
+      const salesModel = this.getView()?.getModel("salesData") as JSONModel;
+      salesModel.setData(salesData);
+    } catch (error) {
+      MessageBox.error(`Error al actualizar los datos de ventas: ${error}`);
+    }
+  }
+
   public async handleReportButtonClick() {
     try {
       const email = await this.showEmailInputdialog();
@@ -48,9 +68,6 @@ export default class ListSales extends Base {
       const currentDate = new Date().toISOString().slice(0, 10);
 
       const reportId = await this.getReportId(currentDate);
-
-      // alert(reportId);
-      // alert(JSON.stringify(reportId));
 
       await this.shareSalesReport(reportId, email);
       MessageBox.success(
@@ -114,9 +131,6 @@ export default class ListSales extends Base {
         contentType: "application/json",
         data: JSON.stringify({ date }),
       });
-
-      // alert(response);
-      // alert(JSON.stringify(response));
 
       return response.idReportSales;
     } catch (error) {
