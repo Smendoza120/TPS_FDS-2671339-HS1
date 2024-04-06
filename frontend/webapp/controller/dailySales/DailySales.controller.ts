@@ -42,31 +42,53 @@ export default class DailySales extends Base {
     visibilityModel.setData(structureModel);
   }
 
+  public oUpdateListSales(): void {
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .publish("updateSalesData", "updateSalesData");
+  }
+
   public async sendBullToCustomerDialog(): Promise<void> {
     try {
-      const customerId = await this.getLatestCustomerId();
+      await this.confirmTempSales();
 
-      alert(customerId);
+      this.oUpdateListSales();
+      this.updateDailySalesModel();
 
-      if (!customerId) {
-        throw new Error("No se pudo obtener el ID del cliente más reciente.");
-      }
-
-      const salesIds = await this.getAllSalesIds();
-
-      alert(salesIds);
-
-      if (salesIds.length === 0) {
-        throw new Error("No se encontraron ventas en la tabla temp-sales.");
-      }
-
-      const currentDate = new Date().toISOString().slice(0, 10);
-
-      await this.sendBillToCustomer(customerId, salesIds, currentDate);
+      MessageBox.success("Ventas confirmadas y enviadas exitosamente.");
     } catch (error) {
-      MessageBox.error(`Error al enviar la factura: ${JSON.stringify(error)}`);
+      MessageBox.error(`Error al enviar las ventas: ${JSON.stringify(error)}`);
     }
   }
+
+  // public async sendBullToCustomerDialog(): Promise<void> {
+  //   try {
+
+  //     this.confirmTempSales();
+  //     // const customerId = await this.getLatestCustomerId();
+
+  //     // // alert(customerId);
+
+  //     // if (!customerId) {
+  //     //   throw new Error("No se pudo obtener el ID del cliente más reciente.");
+  //     // }
+
+  //     // const salesIds = await this.getAllSalesIds();
+
+  //     // // alert(salesIds);
+
+  //     // if (salesIds.length === 0) {
+  //     //   throw new Error("No se encontraron ventas en la tabla temp-sales.");
+  //     // }
+
+  //     // const currentDate = new Date().toISOString().slice(0, 10);
+
+  //     // await this.sendBillToCustomer(customerId, salesIds, currentDate);
+  //   } catch (error) {
+  //     MessageBox.error(`Error al enviar la factura: ${JSON.stringify(error)}`);
+  //   }
+  // }
 
   public createCustomerDialog() {
     const oForm = new SimpleForm({
@@ -155,7 +177,7 @@ export default class DailySales extends Base {
       MessageBox.error(
         "Error al crear el cliente. Por favor, inténtelo de nuevo."
       );
-      alert(error);
+      // alert(error);
       throw error;
     }
   }
@@ -202,27 +224,15 @@ export default class DailySales extends Base {
 
       if (tempSalesReponse && tempSalesReponse.length > 0) {
         const salesIds = tempSalesReponse.map((sale: any) => sale.idSales);
-//1b9acd09-69e2-4ba2-b67d-9c1cc075c9b7
-        alert(typeof salesIds);
-        alert([...salesIds]);
+        //1b9acd09-69e2-4ba2-b67d-9c1cc075c9b7
+        // alert(typeof salesIds);
+        // alert([...salesIds]);
         return salesIds;
       } else {
         throw new Error("No se encontraron ventas en la tabla temp-sales.");
       }
     } catch (error) {
       throw new Error(`Error al obtener los idSales: ${error}`);
-    }
-  }
-
-  private async confirmTempSales(): Promise<void> {
-    try {
-      await this.callAjax({
-        method: "POST",
-        url: "/temp-sales/confirm",
-        contentType: "application/json",
-      });
-    } catch (error) {
-      throw new Error(`Error al confirmar las ventas temporales: ${error}`);
     }
   }
 
@@ -338,6 +348,22 @@ export default class DailySales extends Base {
       throw new Error(
         "Error al verificar la existencia del producto en el inventario."
       );
+    }
+  }
+
+  public async updateDailySalesModel(): Promise<void> {
+    try {
+      const response = await this.callAjax({
+        url: "/temp-sales",
+        method: "GET",
+      });
+
+      const dailySalesModel = this.getView()?.getModel(
+        "dailySales"
+      ) as JSONModel;
+      dailySalesModel.setData(response);
+    } catch (error) {
+      throw new Error("Error al actualizar el modelo de ventas diarias.");
     }
   }
 
@@ -571,6 +597,24 @@ export default class DailySales extends Base {
       throw new Error(
         `Error al actualizar los datos del producto: ${JSON.stringify(error)}`
       );
+    }
+  }
+
+  public async confirmTempSales(): Promise<void> {
+    try {
+      const response = await this.callAjax({
+        url: "/temp-sales/confirm",
+        method: "POST",
+        contentType: "application/json",
+      });
+
+      if (response.success) {
+        console.log("Ventas confirmadas exitosamente.");
+      } else {
+        console.error("Error al confirmar las ventas:", response.error);
+      }
+    } catch (error) {
+      console.error("Error al enviar la solicitud:", error);
     }
   }
 }

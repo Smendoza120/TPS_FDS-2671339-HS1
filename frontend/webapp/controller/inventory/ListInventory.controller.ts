@@ -163,7 +163,7 @@ export default class ListInventory extends Base {
       .getBindingContext("oListStorage")
       .getObject().idProduct;
 
-    alert(productId);
+    // alert(productId);
 
     if (productId) {
       try {
