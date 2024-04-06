@@ -23,6 +23,16 @@ export default class UserList extends Base {
     this.initModels();
     this.callData();
     this.loadWorkerData();
+
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .subscribe(
+        "updateTableWorker",
+        "updateTableWorker",
+        this.updateTableWorker,
+        this
+      );
   }
 
   public onAfterRendering(): void {
@@ -55,7 +65,7 @@ export default class UserList extends Base {
 
       const oWorkerModel = this.getView()?.getModel("oWorkers") as JSONModel;
       oWorkerModel.setData(workerList);
-      
+
       this.updateTableWorker();
     } catch (error) {
       MessageBox.error(
@@ -119,7 +129,7 @@ export default class UserList extends Base {
     if (oTable && oWorkersModel) {
       oTable.setModel(oWorkersModel);
     } else {
-      alert("Error: Table or Workers Model is undefined");
+      // alert("Error: Table or Workers Model is undefined");
     }
   }
 
@@ -166,12 +176,12 @@ export default class UserList extends Base {
     if (editButton.getVisible() === true) {
       aceptChangesButton.setVisible(true);
       cancelChangesButton.setVisible(true);
-      deleteWorkersButton.setVisible(true)
+      deleteWorkersButton.setVisible(true);
       editButton.setVisible(false);
     } else {
       aceptChangesButton.setVisible(false);
       cancelChangesButton.setVisible(false);
-      deleteWorkersButton.setVisible(false)
+      deleteWorkersButton.setVisible(false);
       editButton.setVisible(true);
     }
   }
@@ -259,7 +269,9 @@ export default class UserList extends Base {
       const cancelChangesButton = this.getView()?.byId(
         "cancelChanges"
       ) as Button;
-      const deleteWorkersButton = this.getView()?.byId("deleteWorkers") as Button;
+      const deleteWorkersButton = this.getView()?.byId(
+        "deleteWorkers"
+      ) as Button;
 
       editButton.setVisible(true);
       aceptChangesButton.setVisible(false);
@@ -362,7 +374,7 @@ export default class UserList extends Base {
       this.updateTableWorker();
     } catch (error) {
       // alert("Error");
-      alert(JSON.stringify(error));
+      // alert(JSON.stringify(error));
     }
   }
 

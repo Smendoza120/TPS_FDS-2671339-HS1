@@ -46,7 +46,7 @@ export default class DailySales extends Base {
     try {
       const customerId = await this.getLatestCustomerId();
 
-      alert(customerId);
+      // alert(customerId);
 
       if (!customerId) {
         throw new Error("No se pudo obtener el ID del cliente más reciente.");
@@ -54,7 +54,7 @@ export default class DailySales extends Base {
 
       const salesIds = await this.getAllSalesIds();
 
-      alert(salesIds);
+      // alert(salesIds);
 
       if (salesIds.length === 0) {
         throw new Error("No se encontraron ventas en la tabla temp-sales.");
@@ -155,7 +155,7 @@ export default class DailySales extends Base {
       MessageBox.error(
         "Error al crear el cliente. Por favor, inténtelo de nuevo."
       );
-      alert(error);
+      // alert(error);
       throw error;
     }
   }
@@ -203,8 +203,8 @@ export default class DailySales extends Base {
       if (tempSalesReponse && tempSalesReponse.length > 0) {
         const salesIds = tempSalesReponse.map((sale: any) => sale.idSales);
 //1b9acd09-69e2-4ba2-b67d-9c1cc075c9b7
-        alert(typeof salesIds);
-        alert([...salesIds]);
+        // alert(typeof salesIds);
+        // alert([...salesIds]);
         return salesIds;
       } else {
         throw new Error("No se encontraron ventas en la tabla temp-sales.");

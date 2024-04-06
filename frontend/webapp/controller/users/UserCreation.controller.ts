@@ -36,6 +36,13 @@ export default class UserCreation extends Base {
     );
   }
 
+  public onUpdateWorker(): void {
+    sap.ui
+      .getCore()
+      .getEventBus()
+      .publish("updateTableWorker", "updateTableWorker");
+  }
+
   public createUser() {
     const formData = (
       this.getView()?.getModel("formWorker") as JSONModel
@@ -45,6 +52,7 @@ export default class UserCreation extends Base {
       this.createUserInDatabase(formData.user)
         .then((createUser: any) => {
           if (createUser.idUser) {
+            this.onUpdateWorker();
             return this.createWorker(createUser.idUser, formData);
           } else {
             MessageBox.error(
@@ -138,13 +146,7 @@ export default class UserCreation extends Base {
   }
 
   public clearFormFields(): void {
-    const inputsToClear = [
-      "firstName",
-      "lastName",
-      "pass",
-      "email",
-      "phone",
-    ];
+    const inputsToClear = ["firstName", "lastName", "pass", "email", "phone"];
 
     inputsToClear.forEach((fieldName) => {
       const inputField = this.getView()?.byId(fieldName) as Input;
@@ -186,7 +188,7 @@ export default class UserCreation extends Base {
       const oWorkerModel = this.getView()?.getModel("oWorkers") as JSONModel;
       oWorkerModel.setData(workerList);
     } catch (error) {
-      alert(JSON.stringify(error));
+      // alert(JSON.stringify(error));
     }
   }
 }
