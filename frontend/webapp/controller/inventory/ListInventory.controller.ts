@@ -163,7 +163,6 @@ export default class ListInventory extends Base {
       .getBindingContext("oListStorage")
       .getObject().idProduct;
 
-    // alert(productId);
 
     if (productId) {
       try {
@@ -445,8 +444,6 @@ export default class ListInventory extends Base {
             dialog.close();
           } catch (error) {
             MessageBox.error("Error al obtener la información del inventario.");
-            // alert(error);
-            // alert("AQUI2");
           }
         },
       }),
